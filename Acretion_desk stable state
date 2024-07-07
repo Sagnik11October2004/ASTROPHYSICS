@@ -1,0 +1,118 @@
+import numpy as np
+from scipy.optimize import fsolve
+import matplotlib.pyplot as plt
+
+# Constants and parameters
+alpha = 0.01
+a = 1.0
+c = 3e8
+G = 6.67e-11
+gamma = 1.4
+pi = np.pi
+M = 8.5e36
+r_min = 2.54e13
+r_max = 1.0e15
+nr = 600
+
+# Function to compute finite differences
+def finite_difference(y, x):
+    dy_dx = np.gradient(y, x)
+    return dy_dx
+
+# Function defining the system of equations
+def accretion_disk_equations(y, r):
+    rho, v_r, Omega, P, T, cs, H, tau_rphi, F, j, U, kappa = y
+    
+    dv_r_dr = finite_difference(v_r, r)
+    dP_dr = finite_difference(P, r)
+    dOmega_dr = finite_difference(Omega, r)
+    drho_dr = finite_difference(1/rho, r)
+    dU_dr = finite_difference(U, r)
+    
+    Mdot = 4 * pi * r * H * rho * v_r
+    j0 = Omega * r**2
+    X0 = 4 * pi * r**2 * H * tau_rphi - Mdot * (j - j0)
+    
+    eq1 = rho * v_r * dv_r_dr - rho * (Omega**2 - G*M/r**3) * r - dP_dr
+    eq2 = Mdot * (dU_dr + P * drho_dr) - 4 * pi * r**2 * H * tau_rphi * dOmega_dr - 4 * pi * r * F
+    eq3 = Mdot - 4 * pi * r * H * rho * v_r
+    eq4 = Mdot * (j - j0) - 4 * pi * r**2 * H * tau_rphi + X0
+    eq5 = F - a * c * T**4 / (kappa * rho * H)
+    eq6 = (cs / (r * np.sqrt(G * M / r**3))) - H / r
+    eq7 = tau_rphi - rho * (alpha * cs * H) * r * dOmega_dr
+    eq8 = P - rho * T
+    eq9 = cs - np.sqrt(gamma * P / rho)
+    eq10 = j - Omega * r**2
+    eq11 = U - P / (rho * (gamma - 1))
+    eq12 = kappa - 0.1 * rho * T**2  
+    
+    return np.array([eq1, eq2, eq3, eq4, eq5, eq6, eq7, eq8, eq9, eq10, eq11, eq12]).flatten()
+
+# Initial conditions
+r = np.linspace(r_min, r_max, nr)
+rho_initial = np.linspace(1.0, 0.1, nr)
+v_r_initial = np.linspace(0.1, 0.01, nr)
+Omega_initial = np.linspace(1.0, 0.1, nr)
+P_initial = np.linspace(1.0, 0.1, nr)
+T_initial = np.linspace(1.0, 0.1, nr)
+cs_initial = np.sqrt(gamma * P_initial / rho_initial)
+H_initial = np.linspace(0.1, 0.01, nr)
+tau_rphi_initial = np.linspace(0.1, 0.01, nr)
+F_initial = np.linspace(0.1, 0.01, nr)
+j_initial = Omega_initial * r**2
+U_initial = P_initial / (rho_initial * (gamma - 1))
+kappa_initial = 0.1 * rho_initial * T_initial**2
+
+# Initial guess
+y0 = np.array([rho_initial, v_r_initial, Omega_initial, P_initial, T_initial, cs_initial, H_initial, tau_rphi_initial, F_initial, j_initial, U_initial, kappa_initial])
+
+# Flatten initial guess for fsolve
+y0_flat = y0.flatten()
+
+# Define a wrapper for fsolve to reshape the solution
+def wrapper(y_flat):
+    y = y_flat.reshape((12, nr))
+    return accretion_disk_equations(y, r)
+
+# Solve the system of equations using fsolve
+sol_flat = fsolve(wrapper, y0_flat)
+
+# Reshape the solution
+sol = sol_flat.reshape((12, nr))
+
+# Extract variables
+rho, v_r, Omega, P, T, cs, H, tau_rphi, F, j, U, kappa = sol
+
+# Print results
+print(f"Steady-State Solutions:")
+print(f"rho = {rho}")
+print(f"v_r = {v_r}")
+print(f"Omega = {Omega}")
+print(f"P = {P}")
+print(f"T = {T}")
+print(f"cs = {cs}")
+print(f"H = {H}")
+print(f"tau_rphi = {tau_rphi}")
+print(f"F = {F}")
+print(f"j = {j}")
+print(f"U = {U}")
+print(f"kappa = {kappa}")
+
+# Plotting all parameters in separate subplots for better visibility
+fig, axs = plt.subplots(6, 2, figsize=(15, 25))
+
+parameters = [rho, v_r, Omega, P, T, cs, H, tau_rphi, F, j, U, kappa]
+labels = ['rho', 'v_r', 'Omega', 'P', 'T', 'cs', 'H', 'tau_rphi', 'F', 'j', 'U', 'kappa']
+
+for i, ax in enumerate(axs.flat):
+    if i < len(parameters):
+        ax.plot(r, parameters[i], label=labels[i])
+        ax.set_xlabel('r')
+        ax.set_ylabel(labels[i])
+        ax.legend()
+        ax.grid(True)
+    else:
+        ax.axis('off')  # Turn off the extra subplots
+
+plt.tight_layout()
+plt.show()
