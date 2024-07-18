@@ -1,5 +1,0 @@
-Here the output .png files of the molecular_cloud_collapse simulation have been presented.
-The files are ordered based on thier timestep.The time value are presented at the top pf the simulation window.
-
-
-NOTE: Slight color errors in the left edge of the domain are due to use of Chebyshev basis as the left edge denotes the starting elements of the domain.
