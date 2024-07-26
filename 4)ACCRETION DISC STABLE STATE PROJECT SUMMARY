@@ -1,1 +1,56 @@
 
+This code aims to find the steady-state solutions of an accretion disk around a massive object(black hole), using a set of hydrodynamic equations and physical parameters.
+It employs numerical methods to solve a system of coupled nonlinear differential equations representing the physical properties of the accretion disk.
+
+Methodology:
+
+Physical Parameters and Constants: The code starts by defining the necessary physical constants (like the speed of light, gravitational constant) 
+and parameters specific to the accretion disk (such as the viscosity parameter α, mass of the central object, and radial range of the disk).
+
+Finite Difference Method: A function finite_difference is used to compute the derivatives of the physical quantities with respect to the radial coordinate r. 
+This is crucial for formulating the differential equations governing the system.
+
+System of Equations: The function accretion_disk_equations defines the system of 12 coupled nonlinear equations describing the radial structure of the accretion disk. These include equations for:
+
+Conservation of mass (continuity equation)
+Radial momentum balance
+Angular momentum transport
+Energy balance
+Vertical structure and scale height
+Radiative flux and opacity
+Equation of state and thermodynamic properties
+
+Initial Conditions: 
+
+The initial conditions for density, velocity, angular velocity, pressure, temperature, sound speed, disk height, stress tensor, radiative flux, specific angular momentum, internal energy, and opacity are defined as linear profiles or functions of 
+
+
+Numerical Solver:
+
+The fsolve function from scipy.optimize is used to solve the system of equations. It seeks to find the roots of the equations, representing the steady-state solutions of the accretion disk.
+
+
+Results and Visualization: 
+
+The results are printed and visualized, showing the radial profiles of the physical quantities across the accretion disk.
+
+
+Missing Elements and Considerations:
+
+Boundary Conditions: The code does not explicitly mention the boundary conditions applied at the inner and outer edges of the disk.
+Proper boundary conditions are crucial for accurately determining the physical state of the disk.
+
+Stability Analysis: The code finds a steady-state solution but does not address the stability of the solution. 
+Accretion disks can exhibit various instabilities (e.g., thermal, viscous, gravitational) that are important for understanding their evolution.
+
+Physical Assumptions and Opacity Law: The opacity law used (kappa = 0.1 * rho * T^2) is a simplified model. 
+More complex opacity models could be used depending on the chemical composition and temperature range of the disk.
+
+Convergence and Sensitivity Analysis: The code does not include checks for the convergence of the solution or sensitivity analysis regarding 
+the choice of initial conditions and parameters.
+
+Computational Efficiency: The code uses finite differences and a dense solver (fsolve). For larger systems or higher accuracy, 
+more sophisticated numerical methods and discretization techniques might be required.
+
+Radiation Transport: The treatment of radiative transport and flux is simplified. More detailed radiative transfer models could be incorporated 
+for more accurate temperature and emission profiles.
