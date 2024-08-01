@@ -1,0 +1,155 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+from astropy import units as u
+import dedalus.public as d3
+from astropy.constants import G, c
+import logging
+
+# Set up logging
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.ERROR)
+
+# Constants
+G = G.to(u.m**3 / (u.kg * u.s**2))  # Gravitational constant in appropriate units
+rho_crit_0 = (3 * (100 * u.km/u.s/u.Mpc)**2 / (8 * np.pi * G)).to(u.kg/u.m**3)  # Critical density today in kg/m^3
+
+# Dimensionless density parameters
+Omega_m = 0.3  # Matter density parameter
+Omega_r = 1e-5  # Radiation density parameter
+Omega_de = 0.7  # Dark energy density parameter
+k = 0  # Curvature
+
+# Hubble constant today in s^-1
+H0_initial = ((67 * u.km/u.s/u.Mpc).to(1/u.s)).value
+# Scale factor today
+a = 1  # Scale factor today
+
+# Density components with proper units
+rho_m = Omega_m * rho_crit_0  # Matter density in kg/m^3
+rho_r = Omega_r * rho_crit_0  # Radiation density in kg/m^3
+rho_de = Omega_de * rho_crit_0  # Dark energy density in kg/m^3
+
+
+adot = H0_initial * a
+H = H0_initial
+
+# Define the grid size using astropy units (scale at which homogeneity and isotropy is valid, ~100 Mpc)
+grid_unit_size = ((100 * u.Mpc).to(u.m)).value # Convert to meters
+R = 10 * grid_unit_size  
+# Grid parameters
+Nx = Ny = Nz = 20  # Number of grid spacings in x, y, and z
+dtype = np.float64  # Data type for arrays
+
+# Time step parameters
+stop_sim_time = 1e4  # Simulation stops at this time
+dtime = 1e3  # Time step in seconds
+
+# Coordinates and distributor
+coords = d3.CartesianCoordinates('x', 'y', 'z')
+dist = d3.Distributor(coords, dtype=dtype)
+
+# Functions to update densities
+def rho_mat(a):
+    return rho_m / a**3
+
+def rho_rad(a):
+    return rho_r / a**4
+
+# Friedmann equation
+def friedmann(t, y):
+    a = y[0]
+    adot = y[1]
+    H2 = (8 * np.pi * G / 3) * (rho_mat(a) + rho_rad(a) + rho_de) - k / a**2
+    return [adot, -H2 * a]
+
+# Function to create the bases with updated bounds
+def create_bases(a):
+    ns=2*R//grid_unit_size
+    return (
+        d3.RealFourier(coords['x'], size=ns, bounds=(-R , R )),
+        d3.RealFourier(coords['y'], size=ns, bounds=(-R, R )),
+        d3.RealFourier(coords['z'], size=ns, bounds=(-R, R )),
+    )
+
+# Create initial bases and fields
+xbasis, ybasis, zbasis = create_bases(a)
+x, y, z = dist.local_grids(xbasis, ybasis, zbasis)
+
+# Fields
+fla_m = dist.Field(name='fla_m', bases=(xbasis, ybasis, zbasis))  # Matter (baryon) density fluctuation
+fla_r = dist.Field(name='fla_r', bases=(xbasis, ybasis, zbasis))  # Radiation density fluctuation
+fla_de = dist.Field(name='fla_de', bases=(xbasis, ybasis, zbasis))  # Dark energy density fluctuation
+vel_m = dist.VectorField(coords, name='vel_m', bases=(xbasis, ybasis, zbasis))  # Velocity of matter density
+vel_r = dist.VectorField(coords, name='vel_r', bases=(xbasis, ybasis, zbasis))  # Velocity of radiation density
+
+# Define the problem
+problem1 = d3.IVP([fla_m, fla_r, fla_de, vel_m, vel_r], namespace=locals())
+
+# Equations
+equations1 = [
+    "dt(fla_m)=-(div(vel_m)/a)",
+    "dt(fla_r)=-(4*div(vel_r)/(3*a))",
+    "dt(fla_de)= 0",
+    "dt(vel_m)+H*vel_m=0",
+    "dt(vel_r)+H*vel_r=(-grad(fla_r)/(4*a))"
+]
+
+for i, eq in enumerate(equations1):
+    try:
+        print(f"Adding equation {i}: {eq}")
+        problem1.add_equation(eq)
+    except Exception as e:
+        logger.error("Error adding equation %d: %s", i, e)
+
+current_sim_time = 0
+
+try:
+    solver = problem1.build_solver(d3.RK443)
+    solver.stop_sim_time = stop_sim_time
+
+    while solver.proceed:
+        y0 = [a, adot]
+        print("OLD:", a, adot,adot/a)
+        solution = solve_ivp(friedmann, (current_sim_time, current_sim_time + dtime), y0, method='RK45', t_eval=np.linspace(current_sim_time, current_sim_time + dtime, 1000))
+        print("hell1")
+        # Update a and adot with the last values from the solution
+        a = solution.y[0][-1]
+        adot = solution.y[1][-1]
+        print("hell1")
+        current_sim_time += dtime.value
+        # Extract results
+        time_points = solution.t
+        scale_factor = solution.y[0]
+        expansion_rate = solution.y[1]
+        print("hell3")
+        H = adot / a
+        print("NEW:", a, adot)
+        R=R*a
+        # Update bases with new scale factor
+        xbasis, ybasis, zbasis = create_bases(a)
+        x, y, z = dist.local_grids(xbasis, ybasis, zbasis)
+
+        # Redefine fields with new bases
+        fla_m = dist.Field(name='fla_m', bases=(xbasis, ybasis, zbasis))  # Matter (baryon) density fluctuation
+        fla_r = dist.Field(name='fla_r', bases=(xbasis, ybasis, zbasis))  # Radiation density fluctuation
+        fla_de = dist.Field(name='fla_de', bases=(xbasis, ybasis, zbasis))  # Dark energy density fluctuation
+        vel_m = dist.VectorField(coords, name='vel_m', bases=(xbasis, ybasis, zbasis))  # Velocity of matter density
+        vel_r = dist.VectorField(coords, name='vel_r', bases=(xbasis, ybasis, zbasis))  # Velocity of radiation density
+
+        # Define the problem again with the updated bases
+        problem1 = d3.IVP([fla_m, fla_r, fla_de, vel_m, vel_r], namespace=locals())
+        
+        for i, eq in enumerate(equations1):
+            try:
+                print(f"Adding equation {i}: {eq}")
+                problem1.add_equation(eq)
+            except Exception as e:
+                logger.error("Error adding equation %d: %s", i, e)
+
+        solver = problem1.build_solver(d3.RK443)
+        solver.stop_sim_time = stop_sim_time-current_sim_time
+        print(solver.stop_sim_time)
+        solver.step(dtime.value)
+except Exception as e:
+    logger.error("Solver build failed: %s", e)
