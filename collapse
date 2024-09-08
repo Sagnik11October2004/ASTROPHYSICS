@@ -1,0 +1,105 @@
+import numpy as np
+import dedalus.public as d3
+import matplotlib.pyplot as plt
+from mpi4py import MPI
+
+# Parameters
+Lx, Ly, Lz = 1.0, 1.0, 1.0
+Nx, Ny, Nz = 64, 64, 64
+G = 6.67430e-11  # Gravitational constant
+gamma = 1.5  # Ratio of specific heats
+
+# Dedalus setup
+coords = d3.CartesianCoordinates('x', 'y', 'z')
+dist = d3.Distributor(coords, dtype=np.float64)
+xbasis = d3.RealFourier(coords['x'], size=Nx, bounds=(0, Lx))
+ybasis = d3.RealFourier(coords['y'], size=Ny, bounds=(0, Ly))
+zbasis = d3.RealFourier(coords['z'], size=Nz, bounds=(0, Lz))
+domain = d3.Domain(dist, [xbasis, ybasis, zbasis])
+
+# Fields
+rho = dist.Field(name='rho', bases=(xbasis, ybasis, zbasis))
+vx = dist.Field(name='vx', bases=(xbasis, ybasis, zbasis))
+vy = dist.Field(name='vy', bases=(xbasis, ybasis, zbasis))
+vz = dist.Field(name='vz', bases=(xbasis, ybasis, zbasis))
+E = dist.Field(name='E', bases=(xbasis, ybasis, zbasis))
+U = dist.Field(name='U', bases=(xbasis, ybasis, zbasis))
+p = dist.Field(name='p', bases=(xbasis, ybasis, zbasis))
+phi = dist.Field(name='phi', bases=(xbasis, ybasis, zbasis))
+
+# Initial conditions
+x, y, z = domain.all_grids()
+rho['g'] = 1 + 0.1 * np.random.rand(*rho['g'].shape)
+vx['g'] = 0.1 * np.random.randn(*vx['g'].shape)
+vy['g'] = 0.1 * np.random.randn(*vy['g'].shape)
+vz['g'] = 0.1 * np.random.randn(*vz['g'].shape)
+p['g'] = 1 + 0.1 * np.random.rand(*p['g'].shape)
+U['g'] = p['g'] / (gamma - 1)
+E['g'] = U['g'] + 0.5 * rho['g'] * (vx['g']**2 + vy['g']**2 + vz['g']**2)
+
+# Problem
+problem = d3.IVP([rho, vx, vy, vz, E, U, p, phi], namespace=locals())
+problem.add_equation("dt(rho) = -div(rho*vx, rho*vy, rho*vz)")
+problem.add_equation("dt(vx) = (-rho*dx(phi) - dx(p) - div(rho*vx*vx, rho*vx*vy, rho*vx*vz) + div(rho*vx, rho*vy, rho*vz)*vx) / rho")
+problem.add_equation("dt(vy) = (-rho*dy(phi) - dy(p) - div(rho*vy*vx, rho*vy*vy, rho*vy*vz) + div(rho*vx, rho*vy, rho*vz)*vy) / rho")
+problem.add_equation("dt(vz) = (-rho*dz(phi) - dz(p) - div(rho*vz*vx, rho*vz*vy, rho*vz*vz) + div(rho*vx, rho*vy, rho*vz)*vz) / rho")
+problem.add_equation("dt(E) = -div((E+p)*vx, (E+p)*vy, (E+p)*vz) + rho*(dx(phi)*vx + dy(phi)*vy + dz(phi)*vz)")
+problem.add_equation("U = E - 0.5*rho*(vx**2 + vy**2 + vz**2)")
+problem.add_equation("p = (gamma - 1)*U")
+problem.add_equation("lap(phi) = 4*pi*G*rho")  # Poisson equation for gravitational potential
+
+# Solver
+solver = problem.build_solver(d3.RK443)
+solver.stop_sim_time = 1.0
+solver.stop_wall_time = 60 * 60
+solver.stop_iteration = np.inf
+
+# Analysis
+snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.1, max_writes=10)
+snapshots.add_task(rho, name='density')
+snapshots.add_task(p, name='pressure')
+snapshots.add_task(phi, name='potential')
+snapshots.add_task(-d3.grad(phi), name='gravity')
+
+# Main loop
+try:
+    logger.info('Starting loop')
+    while solver.ok:
+        solver.step(0.01)
+        if (solver.iteration-1) % 10 == 0:
+            logger.info('Iteration: %i, Time: %e, dt: %e' %(solver.iteration, solver.sim_time, solver.dt))
+except:
+    logger.error('Exception raised, triggering end of main loop.')
+    raise
+finally:
+    solver.log_stats()
+
+# Plot final state
+if dist.comm.rank == 0:
+    rho_data = rho.allgather_data('g')
+    p_data = p.allgather_data('g')
+    phi_data = phi.allgather_data('g')
+
+    fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    fig.suptitle(f"Final State at t = {solver.sim_time:.2f}")
+
+    im1 = axs[0, 0].imshow(rho_data[:, :, Nz//2].T, origin='lower', extent=[0, Lx, 0, Ly])
+    axs[0, 0].set_title('Density')
+    plt.colorbar(im1, ax=axs[0, 0])
+
+    im2 = axs[0, 1].imshow(p_data[:, :, Nz//2].T, origin='lower', extent=[0, Lx, 0, Ly])
+    axs[0, 1].set_title('Pressure')
+    plt.colorbar(im2, ax=axs[0, 1])
+
+    im3 = axs[1, 0].imshow(phi_data[:, :, Nz//2].T, origin='lower', extent=[0, Lx, 0, Ly])
+    axs[1, 0].set_title('Gravitational Potential')
+    plt.colorbar(im3, ax=axs[1, 0])
+
+    axs[1, 1].plot(rho_data[:, Ny//2, Nz//2])
+    axs[1, 1].set_title('Density Profile (y=z=0.5)')
+    axs[1, 1].set_xlabel('x')
+    axs[1, 1].set_ylabel('Density')
+
+    plt.tight_layout()
+    plt.savefig('final_state.png')
+    plt.close()
