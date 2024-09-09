@@ -1,105 +1,172 @@
-import numpy as np
-import dedalus.public as d3
-import matplotlib.pyplot as plt
-from mpi4py import MPI
+using StaticArrays
+using LinearAlgebra
+using Plots
 
-# Parameters
-Lx, Ly, Lz = 1.0, 1.0, 1.0
-Nx, Ny, Nz = 64, 64, 64
-G = 6.67430e-11  # Gravitational constant
-gamma = 1.5  # Ratio of specific heats
+# Constants
+const G = 6.67430e-11  # Gravitational constant
+const M_sun = 1.989e30  # Solar mass in kg
+const pc = 3.086e16  # Parsec in meters
 
-# Dedalus setup
-coords = d3.CartesianCoordinates('x', 'y', 'z')
-dist = d3.Distributor(coords, dtype=np.float64)
-xbasis = d3.RealFourier(coords['x'], size=Nx, bounds=(0, Lx))
-ybasis = d3.RealFourier(coords['y'], size=Ny, bounds=(0, Ly))
-zbasis = d3.RealFourier(coords['z'], size=Nz, bounds=(0, Lz))
-domain = d3.Domain(dist, [xbasis, ybasis, zbasis])
+# Simulation parameters
+const N = 1000  # Initial number of particles
+const L = 1.0 * pc  # Box size
+const m = 100 * M_sun / N  # Initial particle mass
+const h = 0.01 * pc  # Initial smoothing length
+const dt = 20 * 365 * 24 * 3600.0  # Time step (1000 years)
 
-# Fields
-rho = dist.Field(name='rho', bases=(xbasis, ybasis, zbasis))
-vx = dist.Field(name='vx', bases=(xbasis, ybasis, zbasis))
-vy = dist.Field(name='vy', bases=(xbasis, ybasis, zbasis))
-vz = dist.Field(name='vz', bases=(xbasis, ybasis, zbasis))
-E = dist.Field(name='E', bases=(xbasis, ybasis, zbasis))
-U = dist.Field(name='U', bases=(xbasis, ybasis, zbasis))
-p = dist.Field(name='p', bases=(xbasis, ybasis, zbasis))
-phi = dist.Field(name='phi', bases=(xbasis, ybasis, zbasis))
+# Particle structure
+mutable struct Particle
+    pos::SVector{3, Float64}
+    vel::SVector{3, Float64}
+    mass::Float64
+end
 
-# Initial conditions
-x, y, z = domain.all_grids()
-rho['g'] = 1 + 0.1 * np.random.rand(*rho['g'].shape)
-vx['g'] = 0.1 * np.random.randn(*vx['g'].shape)
-vy['g'] = 0.1 * np.random.randn(*vy['g'].shape)
-vz['g'] = 0.1 * np.random.randn(*vz['g'].shape)
-p['g'] = 1 + 0.1 * np.random.rand(*p['g'].shape)
-U['g'] = p['g'] / (gamma - 1)
-E['g'] = U['g'] + 0.5 * rho['g'] * (vx['g']**2 + vy['g']**2 + vz['g']**2)
+# Initialize particles
+function initialize_particles()
+    return [Particle(SVector{3}(rand(3) .* L), SVector{3}(randn(3) .* 1000.0), m) for _ in 1:N]
+end
 
-# Problem
-problem = d3.IVP([rho, vx, vy, vz, E, U, p, phi], namespace=locals())
-problem.add_equation("dt(rho) = -div(rho*vx, rho*vy, rho*vz)")
-problem.add_equation("dt(vx) = (-rho*dx(phi) - dx(p) - div(rho*vx*vx, rho*vx*vy, rho*vx*vz) + div(rho*vx, rho*vy, rho*vz)*vx) / rho")
-problem.add_equation("dt(vy) = (-rho*dy(phi) - dy(p) - div(rho*vy*vx, rho*vy*vy, rho*vy*vz) + div(rho*vx, rho*vy, rho*vz)*vy) / rho")
-problem.add_equation("dt(vz) = (-rho*dz(phi) - dz(p) - div(rho*vz*vx, rho*vz*vy, rho*vz*vz) + div(rho*vx, rho*vy, rho*vz)*vz) / rho")
-problem.add_equation("dt(E) = -div((E+p)*vx, (E+p)*vy, (E+p)*vz) + rho*(dx(phi)*vx + dy(phi)*vy + dz(phi)*vz)")
-problem.add_equation("U = E - 0.5*rho*(vx**2 + vy**2 + vz**2)")
-problem.add_equation("p = (gamma - 1)*U")
-problem.add_equation("lap(phi) = 4*pi*G*rho")  # Poisson equation for gravitational potential
+# Periodic boundary conditions
+function apply_periodic_bc!(p::Particle)
+    p.pos = mod.(p.pos, L)
+end
 
-# Solver
-solver = problem.build_solver(d3.RK443)
-solver.stop_sim_time = 1.0
-solver.stop_wall_time = 60 * 60
-solver.stop_iteration = np.inf
+# Tree node structure for the octree
+mutable struct TreeNode
+    center::SVector{3, Float64}
+    size::Float64
+    particles::Vector{Particle}
+    children::Vector{TreeNode}
+    total_mass::Float64
+    com::SVector{3, Float64}
+end
 
-# Analysis
-snapshots = solver.evaluator.add_file_handler('snapshots', sim_dt=0.1, max_writes=10)
-snapshots.add_task(rho, name='density')
-snapshots.add_task(p, name='pressure')
-snapshots.add_task(phi, name='potential')
-snapshots.add_task(-d3.grad(phi), name='gravity')
+# Build the octree
+function build_tree(particles, center, size)
+    node = TreeNode(center, size, particles, [], 0.0, zero(SVector{3, Float64}))
+    
+    if length(particles) <= 1
+        node.total_mass = isempty(particles) ? 0.0 : particles[1].mass
+        node.com = isempty(particles) ? zero(SVector{3, Float64}) : particles[1].pos
+        return node
+    end
+    
+    node.total_mass = sum(p.mass for p in particles)
+    node.com = sum(p.pos * p.mass for p in particles) / node.total_mass
+    
+    if length(particles) <= 8
+        return node
+    end
+    
+    # Create child nodes
+    for octant in 1:8
+        new_center = center + SVector{3}([(octant & 1 > 0 ? 0.25 : -0.25) * size,
+                                          (octant & 2 > 0 ? 0.25 : -0.25) * size,
+                                          (octant & 4 > 0 ? 0.25 : -0.25) * size])
+        child_particles = filter(p -> all(abs.(p.pos .- new_center) .<= 0.25 * size), particles)
+        if !isempty(child_particles)
+            push!(node.children, build_tree(child_particles, new_center, 0.5 * size))
+        end
+    end
+    
+    return node
+end
 
-# Main loop
-try:
-    logger.info('Starting loop')
-    while solver.ok:
-        solver.step(0.01)
-        if (solver.iteration-1) % 10 == 0:
-            logger.info('Iteration: %i, Time: %e, dt: %e' %(solver.iteration, solver.sim_time, solver.dt))
-except:
-    logger.error('Exception raised, triggering end of main loop.')
-    raise
-finally:
-    solver.log_stats()
+# Calculate gravitational force using the tree
+function calculate_gravity(particle::Particle, node::TreeNode, theta::Float64)
+    r = norm(particle.pos - node.com)
+    if r == 0
+        return zero(SVector{3, Float64})
+    end
+    
+    if isempty(node.children) || node.size / r < theta
+        direction = normalize(node.com - particle.pos)
+        return G * particle.mass * node.total_mass / r^2 * direction
+    else
+        return sum(calculate_gravity(particle, child, theta) for child in node.children)
+    end
+end
 
-# Plot final state
-if dist.comm.rank == 0:
-    rho_data = rho.allgather_data('g')
-    p_data = p.allgather_data('g')
-    phi_data = phi.allgather_data('g')
+# Calculate pressure force (simple model)
+function calculate_pressure(particles::Vector{Particle}, i::Int, h::Float64)
+    force = zero(SVector{3, Float64})
+    for j in 1:length(particles)
+        if i != j
+            r = norm(particles[i].pos - particles[j].pos)
+            if r < h
+                direction = normalize(particles[j].pos - particles[i].pos)
+                force += direction * (1 - r/h)^2
+            end
+        end
+    end
+    return force * 1e-5  # Scaling factor for pressure force
+end
 
-    fig, axs = plt.subplots(2, 2, figsize=(12, 10))
-    fig.suptitle(f"Final State at t = {solver.sim_time:.2f}")
+# Update particle positions and velocities
+function update_particles!(particles::Vector{Particle}, tree::TreeNode, dt::Float64, h::Float64)
+    for (i, p) in enumerate(particles)
+        grav_force = calculate_gravity(p, tree, 0.5)
+        pressure_force = calculate_pressure(particles, i, h)
+        total_force = grav_force + pressure_force
+        
+        p.vel += total_force / p.mass * dt
+        p.pos += p.vel * dt
+        apply_periodic_bc!(p)
+    end
+end
 
-    im1 = axs[0, 0].imshow(rho_data[:, :, Nz//2].T, origin='lower', extent=[0, Lx, 0, Ly])
-    axs[0, 0].set_title('Density')
-    plt.colorbar(im1, ax=axs[0, 0])
+# Clump particles
+function clump_particles!(particles::Vector{Particle}, h::Float64)
+    i = 1
+    while i < length(particles)
+        j = i + 1
+        while j <= length(particles)
+            if norm(particles[i].pos - particles[j].pos) < h
+                particles[i].mass += particles[j].mass
+                particles[i].vel = (particles[i].vel * particles[i].mass + particles[j].vel * particles[j].mass) / (particles[i].mass + particles[j].mass)
+                deleteat!(particles, j)
+            else
+                j += 1
+            end
+        end
+        i += 1
+    end
+end
 
-    im2 = axs[0, 1].imshow(p_data[:, :, Nz//2].T, origin='lower', extent=[0, Lx, 0, Ly])
-    axs[0, 1].set_title('Pressure')
-    plt.colorbar(im2, ax=axs[0, 1])
+# Main simulation loop
+function run_simulation(num_steps::Int)
+    particles = initialize_particles()
+    results = []
+    
+    for step in 1:num_steps
+        tree = build_tree(particles, SVector{3}(L/2, L/2, L/2), L)
+        update_particles!(particles, tree, dt, h)
+        clump_particles!(particles, h)
+        
+        if step % 10 == 0
+            push!(results, (step * dt, length(particles), copy(particles)))
+            plot_results(results)
+        end
+    end
+    
+    return results
+end
 
-    im3 = axs[1, 0].imshow(phi_data[:, :, Nz//2].T, origin='lower', extent=[0, Lx, 0, Ly])
-    axs[1, 0].set_title('Gravitational Potential')
-    plt.colorbar(im3, ax=axs[1, 0])
+# Plot results
+function plot_results(results)
+    for (time, num_particles, particles) in results
+        positions = reduce(hcat, [p.pos for p in particles])
+        masses = [p.mass for p in particles]
+        
+        plt = scatter(positions[1, :], positions[2, :], positions[3, :],
+                      markersize = masses ./ minimum(masses) .* 2,
+                      title = "Time: $(round(time / (365 * 24 * 3600))) years, Particles: $num_particles",
+                      xlabel = "X (m)", ylabel = "Y (m)", zlabel = "Z (m)",
+                      legend = false, size = (800, 600))
+        display(plt)
+        sleep(0.1)
+    end
+end
 
-    axs[1, 1].plot(rho_data[:, Ny//2, Nz//2])
-    axs[1, 1].set_title('Density Profile (y=z=0.5)')
-    axs[1, 1].set_xlabel('x')
-    axs[1, 1].set_ylabel('Density')
-
-    plt.tight_layout()
-    plt.savefig('final_state.png')
-    plt.close()
+# Run the simulation and plot results
+results = run_simulation(5000)
