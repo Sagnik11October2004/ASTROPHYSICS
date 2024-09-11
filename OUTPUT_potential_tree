@@ -1,0 +1,71 @@
+Testing with 100 particles:
+  22.800 μs (1 allocation: 896 bytes)
+  19.400 μs (1 allocation: 896 bytes)
+Number of particles: 100
+Number of groups: 95
+Max relative error: 0.0013589224643562482
+Mean relative error: 0.00011969712464572434
+Median relative error: 2.83573205324327e-5
+
+Testing with 1000 particles:
+  1.684 ms (1 allocation: 7.94 KiB)
+  2.033 ms (1 allocation: 7.94 KiB)
+Number of particles: 1000
+Number of groups: 655
+Max relative error: 0.020145853624823615
+Mean relative error: 0.0006830118160998772
+Median relative error: 0.00037605854347443264
+
+Testing with 5000 particles:
+  20.556 ms (2 allocations: 39.11 KiB)
+  54.413 ms (2 allocations: 39.11 KiB)
+Number of particles: 5000
+Number of groups: 1339
+Max relative error: 0.02508661509321617
+Mean relative error: 0.0009400699214093493
+Median relative error: 0.00063546865132798
+
+Testing with 10000 particles:
+  57.322 ms (2 allocations: 78.17 KiB)
+  230.760 ms (2 allocations: 78.17 KiB)
+Number of particles: 10000
+Number of groups: 1639
+Max relative error: 0.03135482655514641
+Mean relative error: 0.0008575208800072655
+Median relative error: 0.0006016914776090068
+
+Testing with 20000 particles:
+  216.923 ms (2 allocations: 156.30 KiB)
+  5.994 s (2 allocations: 156.30 KiB)
+Number of particles: 20000
+Number of groups: 1886
+Max relative error: 0.02247958888761976
+Mean relative error: 0.0008107641208440033
+Median relative error: 0.0005882045671317909
+
+Testing with 30000 particles:
+  2.021 s (2 allocations: 234.42 KiB)
+  2.173 s (2 allocations: 234.42 KiB)
+Number of particles: 30000
+Number of groups: 1945
+Max relative error: 0.021006679840659744
+Mean relative error: 0.0007972872784432226
+Median relative error: 0.0005767332692842709
+
+Testing with 50000 particles:
+  3.465 s (2 allocations: 390.67 KiB)
+  6.101 s (2 allocations: 390.67 KiB)
+Number of particles: 50000
+Number of groups: 2044
+Max relative error: 0.024626404839248363
+Mean relative error: 0.0007661245802124578
+Median relative error: 0.0005520904545879081
+
+Testing with 100000 particles:
+  3.514 s (2 allocations: 781.30 KiB)
+  26.950 s (2 allocations: 781.30 KiB)
+Number of particles: 100000
+Number of groups: 2320
+Max relative error: 0.03666874290644205
+Mean relative error: 0.0006951089388530134
+Median relative error: 0.0005041622349654028
