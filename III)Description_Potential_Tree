@@ -1,0 +1,12 @@
+The Hierarchial Method of computation of gravity for N-body system divides the domain into cells. Each cell stores the centre of mass and the total mass due to all the particles inside it.
+Now for the i-th particle inside the j-th cell , the force due to all the particles in the j-th cell are computed one-by-one. FOr the rest i.e. particles not in the j-th cell , they are collapsed to theihe 
+centre of mass of teir containing cell and the force is computed using the mass and distance of the centre of mass of that cell from the i-th particle.
+It computes the average distance between pairs of distinct particles. It randomly samples pairs of particles and accumulates their distances.
+Then it calculates the density of the particle system by finding the total mass and the volume occupied by the particles. It uses the minimum and maximum positions to define the bounding volume.
+It builds a hierarchical representation of the particle system. 
+It groups particles into clusters based on a specified maximum group size and minimum distance. 
+This helps optimize the gravitational potential calculations by reducing the number of interactions needed.
+
+
+It also computes the gravitational forces in a brute-force manner i.e. sums up forces fue to all particles one by one. 
+It displays the relative error and other statistical measures of the deviation of the force computed by hierarchial method from the brute-force method.
