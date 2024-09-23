@@ -2,6 +2,6 @@ This github repository contains two simulations of astrophysics.
 
 One of them is the accretion disc that is formed around black holes at galactic centers.The simulation aims to find the stable radial distribution of the different parameters of the accretion disc.It utilises the finite difference scheme.
 
-The second one simulates a molecular cloud with uniform initial temperature and pressure. It utilises the initial condition to time evolve the molecular cloud based on the Continuity equation,momentum equation,ideal gas law and energy equation .
-It also solves the poisson equation in 3 dimensions using FiPy , a finite volume pde solver. 
-The library used is the DEDALUS library which is a library meant to solve set of pde. Matplotlib has been used to plot the variation of temperature,density,pressure and gravitational potential in the z=0 plane.
+The second one simulates molecular cloud collapse using SPH.
+
+The third one computes graviational forces for N-body problem based on a hierarchial approach.
