@@ -1,52 +1,38 @@
 Molecular Cloud Collapse Simulation
 
-This Python script simulates the collapse of a molecular cloud using the Dedalus library for solving fluid dynamics equations using spectral methods 
-and FiPy for computing gravitational potential with boundary conditions. The simulation incorporates several key equations and methods.
+This Julia script simulates the collapse of a molecular cloud using SPH(Smoothened  Particle Hydrodynamics).
+The simulation incorporates several key discretised equations and methods.
 
 Key Equations and Methods
 
-1.Continuity Equation: Governs the conservation of mass.:
- dt(rho) = -dx(rho * vx)-dy(rho * vy)-dz(rho * vz)
-    
-2.Momentum Equations: Describes the conservation of momentum in three dimensions, accounting for gravitational forces and pressure gradients.:
- dt(vx) = (-rho * dx(potential) - dx(p) - dx(rho * vx * vx) - dy(rho * vx * vy) - dz(rho * vx * vz) + (dx(rho * vx) + dy(rho * vy) + dz(rho * vz)) * vx) / rho
- dt(vy) = (-rho * dy(potential) - dy(p) - dx(rho * vy * vx) - dy(rho * vy * vy) - dz(rho * vy * vz) + (dx(rho * vx) + dy(rho * vy) + dz(rho * vz)) * vy) / rho
- dt(vz) = (-rho * dz(potential) - dz(p) - dx(rho * vz * vx) - dy(rho * vz * vy) - dz(rho * vz * vz) - (dx(rho * vx) + dy(rho * vy) + dz(rho * vz)) * vz) / rho
-
-3.Energy Equation: Governs the conservation of energy, including contributions from kinetic energy, internal energy, and gravitational potential.:
-​ dt(E) = -dx((E + p) * vx) - dy((E + p) * vy) - dz((E + p) * vz) +rho * (dx(potential)* vx + dy(potential)* vy + dz(potential) * vz)
-
-4.Internal Energy Equation: Relates the internal energy U to kinetic energy of fluid particles and total energy :
- U = E - 0.5 * rho * (vx * vx + vy * vy + vz * vz)",
-
-5.the equation of state for an ideal gas.:
- p = (gamma - 1) * U
- 
-6.Poisson Equation for Gravitational Potential: Solved using FiPy to compute the gravitational potential due to the mass distribution.:
- (laplacian) Φ = 4πGρ
-
+1. The code uses Hashing to distribute particles into cells for effective neighbour search.
+2. It computes density based on Wendland C4 kernel.
+3. It computes pressure based on densities and internal energy using ideal gas law.
+4. It computes gravitational potnetial and gravitational force using the Hashing. 
+   It finds the potential and force due to all the particles in the local neighbourhood (adjacent or same cell) of the i-th particle one by one .
+   On the other hand it finds the potential and force due to the particles not in the local neighbourhood by collapsing the particles 
+   in each cell to their centre of mass and then computing potential and force due to each cell one-by-one. This methpd helps compute the potentials
+   and forces efficiently with very small relative error w.r.t the brute force method.
+5. The code computes viscosity and viscous heating which directly affects the velocity and internal energy of each particle.
+6. It also incorporates a very simple type of radiative cooling. You may chnage it based on requirements.
+7. It also computes internal energy based on energy conservation.
+8. The code modifies smoothening length based on local density.
+9. The code incorporates CFL condition for time stepping.
  
 Simulation Setup:
 
-Initial Conditions: The initial density is perturbed with random fluctuations. The velocities are initially set to zero to indicate a static gass cloud.
-Grid and Basis: A 3D grid is defined using Dedalus's RealFourier basis for efficient spectral computations.
-Boundary Conditions: The gravitational potential is constrained to zero at the boundaries.
-Solver: The simulation uses the Runge-Kutta 4th order (RK443) method for time-stepping.
+Initial Conditions: The initial distribution is a spherical cloud with randomised distribution of particles.
 
 
 Visualization:
 
-The script includes plotting routines to visualize the density, pressure, gravitational potential, and internal energy at the z=0 plane for each time step, providing insights into the dynamics of the collapsing cloud.
+The script includes plotting routines to visualize the scatter plot of density, pressure, gravitational potential, internal energy ,
+smoothening length and magnitude of velocity for a randomised collection of particles at each time step, providing insights into 
+the dynamics of the collapsing cloud.
 
-
-Logging and Output:
-
-The simulation logs the maximum and minimum values of key parameters and writes them to a file, providing a record of the evolution of the system over time.
-
-Improvements needed:
 
 Magnetic and Electric fields play a dominant role in shaping the dynamics of a molecular gas cloud. These aren't included in the simulation.
-Radiation cooling and heating and other n=modes of heating play a crucial role in the process of energy balance of the cloud.
+Radiation cooling and heating and other modes of heating play a crucial role in the process of energy balance of the cloud.
 External heating through cosmic rays and density perturbation due to shocks aren't taken into account.
 Variations in the dynamics of the cloud due to chemical composition of gas cloud isn't accounted for.
 The ocde is not capable of accounting for nuclear energy synthesis when the appropraite values of velocity are reached.
