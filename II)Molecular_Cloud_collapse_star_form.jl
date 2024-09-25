@@ -9,6 +9,7 @@ using Plots
 const G = 6.67430e-11  # gravitational constant
 const k_B = 1.380649e-23  # Boltzmann constant
 const gamma = 5/3  # adiabatic index for ideal gas
+const ν = 0.1  # Viscosity coefficient
 
 mutable struct Particle
     position::SVector{3, Float64}
@@ -18,7 +19,7 @@ mutable struct Particle
     pressure::Float64
     potential::Float64
     internal_energy::Float64
-    h::Float64  # Added smoothing length for each particle
+    h::Float64  
 end
 
 mutable struct SPHSimulation
@@ -245,11 +246,10 @@ function calculate_cfl_timestep(sim::SPHSimulation, C::Float64, max_dt::Float64)
         dt_i = particle.h / denom  # CFL condition
         min_dt = max(min_dt, dt_i)
     end
-    return min(C * min_dt, max_dt)  # Return the CFL-limited timestep, constrained by max_dt
+    return min(C * min_dt, max_dt) 
 end
 
-# Viscosity coefficient 
-const ν = 0.1  # Viscosity coefficient
+
 
 # Viscous force using Brookshaw's method for Laplacian
 function compute_viscous_force(sim::SPHSimulation, i::Int)
@@ -393,7 +393,7 @@ function initialize_simulation(N::Int, sphere_radius::Float64, h::Float64, total
         
         position = SVector{3, Float64}(x, y, z)
         
-        # Assign initial velocities (can be random or set to zero)
+        # Assign initial velocities 
         velocity = -1e1 * normalize(SVector{3, Float64}(x, y, z))  # Arbitrary radial velocity
         
         # Initialize internal energy based on the temperature
@@ -403,7 +403,7 @@ function initialize_simulation(N::Int, sphere_radius::Float64, h::Float64, total
         particles[i] = Particle(position, velocity, particle_mass, 0.0, 0.0, 0.0, internal_energy, h)
     end
     
-    # Create the SPHSimulation object with the initialized particles and smoothing length h
+    # Create the SPHSimulation object 
     sim = SPHSimulation(particles, h)
     
     # Calculate initial potential and energy of the system
@@ -455,9 +455,9 @@ end
 
 # Main simulation parameters
 N = 10000  # Number of particles
-sphere_radius = 1e13  # 0.5 light years in meters
+sphere_radius = 1e13  # light years in meters
 h = sphere_radius / 10  # Initial smoothing length
-total_mass = 2e33  # 1000 Solar masses in kg
+total_mass = 2e33  # Total mass 
 total_time = 1e12  # Simulation time in seconds
 max_dt = 1e6  # Maximum allowed time step in seconds
 initial_temperature = 100.0  # Initial temperature in Kelvin
