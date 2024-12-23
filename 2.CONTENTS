@@ -7,6 +7,6 @@ The second one simulates molecular cloud dynamics using SPH.
 
 The third one computes graviational forces for N-body problem based on a hierarchial approach.
 
-The fourth one solves for the Flux in the accretion around a blackhole using Newtonian Physics.
+The fourth one solves for the Flux in the accretion around a blackhole using Newtonian gravity.
 
 The fifth one applies General Relativistic correction to the fourth one.
