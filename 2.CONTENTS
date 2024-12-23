@@ -1,7 +1,7 @@
-This github repository contains two simulations of astrophysics.
+This github repository contains a few astrophysical simulations.
 
-One of them is the accretion disc that is formed around black holes at galactic centers.The simulation aims to find the stable radial distribution of the different parameters of the accretion disc.It utilises the finite difference scheme.
+The first one simulates geodesicc of a test particle in Schwarzschild space-time.
 
-The second one simulates molecular cloud collapse using SPH.
+The second one simulates molecular cloud dynamics using SPH.
 
 The third one computes graviational forces for N-body problem based on a hierarchial approach.
