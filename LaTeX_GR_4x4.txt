@@ -1,0 +1,60 @@
+\setlength\parindent{0pt}
+\section{General Relativity 4x4 Tensors}
+\subsection{Metric}
+ $$\begin{pmatrix}
+  -2GM/r+1 ,& 0 ,& 0 ,& 0\\
+  0 ,& 1/(-2GM/r+1) ,& 0 ,& 0\\
+  0 ,& 0 ,& r^2 ,& 0\\
+  0 ,& 0 ,& 0 ,& r^2\sin(\theta)^2\\
+\end{pmatrix}$$ 
+
+\subsection{Christoffel Symbols}
+$\Gamma^{t}_{tr}= GM/(r^2(-2GM/r + 1))$\\
+$\Gamma^{t}_{rt}= GM/(r^2(-2GM/r + 1))$\\
+$\Gamma^{r}_{tt}= -2GM(-GM/r + 0.5)/r^2$\\
+$\Gamma^{r}_{rr}= -2GM(-GM/r + 0.5)/(r^2(-2GM/r + 1)^2)$\\
+$\Gamma^{r}_{thetatheta}= -2r(-GM/r + 0.5)$\\
+$\Gamma^{r}_{phiphi}= -2r(-GM/r + 0.5)\sin(\theta)^2$\\
+$\Gamma^{theta}_{rtheta}= 1/r$\\
+$\Gamma^{theta}_{thetar}= 1/r$\\
+$\Gamma^{theta}_{phiphi}= -\sin(\theta)\cos(\theta)$\\
+$\Gamma^{phi}_{rphi}= 1/r$\\
+$\Gamma^{phi}_{thetaphi}= \cos(\theta)/\sin(\theta)$\\
+$\Gamma^{phi}_{phir}= 1/r$\\
+$\Gamma^{phi}_{phitheta}= \cos(\theta)/\sin(\theta)$\\
+
+
+\subsection{Riemann Tensor}
+$R^{t}_{trr}= 7.0G^2M^2/(r^4(-2GM/r + 1)^2) - 2.0G^2M^2(-GM/r + 0.5)/(r^4(-2GM/r + 1)^3) + 8.0GM/(r^3(-2GM/r + 1))$\\
+$R^{t}_{tthetatheta}= -2.0GM(-GM/r + 0.5)/(r(-2GM/r + 1))$\\
+$R^{t}_{tphiphi}= -2.0GM(-GM/r + 0.5)\sin(\theta)^2/(r(-2GM/r + 1))$\\
+$R^{t}_{rtr}= -7.0G^2M^2/(r^4(-2GM/r + 1)^2) + 2.0G^2M^2(-GM/r + 0.5)/(r^4(-2GM/r + 1)^3) - 8.0GM/(r^3(-2GM/r + 1))$\\
+$R^{t}_{thetattheta}= 2.0GM(-GM/r + 0.5)/(r(-2GM/r + 1))$\\
+$R^{t}_{phitphi}= 2.0GM(-GM/r + 0.5)\sin(\theta)^2/(r(-2GM/r + 1))$\\
+$R^{r}_{trt}= 8.0G^2M^2/r^4 - 2.0G^2M^2(-GM/r + 0.5)/(r^4(-2GM/r + 1)) - 4G^2M^2(-GM/r + 0.5)^2/(r^4(-2GM/r + 1)^2) - 16GM(-GM/r + 0.5)/r^3$\\
+$R^{r}_{rtt}= -8.0G^2M^2/r^4 + 2.0G^2M^2(-GM/r + 0.5)/(r^4(-2GM/r + 1)) + 4G^2M^2(-GM/r + 0.5)^2/(r^4(-2GM/r + 1)^2) + 16GM(-GM/r + 0.5)/r^3$\\
+$R^{r}_{rthetatheta}= -2.0GM/r + 4GM(-GM/r + 0.5)^2/(r(-2GM/r + 1)^2) - 3.0$\\
+$R^{r}_{rphiphi}= -8.0GM\sin(\theta)^2/r + 4GM(-GM/r + 0.5)^2\sin(\theta)^2/(r(-2GM/r + 1)^2) - 6(-GM/r + 0.5)\sin(\theta)^2$\\
+$R^{r}_{thetartheta}= 2.0GM/r - 4GM(-GM/r + 0.5)^2/(r(-2GM/r + 1)^2) + 3.0$\\
+$R^{r}_{thetaphiphi}= -12.0r(-GM/r + 0.5)\sin(\theta)\cos(\theta)$\\
+$R^{r}_{phirphi}= 8.0GM\sin(\theta)^2/r - 4GM(-GM/r + 0.5)^2\sin(\theta)^2/(r(-2GM/r + 1)^2) + 6(-GM/r + 0.5)\sin(\theta)^2$\\
+$R^{r}_{phithetaphi}= 12.0r(-GM/r + 0.5)\sin(\theta)\cos(\theta)$\\
+$R^{theta}_{tthetat}= 2.0GM(-GM/r + 0.5)/r^3$\\
+$R^{theta}_{rthetar}= 2.0GM(-GM/r + 0.5)/(r^3(-2GM/r + 1)^2) - 3.0/r^2$\\
+$R^{theta}_{thetatt}= -2.0GM(-GM/r + 0.5)/r^3$\\
+$R^{theta}_{thetarr}= -2.0GM(-GM/r + 0.5)/(r^3(-2GM/r + 1)^2) + 3.0/r^2$\\
+$R^{theta}_{thetaphiphi}= -2.0(-GM/r + 0.5)\sin(\theta)^2 + 4.0\sin(\theta)^2 - 3.0\cos(\theta)^2$\\
+$R^{theta}_{phithetaphi}= 2.0(-GM/r + 0.5)\sin(\theta)^2 - 4.0\sin(\theta)^2 + 3.0\cos(\theta)^2$\\
+$R^{phi}_{tphit}= 2.0GM(-GM/r + 0.5)/r^3$\\
+$R^{phi}_{rphir}= 2.0GM(-GM/r + 0.5)/(r^3(-2GM/r + 1)^2) - 3.0/r^2$\\
+$R^{phi}_{thetaphitheta}= -2.0GM/r - 3.0 - 3.0\cos(\theta)^2/\sin(\theta)^2$\\
+$R^{phi}_{phitt}= -2.0GM(-GM/r + 0.5)/r^3$\\
+$R^{phi}_{phirr}= -2.0GM(-GM/r + 0.5)/(r^3(-2GM/r + 1)^2) + 3.0/r^2$\\
+$R^{phi}_{phithetatheta}= 2.0GM/r + 3.0 + 3.0\cos(\theta)^2/\sin(\theta)^2$\\
+
+
+\subsection{Ricci Tensor}
+
+
+\paragraph{Scalar Curvature}  
+ $$0$$
