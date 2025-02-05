@@ -15,3 +15,7 @@ The sixth one computes the evolution of scale factor of the universe with time f
 
 The seventh one computes the Connection coefficients, Rieman Tensor, Ricci Tensor and Scalar Curavature for a given metric 
 (here, it is the Schwarzschild Metric).
+
+The ninth one does the following: create a map with random galaxy distribution, 
+Determine galaxy count at a given flux in far-infrared to build a map of Poisson distribution of galaxies, 
+Spatially correlate the sources using the power spectrum of the CIB.
