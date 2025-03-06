@@ -19,3 +19,7 @@ The seventh one computes the Connection coefficients, Rieman Tensor, Ricci Tenso
 The ninth one does the following: create a map with random galaxy distribution, 
 Determine galaxy count at a given flux in far-infrared to build a map of Poisson distribution of galaxies, 
 Spatially correlate the sources using the power spectrum of the CIB.
+
+The tenth one numerocally solves the Klein-Gordon Equations in various potentials and initial conditions like 
+Inflationary field, dark energy field with initial flactuations on uniform background, solitonic solutions, coupled fields
+and many more.
