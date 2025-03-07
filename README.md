@@ -29,6 +29,7 @@ and many more.
 
 11) The eleventh one plots the CMB power spectrum and temperature as heat maps.
 
-<Figure size 1000x800 with 0 Axes>
+![CMB]()
+
 
 
