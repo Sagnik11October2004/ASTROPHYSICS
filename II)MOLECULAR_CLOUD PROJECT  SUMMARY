@@ -35,4 +35,6 @@ Magnetic and Electric fields play a dominant role in shaping the dynamics of a m
 Radiation cooling and heating and other modes of heating play a crucial role in the process of energy balance of the cloud.
 External heating through cosmic rays and density perturbation due to shocks aren't taken into account.
 Variations in the dynamics of the cloud due to chemical composition of gas cloud isn't accounted for.
-The ocde is not capable of accounting for nuclear energy synthesis when the appropraite values of velocity are reached.
+The code is not capable of accounting for nuclear energy synthesis when the appropraite values of velocity are reached.
+
+I will later provide a better implementation of the code with better segmentation of domain and tree code implementation for gravitation and neighbor search. Also I will add into it the logic for verging initial distribution of gas using different IMF and add parallelization of the code.
