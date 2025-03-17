@@ -1,40 +1,37 @@
-Molecular Cloud Collapse Simulation
+The C code implements a Smoothed Particle Hydrodynamics (SPH) algorithm with Barnes-Hut gravity optimization to simulate 
+molecular cloud dynamics
 
-This Julia script simulates the collapse of a molecular cloud using SPH(Smoothened  Particle Hydrodynamics).
-The simulation incorporates several key discretised equations and methods.
+1) Density Calculation using cubic spline kernel.
+2) Pressure Calculation using Polytropic EOS.
+3) Computes acceleration using Gravity and visocisty and pressure forces.
+4) It uses LeapFrog Time Integration scheme.
 
-Key Equations and Methods
-
-1. The code uses Hashing to distribute particles into cells for effective neighbour search.
-2. It computes density based on Wendland C4 kernel.
-3. It computes pressure based on densities and internal energy using ideal gas law.
-4. It computes gravitational potnetial and gravitational force using the Hashing. 
-   It finds the potential and force due to all the particles in the local neighbourhood (adjacent or same cell) of the i-th particle one by one .
-   On the other hand it finds the potential and force due to the particles not in the local neighbourhood by collapsing the particles 
-   in each cell to their centre of mass and then computing potential and force due to each cell one-by-one. This methpd helps compute the potentials
-   and forces efficiently with very small relative error w.r.t the brute force method.
-5. The code computes viscosity and viscous heating which directly affects the velocity and internal energy of each particle.
-6. It also incorporates a very simple type of radiative cooling. You may chnage it based on requirements.
-7. It also computes internal energy based on energy conservation.
-8. The code modifies smoothening length based on local density.
-9. The code incorporates CFL condition for time stepping.
- 
-Simulation Setup:
-
-Initial Conditions: The initial distribution is a spherical cloud with randomised distribution of particles.
-
-
-Visualization:
-
-The script includes plotting routines to visualize the scatter plot of density, pressure, gravitational potential, internal energy ,
-smoothening length and magnitude of velocity for a randomised collection of particles at each time step, providing insights into 
-the dynamics of the collapsing cloud.
-
-
-Magnetic and Electric fields play a dominant role in shaping the dynamics of a molecular gas cloud. These aren't included in the simulation.
-Radiation cooling and heating and other modes of heating play a crucial role in the process of energy balance of the cloud.
-External heating through cosmic rays and density perturbation due to shocks aren't taken into account.
-Variations in the dynamics of the cloud due to chemical composition of gas cloud isn't accounted for.
-The code is not capable of accounting for nuclear energy synthesis when the appropraite values of velocity are reached.
-
-I will later provide a better implementation of the code with better segmentation of domain and tree code implementation for gravitation and neighbor search. Also I will add into it the logic for verging initial distribution of gas using different IMF and add parallelization of the code.
+INITIAL CONDITIONS:
+{
+  "simpara": {
+    "output": "molecular_cloud_simulation.out",
+    "num_frames": 500,
+    "num_per_frames": 20,
+    "particle": {
+      "size": 0.01
+    },
+    "timestep": 1.0e-3,
+    "constants": {
+      /* Fluid properties */
+      "rho": 1.0,         /* Reference density (normalized) */
+      "k": 0.1,           /* Sound speed parameter - related to temperature */
+      "mu": 0.01,         /* Dynamic viscosity - low for molecular clouds */
+      "gamma": 1.0,       /* Equation of state exponent (1.0 = isothermal) */
+      
+      /* Gravitational properties */
+      "G": 1.0,           /* Gravitational constant (in simulation units) */
+      
+      /* Domain properties */
+      "domain_size": 10.0, /* Size of simulation domain in parsecs */
+      
+      /* Numerical parameters */
+      "theta": 0.5,       /* Barnes-Hut opening angle (0.5-0.7 recommended) */
+      "mesh_size": 50     /* Resolution of spatial mesh for neighbor finding */
+    }
+  }
+}
