@@ -13,8 +13,8 @@ The fifth one applies General Relativistic correction to the fourth one.
 
 The sixth one computes the evolution of scale factor of the universe with time for different values of cosmological parameters.
 
-The seventh one computes the Connection coefficients, Rieman Tensor, Ricci Tensor and Scalar Curavature for a given metric 
-(here, it is the Schwarzschild Metric).
+The seventh one computes the Reimann Tensors, Ricci Tensors, Christoffel Symbols, Ricci Scalar, Weyl Tensor, Einstein Tensor, BelRobinson Tensor 
+and the set of differential equations for the killing vectors.
 
 The ninth one does the following: create a map with random galaxy distribution, 
 Determine galaxy count at a given flux in far-infrared to build a map of Poisson distribution of galaxies, 
