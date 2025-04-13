@@ -1,4 +1,4 @@
-This github repository contains a few astrophysical simulations.
+This github repository is a collection of astrophysics, relativity and cosmology simulations made in python, C and julia.
 
 The first one solves for the equation of motion of a a test particle in Schwarzschild space-time usinng the the SChwarzschild 
 and also computes the Innermost Stable Circular Orbit.
