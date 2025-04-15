@@ -16,8 +16,7 @@ This github repository contains a few astrophysical simulations.
 
 6) The sixth one computes the evolution of scale factor of the universe with time for different values of cosmological parameters.
 
-8) The seventh one computes the Connection coefficients, Rieman Tensor, Ricci Tensor and Scalar Curavature for a given metric 
-(here, it is the Schwarzschild Metric).
+8) The seventh one computes the Connection coefficients, Rieman Tensor, Ricci Tensor, Scalar Curavature, Einstein Field Tensor, Weyl Tensor and other tensors for a given metric .
 
 9) The ninth one does the following: create a map with random galaxy distribution, 
 Determine galaxy count at a given flux in far-infrared to build a map of Poisson distribution of galaxies, 
@@ -28,6 +27,10 @@ Inflationary field, dark energy field with initial flactuations on uniform backg
 and many more.
 
 11) The eleventh one plots the CMB power spectrum and temperature as heat maps.
+
+12) This one simulates and computes gravitational lensing phenomenon.
+
+13) This one downloads data from gravitational wave detectors like VIRGO etc and anlyses the dat and analyses the signals, the noise and the backgound.
 
 ![CMB](IMAGE/cmb_img.png)
 
