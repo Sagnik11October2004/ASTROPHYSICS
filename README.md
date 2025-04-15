@@ -16,7 +16,7 @@ This github repository contains a few astrophysical simulations.
 
 6) The sixth one computes the evolution of scale factor of the universe with time for different values of cosmological parameters.
 
-8) The seventh one computes the Connection coefficients, Rieman Tensor, Ricci Tensor, Scalar Curavature, Einstein Field Tensor, Weyl Tensor and other tensors for a given metric .
+8) This one computes the Connection coefficients, Rieman Tensor, Ricci Tensor, Scalar Curavature, Einstein Field Tensor, Weyl Tensor and other tensors for a given metric .
 
 9) The ninth one does the following: create a map with random galaxy distribution, 
 Determine galaxy count at a given flux in far-infrared to build a map of Poisson distribution of galaxies, 
