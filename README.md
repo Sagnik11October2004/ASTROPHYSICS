@@ -1,5 +1,5 @@
 # ASTROPHYSICS
-a set of simulation on astrophysical and relativistic systems
+a set of simulation on astrophysics, relativity and cosmology.
 
 ## Content
 This github repository contains a few astrophysical simulations.
