@@ -1,32 +1,30 @@
 This github repository is a collection of astrophysics, relativity and cosmology simulations made in python, C and julia.
 
-The first one solves for the equation of motion of a a test particle in Schwarzschild space-time usinng the the SChwarzschild 
-and also computes the Innermost Stable Circular Orbit.
+1) "geodesic.ipynb" solves for the equation of motion of a test particle in Schwarzschild space-time using Schwarzschild metric and geodesic equation. It also computes the Innermost Stable Circular Orbit(ISCO)
 
-The second one simulates molecular cloud dynamics using SPH.
+2) "Molecular_Cloud.c" simulates molecular cloud dynamics using SPH.
 
-The third one computes graviational forces for N-body problem based on a hierarchial approach.
+3) "Potential_Tree.jl" computes graviational forces for N-body problem based on a hierarchial tree approach where clustering of particles based on their position is done and then based on the target particle potential due to particles within the cluster and potential due to the center of gravity of the other clusters are taken . All potentials correspond to Newtonian Potentials.
 
-The fourth one solves for the Flux in the accretion around a blackhole using Newtonian gravity.
+4) "NewtonianAccretion.ipynb" solves the Flux equation in the accretion disk around a blackhole using Newtonian gravity.
 
-The fifth one applies General Relativistic correction to the fourth one.
+5) "GR_Accretion.ipynb" applies General Relativistic correction to the FLux equation used in "NewtonianAccretion.ipynb".
 
-The sixth one computes the evolution of scale factor of the universe with time for different values of cosmological parameters.
+6) "FLRW_scale_factor.py" computes the evolution of scale factor of the universe with time for different values of cosmological parameters.
 
-The seventh one computes the Reimann Tensors, Ricci Tensors, Christoffel Symbols, Ricci Scalar, Weyl Tensor, Einstein Tensor, BelRobinson Tensor 
-and the set of differential equations for the killing vectors.
+8) "TensorCalculator-GeneralRelativity.ipynb" computes the Connection coefficients, Rieman Tensor, Ricci Tensor, Scalar Curavature, Einstein Field Tensor, Weyl Tensor and other tensors for a given metric .
 
-The ninth one does the following: create a map with random galaxy distribution, 
+9) "galaxy_correlations.ipynb" does the following: create a map with random galaxy distribution, 
 Determine galaxy count at a given flux in far-infrared to build a map of Poisson distribution of galaxies, 
 Spatially correlate the sources using the power spectrum of the CIB.
 
-The tenth one numerically solves the Klein-Gordon Equations in various potentials and initial conditions like 
+10) The "KleinGordon.ipynb" numerically solves the Klein-Gordon Equations in various potentials and initial conditions like 
 Inflationary field, dark energy field with initial flactuations on uniform background, solitonic solutions, coupled fields
 and many more.
 
-The eleventh one plots the CMB power spectrum and temperature as heat maps.
+11) "CMB.ipynb" plots the CMB power spectrum and temperature as heat maps.
 
-The twelveth one simulates and computes gravitational lensing phenomenon.
+12) "gravitational_lensing.ipynb" simulates and computes gravitational lensing phenomenon.
 
-The thirtenth one downloads data from Gravitational Wave Observatories ike VIRGO and analyses the data obtaining plots of strain vs time since
+13) "GW.ipynb" downloads data from Gravitational Wave Observatories ike VIRGO and analyses the data obtaining plots of strain vs time since
 the GW event , Amplitude Spectral Density , q-Transform ,background noise ,Spectrogram and cohenrence in background noise.
