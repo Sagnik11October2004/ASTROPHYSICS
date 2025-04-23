@@ -30,8 +30,8 @@ and many more.
 
 12) "gravitational_lensing.ipynb" simulates and computes gravitational lensing phenomenon.
 
-13) "GW.ipynb" downloads data from gravitational wave detectors like VIRGO etc and analyses the data, the noise and the backgound.
-
+13) "GW.ipynb" downloads data from Gravitational Wave Observatories ike VIRGO and analyses the data obtaining plots of strain vs time since
+the GW event , Amplitude Spectral Density , q-Transform ,background noise ,Spectrogram and cohenrence in background noise.
 ![CMB](IMAGE/cmb_img.png)
 
 
