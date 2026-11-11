@@ -1,0 +1,83 @@
+/* Fast-loading media, one-photon Compton transport and responsive controls. */
+
+#agn-nasa-video {
+  object-fit: contain;
+  background: #020916;
+}
+.agn-film:not([hidden]) {
+  background-image: linear-gradient(130deg,#061425,#14374c);
+  background-size: cover;
+}
+.mcrt-grid .astro-control-row {
+  flex-wrap: wrap;
+  gap: 9px 11px;
+  align-items: center;
+  padding-top: 19px;
+  margin-top: 18px;
+}
+.mcrt-grid .astro-control-row button {
+  flex: 0 0 auto;
+  padding: 10px 11px;
+  font-size: 11px;
+}
+.mcrt-grid .mcrt-speed-label {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+#mcrt-speed {
+  min-width: 66px;
+  height: 37px;
+  border-radius: 4px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-alt);
+  color: var(--text);
+  padding: 5px 7px;
+  font: 600 12px var(--display);
+  cursor: pointer;
+}
+#mcrt-speed:focus-visible,
+#mcrt-next:focus-visible,
+#mcrt-reset:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+#mcrt-scene {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+.mcrt-grid .astrolab-caption strong {
+  font-variant-numeric: tabular-nums;
+}
+.mcrt-grid .astrolab-caption span {
+  font-variant-numeric: tabular-nums;
+}
+.mcrt-grid .astrolab-scene-wrap {
+  background: radial-gradient(circle at 38% 48%,#134363,#030c1e 75%);
+}
+.mcrt-grid .astrolab-scene-wrap.research-load-failed:after{
+  content: 'The interactive photon simulation could not be loaded.';
+  position:absolute;left:16px;right:16px;top:45%;z-index:3;
+  background:#071727;color:#f3e6d5;font-size:13px;padding:18px;
+  border:1px solid rgba(230,210,177,.45);border-radius:6px;text-align:center;
+}
+.agn-mode-picker button{transition:background .2s,border-color .2s}
+@media(max-width:1160px) {
+  .mcrt-grid .astro-control-row button { padding: 9px 10px; font-size: 10px; }
+  .mcrt-grid .mcrt-speed-label { margin-left: 0; }
+}
+@media(max-width:560px) {
+  .mcrt-grid .astro-control-row { display:flex; gap:8px; }
+  .mcrt-grid .astro-control-row button{ flex:1; min-width:90px; }
+  .mcrt-grid .mcrt-speed-label { flex:1; font-size:11px; min-width:67px; }
+  #mcrt-speed { flex:1; min-width:80px; }
+  .mcrt-grid .astrolab-caption {
+     position:relative;
+     background:#061626;
+     padding:14px 12px;
+  }
+  .mcrt-grid .astrolab-caption strong {font-size:10px}
+  .mcrt-grid .astrolab-caption span {font-size:10px}
+}
