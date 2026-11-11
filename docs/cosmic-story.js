@@ -198,13 +198,17 @@
    v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,2,9,.65)');
    c.fillStyle=v;c.fillRect(0,0,W,H);
    const zStr=st.chapter===0?'z ≈ 1100 · CMB prologue':'z ≈ '+(st.z>=100?Math.round(st.z):st.z>=1?st.z.toFixed(1):st.z.toFixed(2));
-   if(redshift)redshift.textContent=zStr;
-   if(nameOut)nameOut.textContent=S[st.chapter].title;
-   if(names)names.textContent=S[st.chapter].title;
-   if(sub)sub.textContent=S[st.chapter].sub;
-   if(number)number.textContent=String(st.chapter+1).padStart(2,'0')+' / 06';
-   chapterNodes.forEach((n,i)=>n.classList.toggle('current-epoch',i===st.chapter));
-   if(slider&&document.activeElement!==slider)slider.value=String(Math.round(p*1000));
+   // The illustration's scientific redshift and epoch labels must NEVER be
+   // overlaid on externally hosted videos with different simulation ranges.
+   if(document.body.classList.contains('cosmo-model-active')){
+     if(redshift)redshift.textContent=zStr;
+     if(nameOut)nameOut.textContent=S[st.chapter].title;
+     if(names)names.textContent=S[st.chapter].title;
+     if(sub)sub.textContent=S[st.chapter].sub;
+     if(number)number.textContent=String(st.chapter+1).padStart(2,'0')+' / 06';
+     chapterNodes.forEach((n,i)=>n.classList.toggle('current-epoch',i===st.chapter));
+     if(slider&&document.activeElement!==slider)slider.value=String(Math.round(p*1000));
+   }
  }
  function size(){
    const rect=canvas.getBoundingClientRect();W=Math.max(200,rect.width);H=Math.max(180,rect.height);DPR=Math.min(window.devicePixelRatio||1,1.5);
