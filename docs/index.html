@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./revamp.css">
+  <link rel="stylesheet" href="./upgrade.css">
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script defer src="./script.js"></script>
   <script defer src="./cosmos.js"></script>
@@ -197,7 +198,7 @@
 
 <section class="section travel-section" id="travel" aria-labelledby="travel-heading">
       <div class="container">
-        <div class="section-heading reveal"><div><div class="section-index">05 / TRAVEL WITH ME</div><h2 id="travel-heading">From India to <em>Northern Europe.</em></h2></div><p>A record of places along my academic and personal journey.</p></div>
+        <div class="section-heading reveal"><div><div class="section-index">05 / TRAVEL WITH ME</div><h2 id="travel-heading">Places across <em>our world.</em></h2></div><p>A record of places along my academic and personal journey.</p></div>
         <div class="travel-shell reveal">
           <div class="travel-control-panel">
             <span class="travel-kicker">PLACES ON MY JOURNEY</span>
@@ -210,10 +211,10 @@
               <button type="button" data-country="Netherlands">Netherlands <span>↗</span></button>
               <button type="button" data-country="Norway">Norway <span>↗</span></button>
             </div>
-            <p class="travel-note">Select a country or pan and zoom the map.</p>
+            <p class="travel-note">Explore the full globe, select a country, or zoom to a region. Country markers are broad location indicators, not precise travel routes.</p><button type="button" id="world-reset">⊕ Reset to world view</button>
           </div>
           <div class="travel-map-wrap">
-            <div id="travel-map" role="application" aria-label="Interactive map showing selected countries in India and Northern Europe"></div>
+            <div id="travel-map" role="application" aria-label="Interactive global map with geographic tiles, zoom controls, and marked research and travel countries"></div>
             <div id="map-fallback" class="map-fallback" hidden>Interactive tiles are unavailable. The country list remains accessible.</div>
           </div>
         </div>
