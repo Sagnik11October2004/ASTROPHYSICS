@@ -16,9 +16,11 @@
   <link rel="stylesheet" href="./revamp.css">
   <link rel="stylesheet" href="./upgrade.css">
   <link rel="stylesheet" href="./fix.css?v=3">
+  <link rel="stylesheet" href="./astrolab.css?v=4">
   <script defer src="./script.js"></script>
   <script defer src="./cosmos.js?v=3"></script>
-  <script defer src="./cosmic-story.js?v=3"></script>
+  <script defer src="./cosmic-story.js?v=4"></script>
+  <script defer src="./astrolab.js?v=4"></script>
   <script defer src="./bh-relativistic.js"></script>
   <script defer src="./enhancements.js"></script>
 </head>
@@ -29,7 +31,7 @@
     <div class="container nav-wrap">
       <a class="brand" href="#top" aria-label="Sagnik Bhowmick — home"><span class="brand-mark">S<span class="brand-dot">.</span>B</span><span class="brand-caption">SAGNIK<br>BHOWMICK</span></a>
       <nav id="main-nav" class="main-nav" aria-label="Main navigation">
-        <a href="#about">About</a><a href="#research">Research</a><a href="#mentors">Mentors</a><a href="#travel">Travel</a><a href="#cv">CV</a><a href="#contact">Contact</a>
+        <a href="#about">About</a><a href="#research">Research</a><a href="#mentors">Mentors</a><a href="#travel">Travel</a><a href="#lab">Animations</a><a href="#cv">CV</a><a href="#contact">Contact</a>
       </nav>
       <div class="nav-actions">
         <button id="theme-toggle" class="icon-button theme-button" type="button" aria-label="Switch color theme" title="Switch color theme"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
@@ -56,9 +58,9 @@
             <a class="hero-social" href="https://www.linkedin.com/in/sagnik-bhowmick-161668292/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           </div>
           <div class="cosmo-simulator-controls" aria-label="Cosmological simulation controls">
-<div class="cosmo-sim-meta"><span class="cosmo-live-dot"></span> LIVE COSMOLOGICAL MODEL <output id="cosmo-epoch-readout">Hot plasma</output></div>
+<div class="cosmo-sim-meta"><span class="cosmo-live-dot"></span> COSMIC EVOLUTION · z = 499 TO 0 <output id="cosmo-epoch-readout">Hot plasma</output></div>
 <div class="cosmo-sim-actions"><button type="button" id="cosmo-play" aria-label="Pause cosmological animation">Pause <span aria-hidden="true">Ⅱ</span></button>
-<label for="cosmo-progress">Cosmic time</label><input type="range" id="cosmo-progress" min="0" max="1000" value="25" step="1" aria-label="Scrub through cosmic time">
+<label for="cosmo-progress">Cosmic time</label><input type="range" id="cosmo-progress" min="0" max="1000" value="0" step="1" aria-label="Scrub through cosmological redshift and epochs">
 <output id="cosmo-redshift" for="cosmo-progress">z ≫ 1100</output></div>
 <div class="cosmo-sim-disclaimer">A live 2D linear-displacement model for structure growth; early plasma, recombination and star light are illustrative. Not a full relativistic N-body simulation.</div>
 </div>
@@ -67,21 +69,22 @@
       </div>
       <div class="cosmos-stage" aria-label="Visibly animated cosmic history from hot plasma and recombination through cosmic dawn to a galaxy-filled cosmic web">
         <canvas id="cosmos-story-canvas" role="img" aria-label="Animated cosmological history: a glowing hot early universe, cosmic microwave background, dark ages, first star formation, and a forming filamentary cosmic web"></canvas>
-        <div class="cosmos-stage-head"><span class="story-status-dot"></span> EVOLVING UNIVERSE <strong>5 EPOCHS</strong></div>
+        <div class="cosmos-stage-head"><span class="story-status-dot"></span> COSMIC STRUCTURE GROWTH <strong>z 499 → 0</strong></div>
         <div class="cosmos-stage-footer">
-          <span class="cosmos-story-number" id="story-number">01 / 05</span>
-          <div><strong id="story-name">HOT EARLY UNIVERSE</strong><small id="story-subtitle">Hot, nearly uniform plasma</small></div>
+          <span class="cosmos-story-number" id="story-number">01 / 06</span>
+          <div><strong id="story-name">CMB · EARLIER EPOCH</strong><small id="story-subtitle">A primordial imprint on later structure</small></div>
           <span class="cosmos-stage-arrow" aria-hidden="true">↗</span>
         </div>
       </div>
-      <div class="container cosmology-epoch-bar" aria-label="Illustrative cosmological evolution timeline, not to linear time scale">
-        <div class="epoch"><strong>01</strong><span>HOT EARLY UNIVERSE</span><small>Primordial plasma</small></div>
-        <div class="epoch"><strong>02</strong><span>RECOMBINATION</span><small>≈ 380 kyr · CMB</small></div>
-        <div class="epoch"><strong>03</strong><span>COSMIC DARK AGES</span><small>Neutral hydrogen</small></div>
-        <div class="epoch"><strong>04</strong><span>COSMIC DAWN</span><small>First stars and galaxies</small></div>
-        <div class="epoch"><strong>05</strong><span>COSMIC WEB</span><small>Structure growth → today</small></div>
+      <div class="container cosmology-epoch-bar" aria-label="Cosmic evolution chapters in chronological order; timeline is not linear in cosmic age">
+        <div class="epoch"><strong>00</strong><span>CMB PRELUDE</span><small>z ≈ 1100 · earlier than start</small></div>
+        <div class="epoch"><strong>01</strong><span>INITIAL CONDITIONS</span><small>z = 499 · dark ages</small></div>
+        <div class="epoch"><strong>02</strong><span>MINIHALO COLLAPSE</span><small>z ≈ 35–25</small></div>
+        <div class="epoch"><strong>03</strong><span>FIRST STARS</span><small>z ≈ 25–15</small></div>
+        <div class="epoch"><strong>04</strong><span>GALAXY FORMATION</span><small>z ≈ 8–2</small></div>
+        <div class="epoch"><strong>05</strong><span>TODAY'S UNIVERSE</span><small>z = 0 · cosmic web</small></div>
       </div>
-      <div class="container hero-bottom-note"><span>COSMIC EVOLUTION · PHYSICS-INSPIRED VISUALIZATION · NOT A FULL 3D N-BODY SIMULATION</span><span>SCROLL TO EXPLORE ↓</span></div>
+      <div class="container hero-bottom-note"><span>CMB PRELUDE → z 499 INITIAL CONDITIONS → FIRST STARS → HALOES → GALAXIES → z 0 · VISUAL MODEL</span><span>SCROLL TO EXPLORE ↓</span></div>
     </section>
 
     <section class="section profile-section" id="about" aria-labelledby="about-heading">
@@ -219,24 +222,23 @@
               <button type="button" data-country="Netherlands">Netherlands <span>↗</span></button>
               <button type="button" data-country="Norway">Norway <span>↗</span></button>
             </div>
-            <p class="travel-note">Interactive world map with built-in coastlines. Select a country, zoom, or drag to pan. Map locations are indicative.</p><button type="button" id="world-reset">⊕ Reset to world view</button>
+            <p class="travel-note">A political world map with country borders and country names. Zoom, select a country or drag to pan.</p><button type="button" id="world-reset">⊕ Reset to world view</button>
           </div>
           <div class="travel-map-wrap">
-            <div id="travel-map" class="atlas-map" role="region" aria-label="Real geographic world map with India, Sweden, Denmark, Finland, the Netherlands and Norway shown">
+            <div id="travel-map" class="atlas-map" role="region" aria-label="Natural Earth political world map with labelled sovereign countries">
               <div id="atlas-stage" class="atlas-stage">
-                <img src="./world.svg?v=3" class="atlas-world" loading="lazy" width="1200" height="595" alt="Geographic world map with simplified coastlines of every continent" />
-                <button type="button" class="atlas-pin" data-country="India" style="--px:71.917%;--py:36.706%;" aria-label="Show India on world map" title="India · Kolkata, Kanpur, Nainital"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">India</span></button>
-<button type="button" class="atlas-pin" data-country="Sweden" style="--px:54.167%;--py:14.882%;" aria-label="Show Sweden on world map" title="Sweden · Gothenburg and Stockholm"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Sweden</span></button>
+                <img src="./world-countries.svg?v=4" class="atlas-world" loading="lazy" width="1440" height="720" alt="Political map showing all countries, internationally recognized boundaries and country-name labels" />
+                <button type="button" class="atlas-pin" data-country="India" style="--px:71.917%;--py:36.706%;" aria-label="Show India on world map" title="India"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">India</span></button>
+<button type="button" class="atlas-pin" data-country="Sweden" style="--px:54.167%;--py:14.882%;" aria-label="Show Sweden on world map" title="Sweden"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Sweden</span></button>
 <button type="button" class="atlas-pin" data-country="Denmark" style="--px:52.778%;--py:17.059%;" aria-label="Show Denmark on world map" title="Denmark"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Denmark</span></button>
 <button type="button" class="atlas-pin" data-country="Finland" style="--px:57.222%;--py:12.059%;" aria-label="Show Finland on world map" title="Finland"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Finland</span></button>
-<button type="button" class="atlas-pin" data-country="Netherlands" style="--px:51.500%;--py:19.294%;" aria-label="Show Netherlands on world map" title="The Netherlands"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Netherlands</span></button>
+<button type="button" class="atlas-pin" data-country="Netherlands" style="--px:51.500%;--py:19.294%;" aria-label="Show Netherlands on world map" title="Netherlands"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Netherlands</span></button>
 <button type="button" class="atlas-pin" data-country="Norway" style="--px:52.500%;--py:13.529%;" aria-label="Show Norway on world map" title="Norway"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Norway</span></button>
               </div>
               <div class="atlas-toolbar" role="group" aria-label="World map controls">
                 <button type="button" id="atlas-zoom-in" aria-label="Zoom in on the map">+</button>
                 <button type="button" id="atlas-zoom-out" aria-label="Zoom out on the map">−</button>
               </div>
-              <div class="atlas-brand">WORLD ATLAS <span>·</span> OFFLINE VECTOR MAP</div>
             </div>
             <div id="map-details" class="atlas-details" aria-live="polite">Select a country or drag to pan. The map works even if external mapping websites are unavailable.</div>
           </div>
@@ -254,24 +256,80 @@
       </div>
     </section>
 
-    <section class="section lab-section" id="lab" aria-labelledby="lab-title">
-      <div class="container lab-layout">
-        <div class="lab-intro reveal"><div class="section-index">INTERACTIVE / PHYSICS LAB</div><h2 id="lab-title">Explore a <em>dark-matter cusp.</em></h2><p>Change the slope of a normalized power-law dark-matter profile and watch the log–log curve respond. An educational illustration, not measured simulation data.</p>
-          <div class="formula"><span>ρ(r) / ρ(1 pc) =</span> <span>(r / 1 pc)<sup>−γ</sup></span></div>
-          <label class="slider-label" for="slope-slider"><span>Inner density slope <strong>γ</strong></span><output id="slope-value" for="slope-slider">1.80</output></label>
-          <input id="slope-slider" class="slope-slider" type="range" min="0.5" max="2.5" step="0.05" value="1.80" aria-describedby="slope-description">
-          <div class="slider-ends"><span>0.5 — SHALLOWER</span><span>2.5 — STEEPER</span></div>
-          <div class="preset-row"><button type="button" class="preset-button" data-gamma="1">NFW inner slope</button><button type="button" class="preset-button active" data-gamma="1.8">Steeper cusp</button></div>
-          <p class="lab-note" id="slope-description">All curves are normalized to the same density at 1 pc.</p>
-        </div>
-        <div class="chart-panel reveal"><div class="chart-header"><div><span class="chart-kicker">LIVE MODEL / 001</span><h3>Dark-matter density profile</h3></div><span class="live-indicator"><span></span> INTERACTIVE</span></div>
-          <svg id="density-chart" viewBox="0 0 700 425" role="img" aria-label="Log-log plot of normalized dark matter density versus radius comparing adjustable power-law cusp to reference of gamma equal one."></svg>
-          <div class="chart-bottom"><div class="chart-legend"><span><i class="legend-current"></i> Adjustable cusp</span><span><i class="legend-reference"></i> γ = 1 reference</span></div><div class="chart-readout"><span>ρ(0.1 pc) / ρ(1 pc)</span><strong id="density-ratio">63.1×</strong></div></div>
-        </div>
+    <section class="section motion-lab lab-section" id="lab" aria-labelledby="lab-title">
+  <div class="container">
+    <div class="section-heading reveal"><div><div class="section-index">07 / RESEARCH ANIMATIONS</div><h2 id="lab-title">The physics of <em>black-hole growth.</em></h2></div><p>Animated physical mechanisms rather than a static dark-matter density graph. The visualization is a conceptual cycle—not an MHD simulation.</p></div>
+    <div class="astrolab-grid reveal">
+      <div class="astrolab-scene-wrap">
+        <canvas id="agn-scene" width="1060" height="600" role="img" aria-label="Looping animation of gas feeding a black hole, a bright accretion disk, bipolar jets and shock-heated gas, a low-accretion quenched state, and subsequent reaccretion"></canvas>
+        <div class="astrolab-overlay"><span class="astrolab-live-dot"></span> BLACK HOLE · ACCRETION / FEEDBACK</div>
+        <div class="astrolab-caption"><strong id="agn-phase">01 · FUEL SUPPLY</strong><span id="agn-phase-sub">Cold inflows build a luminous accretion disk</span></div>
       </div>
-    </section>
+      <div class="astrolab-side">
+        <span class="astrolab-kicker">A CONCEPTUAL AGN DUTY CYCLE</span>
+        <h3>Fuel, ignite, <em>quench, repeat.</em></h3>
+        <p>Infalling gas feeds the central black hole. Energy and momentum from accretion can drive winds or jets that heat and displace the surrounding gas. Cooling, new inflows and dynamical evolution may allow accretion to restart.</p>
+        <div class="astrolab-phases" role="group" aria-label="Choose an AGN feedback phase">
+          <button type="button" class="astro-phase active" data-agn-phase="0">01 Accretion</button>
+          <button type="button" class="astro-phase" data-agn-phase="1">02 AGN feedback</button>
+          <button type="button" class="astro-phase" data-agn-phase="2">03 Suppression</button>
+          <button type="button" class="astro-phase" data-agn-phase="3">04 Reignition</button>
+        </div>
+        <div class="astro-control-row"><button type="button" id="agn-play">Pause Ⅱ</button><label for="agn-progress">Cycle</label><input type="range" id="agn-progress" min="0" max="1000" value="0" aria-label="Scrub through black-hole accretion and feedback cycle"></div>
+        <p class="astro-method-note">Schematic accretion/feedback model. Jet launching, coupling and quenching depend on environment; this is not a calibrated GRMHD or cosmological simulation.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <section class="section cv-section" id="cv" aria-labelledby="cv-heading">
+<section class="section motion-lab motion-lab-pop" id="popiii" aria-labelledby="pop-title">
+  <div class="container">
+    <div class="section-heading reveal"><div><div class="section-index">08 / POPULATION III.1 STELLAR EVOLUTION</div><h2 id="pop-title">Two possible <em>paths to a massive seed.</em></h2></div><p>An animated comparison built around the four-stage sequence in my original presentation video: without versus with dark-matter annihilation heating.</p></div>
+    <div class="popiii-canvas-wrap reveal">
+      <div class="popiii-panes"><span>WITHOUT DM ANNIHILATION HEATING</span><span>WITH DM ANNIHILATION HEATING</span></div>
+      <canvas id="popiii-scene" width="1160" height="595" role="img" aria-label="Side-by-side animated Pop III.1 protostar comparison: compact hotter star without dark-matter heating versus a cooler inflated protostar with hypothetical dark-matter heating, followed by different feedback and accretion behaviour"></canvas>
+      <div class="popiii-bottom"><div><strong id="pop-phase">STAGE 1 · PROTOSTAR FORMATION</strong><p id="pop-description">Both cases begin with primordial gas accretion inside a minihalo.</p></div><span class="pop-video-note">BASED ON THE UPLOADED 15 s COMPARISON VIDEO</span></div>
+    </div>
+    <div class="astro-bottom-controls reveal">
+      <div class="astrolab-phases" role="group" aria-label="Select Pop III.1 evolution stage">
+        <button type="button" class="pop-phase-btn active" data-pop-phase="0">1 Formation</button>
+        <button type="button" class="pop-phase-btn" data-pop-phase="1">2 Divergence</button>
+        <button type="button" class="pop-phase-btn" data-pop-phase="2">3 Feedback</button>
+        <button type="button" class="pop-phase-btn" data-pop-phase="3">4 Later growth</button>
+      </div>
+      <div class="astro-control-row"><button type="button" id="pop-play">Pause Ⅱ</button><label for="pop-progress">Evolution</label><input id="pop-progress" type="range" min="0" max="1000" value="0" aria-label="Scrub through Pop III.1 comparison animation"></div>
+    </div>
+    <p class="astro-method-note pop-note">Scientific qualification: a sustained, annihilation-heated supermassive Pop III.1 star is a conditional theoretical scenario, not an established outcome. Illustrative radii and accretion histories are not fitted measurements. Based on the narrative of the supplied comparison video; the animation recreates its stages rather than embedding the original film.</p>
+  </div>
+</section>
+
+<section class="section motion-lab motion-lab-mcrt" id="compton" aria-labelledby="compton-title">
+  <div class="container">
+    <div class="section-heading reveal"><div><div class="section-index">09 / MONTE CARLO PHOTON TRANSPORT</div><h2 id="compton-title">Photons through <em>hot, structured plasmas.</em></h2></div><p>Follow seed photons scatter off hot electrons, change energy and escape into an evolving illustrative output spectrum.</p></div>
+    <div class="astrolab-grid mcrt-grid reveal">
+      <div class="astrolab-scene-wrap">
+        <canvas id="mcrt-scene" width="1060" height="600" role="img" aria-label="Photon packet tracks scatter in hot electron plasma; blue seed photons shift to higher energy and escape. Adjacent graphical bars track the energy distribution of escaped photons."></canvas>
+        <div class="astrolab-overlay"><span class="astrolab-live-dot"></span> MONTE CARLO · COMPTON SCATTERING</div>
+        <div class="astrolab-caption"><strong id="mcrt-count">0 packets escaped</strong><span id="mcrt-spectrum-summary">Seed photons → scattering → escaping spectrum</span></div>
+      </div>
+      <div class="astrolab-side">
+        <span class="astrolab-kicker">H / S0 / Sv PLASMA GEOMETRIES</span>
+        <h3>Track the <em>photon history.</em></h3>
+        <p>Visualize a stochastic photon-packet experiment with a homogeneous corona, static plasmoid/X-point regions or moving plasmoids. Scatterings modify a packet's direction and approximate energy, while escaped photons contribute to the distribution.</p>
+        <div class="astrolab-phases" role="group" aria-label="Choose Comptonization plasma geometry">
+          <button type="button" class="mcrt-mode active" data-mcrt-mode="H">H · Homogeneous</button>
+          <button type="button" class="mcrt-mode" data-mcrt-mode="S0">S0 · Structured</button>
+          <button type="button" class="mcrt-mode" data-mcrt-mode="Sv">Sv · Moving</button>
+        </div>
+        <div class="astro-control-row"><button type="button" id="mcrt-play">Pause Ⅱ</button><button type="button" id="mcrt-reset">New packets ↻</button></div>
+        <div class="mcrt-legend"><span><i class="mcrt-seed"></i> Seed / low energy</span><span><i class="mcrt-hard"></i> Up-scattered / harder</span><span><i class="mcrt-plasma"></i> Electron plasma</span></div>
+        <p class="astro-method-note">A qualitative Monte Carlo transport demonstration: approximate scattering and energy exchange, not the production radiative-transfer code or a validated spectrum/polarization prediction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section cv-section" id="cv" aria-labelledby="cv-heading">
       <div class="container cv-grid"><div class="reveal"><div class="section-index">07 / CURRICULUM VITAE</div><h2 id="cv-heading" class="section-title">Research experience <em>at a glance.</em></h2><p class="section-intro">Integrated BS–MS Physics at IISER Kolkata. Interests in early-universe structure formation, numerical cosmology, black-hole physics and Monte Carlo radiation transport.</p><div class="cv-actions"><button id="print-profile" class="button button-primary" type="button">Print this profile ↗</button><a class="button button-text" href="mailto:sb23ms007@iiserkol.ac.in?subject=Curriculum%20Vitae%20Request">Request detailed CV ↗</a></div><p class="cv-note">The full CV is available upon request. This page contains a public research summary rather than a downloadable personal document.</p></div><div class="cv-summary reveal"><div><span>INSTITUTION</span><strong>Indian Institute of Science Education and Research Kolkata</strong></div><div><span>PROGRAMME</span><strong>Integrated BS–MS Physics · expected 2028</strong></div><div><span>SCHOLARSHIP</span><strong>DST INSPIRE</strong></div><div><span>RESEARCH AREAS</span><strong>Primordial star formation · black-hole accretion · computational astrophysics</strong></div></div></div>
     </section>
 
