@@ -147,7 +147,7 @@
   if (!bufferCtx) return;
   const NX=104, NY=65, NUM=NX*NY;
   const qx=new Float32Array(NUM),qy=new Float32Array(NUM),vx=new Float32Array(NUM),vy=new Float32Array(NUM);
-  const density=new Float32Array(300*190);
+  let density=new Float32Array(scrW*scrH);
   let seed=201126;
   function rnd(){ seed=(1664525*seed+1013904223)>>>0;return seed/4294967296; }
   const modes=[];
@@ -188,6 +188,7 @@
     scrW=Math.min(365,Math.max(200,Math.round(w*.44)));
     scrH=Math.min(244,Math.max(142,Math.round(scrW*h/w)));
     bufferCanvas.width=scrW;bufferCanvas.height=scrH;
+    density=new Float32Array(scrW*scrH);
     if(!playing)draw();
   }
   function draw(){
