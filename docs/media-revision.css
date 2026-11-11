@@ -107,3 +107,11 @@ body:not(.cosmo-model-active) #story-name{font-size:12px}
  .real-footage,.pop-original-media,.cosmo-film-actions,.agn-mode-picker{display:none!important}
  .cosmo-model-active #cosmos-story-canvas{display:none!important}
 }
+
+.pop-embed-access{
+  margin:0;padding:14px 19px;line-height:1.65;font-size:11px;
+  color:#b9d0e0;background:#0d1b2b;
+  border-top:1px solid rgba(151,195,219,.15)
+}
+.pop-embed-access strong{color:#eaf9f8}
+.mentor-avatar .mentor-photo{object-fit:cover}
