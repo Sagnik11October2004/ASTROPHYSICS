@@ -2,31 +2,32 @@
 
 This GitHub Pages website is a redesign based on the previous personal academic site, **"Sagnik Bhowmick — Theoretical & Computational Astrophysics"**. It restores that site's major sections and visual language (dark astronomical colors with cyan and amber accents) rather than replacing them with a generic research portfolio.
 
-## Website sections
+## Website sections and updated features
 
-- **Hero:** "Tracing the physics of the early universe." An original, animated Canvas illustration progresses across a five-stage cosmic-time background: primordial hot plasma, recombination/CMB, dark ages, cosmic dawn, and cosmic-web assembly. The epoch strip calls out that the sequence is illustrative and **not a linear time scale**.
-- **01 / Profile:** Research philosophy, IISER Kolkata, integrated BS–MS Physics, DST INSPIRE.
-- **02 / Selected Work:** Filterable research summaries for Population III.1/dark matter, Monte Carlo Comptonization, halo merger statistics, GADGET HDF5 I/O, and relativistic accretion.
-- **03 / Experience:** Research and training timeline.
-- **04 / Research Mentors:** Mentors and collaborators, with affiliations and research themes.
-- **05 / Travel With Me:** Dark interactive map with country-level markers for India, Sweden, Denmark, Finland, Netherlands and Norway, plus country filters.
-- **06 / Toolkit:** Simulation, scientific computing, and analysis.
-- **Interactive lab:** Adjustable power-law dark-matter density graph, retained from the first GitHub design.
-- **07 / CV:** Public academic summary and print-friendly browser view; detailed personal CV available by request.
-- **Contact:** Email, GitHub, LinkedIn.
+- **Hero:** A live, interactive, **two-dimensional Zel'dovich-approximation** particle-displacement calculation illustrates how small density perturbations grow into a structured cosmic web. A reproducible initial displacement field is generated from Fourier modes; particles evolve according to `x(q,a)=q+D(a)ψ(q)`. An evolving density raster shows the resulting structure. The timeline includes earlier plasma, recombination and first-star phases using **artistic visual overlays** because the Zel'dovich approximation does not simulate that microphysics. Controls allow play/pause and timeline scrubbing; the 33-second playback loop is deliberately not linear in cosmic time or redshift.
+- **Profile:** Research overview and a GPU-based accretion-disk illustration showing qualitative Doppler beaming, disk temperature gradients, a black-hole shadow and photon-ring-inspired lensing arcs. Adjust the **inclination** slider. This is **not** a general-relativistic ray-tracer, hydrodynamic run or scientific prediction. The original Canvas 2D animation remains as the fallback when WebGL is unavailable.
+- **Selected Research:** **Eight separate CV-grounded project cards** showing the author's own specific contributions in primordial collapse; GADGET-4 chemistry/particle splitting; Monte Carlo Comptonization/polarization; halo statistics; transonic accretion; AGN feedback; nonlinear dynamics; independent two-phase CFD. Filter by topic.
+- **Research Mentors:** Eight linked institutional or academic portraits, with source credit and initials fallback if a picture is blocked by its original host. The images are **hotlinked** from the respective institutions/professional sources, not copied into this repository. Review any third-party image reuse restrictions before publishing.
+- **Travel With Me:** Real CARTO/OpenStreetMap geographic map tiles showing a **global** world view, draggable map, zoom, country filters and an explicit reset-to-world-view button. The selected country markers are indicative rather than city-accurate visitor claims.
+- **Experience, Toolkit, Interactive Lab, CV, Contact:** Prior sections and educational dark-matter cusp graph are preserved.
 
 ## Source files
 
-- `docs/index.html`: text, navigation and semantic page structure
-- `docs/styles.css`: initial typographic/layout baseline plus live density plot and animated black hole artwork
-- `docs/revamp.css`: design system for the previous site's restored sections and cosmology background
-- `docs/script.js`: theme toggle, old black-hole artwork, interactive density plot, navigation
-- `docs/cosmos.js`: cosmic evolution canvas, research filters, dark Leaflet map, print profile
-- `docs/favicon.svg`: vector browser icon
+| File | Purpose |
+| --- | --- |
+| `docs/index.html` | Semantic sections and CV-grounded text |
+| `docs/styles.css` | Base typography and responsive styles |
+| `docs/revamp.css` | Restored personal-site visual language |
+| `docs/upgrade.css` | Detailed project cards, portraits and interactive controls |
+| `docs/script.js` | Base navigation/theme, density graph, Canvas 2D black-hole fallback |
+| `docs/cosmos.js` | Research filters, global map and Zel'dovich-inspired cosmic model |
+| `docs/bh-relativistic.js` | WebGL qualitative relativistic disk shading |
+| `docs/enhancements.js` | Broken-image fallbacks and accessible project labels |
+| `docs/favicon.svg` | Vector favicon |
 
-**Scientific note:** The cosmic-time backdrop and black-hole art are illustrations, **not outputs from scientific simulations**. The log–log density cusp is an educational normalized power law, not measured research data. The cosmic timeline is not proportional to cosmic time.
+**Scientific transparency:** These are performant browser visualizations. The hero is based on a linearized cosmological displacement scheme in two spatial dimensions; it does not solve the coupled gravity/hydrodynamics/radiation equations for the entire observable universe. The accretion-disk image is an approximate shader, not ray tracing in a Schwarzschild or Kerr metric. The dark-matter plot is a normalized analytic power law, not measured research data.
 
-**Privacy and publication:** No private research repositories or unpublished datasets are embedded. Project descriptions are high-level. The full CV PDF is **not** made publicly downloadable; the website instead offers a public summary and an email request link.
+**Privacy:** No private research code, unpublished datasets, personally identifying phone number or full CV PDF have been added. Research methods are described from the author's existing CV, and no ongoing paper is falsely described as published.
 
 ## Enable the GitHub Pages site
 
