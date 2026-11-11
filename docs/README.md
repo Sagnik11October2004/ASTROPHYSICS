@@ -20,13 +20,18 @@ Eight individual CV-grounded projects cover primordial minihalo collapse; GADGET
 
 **User-selectable visualization:** the existing locally rendered six-stage 2D educational animation remains available for a *CMB prologue (z~1100)*, *z=499 initial conditions*, minihalo assembly, first stars, galaxies, and z=0. Its matter displacement is a stylized first-order Fourier/Zel'dovich calculation; the other effects are illustrations, not actual z=499 full-physics simulation data. **Never present the CMB stage as a frame from a film starting at z=499.**
 
-### Black-hole feedback: compact NASA source video only
+### Black-hole feedback: self-hosted periodic density simulation video
 
-The website shows NASA Goddard's [Suzaku, Herschel Link a Black-hole 'Wind' to a Galactic Gush](https://svs.gsfc.nasa.gov/11821/) (2015) as a **single, compact, uncropped 16:9 player**. It shows material feeding a black hole, launching an accretion-disk wind, and transferring momentum/energy to the host galaxy's gas through an outward shock. The source credit remains visible underneath the video. The 960×540 WebM is preferred; a small MP4 encoding is the fallback.
+The site embeds the author's own original generated `AGN_Density_Accretion_Feedback_Looping.mp4` as a self-hosted video, committed to:
 
-The **illustrated Canvas duty-cycle animation, its toggle, controls and JavaScript implementation were removed** at the user's request. Video playback has native controls and is activated only when scrolled near its section. The video is constrained to a maximum width of 560 pixels; mobile layouts fit available screen width without cropping or stretching.
+- `docs/media/agn-cycle.mp4` — **32 seconds, 960×540, H.264/MP4**, 24 fps, two repeated 16-second periods
+- `docs/media/agn-cycle-poster.jpg` — static poster frame extracted from the same original video
 
-**Scientific precision:** NASA documents the movie as **outflow and gas clearing**. It does **not** explicitly depict gravitationally bound gas raining back down or a complete recurrent AGN quenching/re-accretion cycle. In real systems, some displaced gas can remain bound, cool and later reaccrete, but whether this occurs depends on the energy budget and replenishment. We do not attribute a gas-fallback sequence to this particular source video.
+The video shows a time-varying projected gas-density field, a thin accretion disk whose outer radius tracks the relative disk mass, luminosity and jet/wind feedback that respond with finite delays, and later replenishment by gas fallback. The video was transferred byte-for-byte from the original generated MP4 to GitHub, verified against the Git blob SHA `8ac13ee6895bfde01779e8cf12991940b713d8bf`.
+
+The old NASA AGN animation is no longer embedded in this section. Playback uses the compact 560px-wide, uncropped 16:9 player, native controls, autoplay muted and continuous loop. The video loads from the repository when the player approaches the viewport; no external video host or public Drive permissions are involved.
+
+**Scientific caution:** the reservoir, disk mass, feedback, gas density and fallback evolution are normalized and schematic. This is a physically motivated, periodic visualization — not a self-consistent GRMHD or galaxy-formation simulation.
 
 ### Original Pop III.1 comparison video — unchanged
 
@@ -95,3 +100,7 @@ GitHub Pages is already configured to deploy from `main /docs`. Merge the featur
 Performance was improved by removing the 15 MB 4K, 4000×4000 NASA jet animation from the page's initial media load and replacing it with NASA's 3.3 MB WebM quasar-wind feedback animation. The AGN video now has `preload=none`, `data-src` media sources, a static poster, and viewport-triggered source activation with offscreen pausing. The removed AGN Canvas model no longer loads; the optional cosmology Canvas model initializes only on demand, and the WebGL disk and MCRT module are deferred until their sections approach the viewport. The original Pop III.1 Google Drive player remains embedded and lazily loaded. These changes reduce work and requests at initial paint; they do not eliminate delays caused by external video hosts or the private Google Drive permissions.
 
 The new Compton transport page shows one photon at a time following event-sampled optical depth with energy-dependent Klein–Nishina scattering and electron-frame Compton recoil, in either H or S0. The cumulative plot builds **one escaped-photon contribution at a time**. The remaining public site does not load the retired old multi-packet demo. The spectra are educational finite-sample histograms, not fitted scientific results.
+
+## November 12, 2026 — self-hosted AGN density cycle
+
+The locally produced 32-second AGN density cycle and its poster are stored in `docs/media/`. The website no longer embeds the NASA wind movie for the AGN section; instead, it plays the original generated looping H.264 file with a download link. The AGN playback controller still loads and pauses it according to viewport visibility. No other research sections or pages were changed.

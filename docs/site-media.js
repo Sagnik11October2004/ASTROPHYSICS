@@ -80,9 +80,9 @@
   if(heroFallback)heroFallback.addEventListener('error',()=>enableHeroIllustration(true));
   enableHeroIllustration(false);
 
-  // The NASA film is now the only AGN visualization. It remains unloaded
+  // The author-generated MP4 is the only AGN visualization. It remains unloaded
   // until near the viewport; the removed schematic is never fetched.
-  const agnVideo=document.getElementById('agn-nasa-video');
+  const agnVideo=document.getElementById('agn-cycle-video');
   const agnError=document.getElementById('agn-video-error');
   let agnVisible=false,agnSourcesReady=false;
   function loadAGN(){
