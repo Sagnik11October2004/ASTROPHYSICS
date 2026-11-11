@@ -12,13 +12,13 @@
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./revamp.css">
   <link rel="stylesheet" href="./upgrade.css">
-  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="./fix.css?v=3">
   <script defer src="./script.js"></script>
-  <script defer src="./cosmos.js"></script>
+  <script defer src="./cosmos.js?v=3"></script>
+  <script defer src="./cosmic-story.js?v=3"></script>
   <script defer src="./bh-relativistic.js"></script>
   <script defer src="./enhancements.js"></script>
 </head>
@@ -41,7 +41,6 @@
 
   <main id="main">
     <section class="hero cosmos-hero section" aria-labelledby="hero-title">
-      <canvas id="cosmos-canvas" aria-label="Interactive, evolving two-dimensional Zel’dovich-approximation cosmological structure formation visualization, with illustrative pre-recombination stages." role="img"></canvas>
       <div class="cosmos-hero-shade" aria-hidden="true"></div>
       <div class="cosmos-orbit-art" aria-hidden="true"></div>
       <div class="container cosmos-hero-inner">
@@ -66,6 +65,15 @@
         </div>
         <div class="cosmos-label" aria-hidden="true"><span class="label-line"></span> A COMPUTED JOURNEY THROUGH COSMIC TIME</div>
       </div>
+      <div class="cosmos-stage" aria-label="Visibly animated cosmic history from hot plasma and recombination through cosmic dawn to a galaxy-filled cosmic web">
+        <canvas id="cosmos-story-canvas" role="img" aria-label="Animated cosmological history: a glowing hot early universe, cosmic microwave background, dark ages, first star formation, and a forming filamentary cosmic web"></canvas>
+        <div class="cosmos-stage-head"><span class="story-status-dot"></span> EVOLVING UNIVERSE <strong>5 EPOCHS</strong></div>
+        <div class="cosmos-stage-footer">
+          <span class="cosmos-story-number" id="story-number">01 / 05</span>
+          <div><strong id="story-name">HOT EARLY UNIVERSE</strong><small id="story-subtitle">Hot, nearly uniform plasma</small></div>
+          <span class="cosmos-stage-arrow" aria-hidden="true">↗</span>
+        </div>
+      </div>
       <div class="container cosmology-epoch-bar" aria-label="Illustrative cosmological evolution timeline, not to linear time scale">
         <div class="epoch"><strong>01</strong><span>HOT EARLY UNIVERSE</span><small>Primordial plasma</small></div>
         <div class="epoch"><strong>02</strong><span>RECOMBINATION</span><small>≈ 380 kyr · CMB</small></div>
@@ -73,7 +81,7 @@
         <div class="epoch"><strong>04</strong><span>COSMIC DAWN</span><small>First stars and galaxies</small></div>
         <div class="epoch"><strong>05</strong><span>COSMIC WEB</span><small>Structure growth → today</small></div>
       </div>
-      <div class="container hero-bottom-note"><span>2D ZEL’DOVICH STRUCTURE GROWTH MODEL · EARLY ERAS ILLUSTRATIVE · NOT TO SCALE</span><span>SCROLL TO EXPLORE ↓</span></div>
+      <div class="container hero-bottom-note"><span>COSMIC EVOLUTION · PHYSICS-INSPIRED VISUALIZATION · NOT A FULL 3D N-BODY SIMULATION</span><span>SCROLL TO EXPLORE ↓</span></div>
     </section>
 
     <section class="section profile-section" id="about" aria-labelledby="about-heading">
@@ -211,11 +219,26 @@
               <button type="button" data-country="Netherlands">Netherlands <span>↗</span></button>
               <button type="button" data-country="Norway">Norway <span>↗</span></button>
             </div>
-            <p class="travel-note">Explore the full globe, select a country, or zoom to a region. Country markers are broad location indicators, not precise travel routes.</p><button type="button" id="world-reset">⊕ Reset to world view</button>
+            <p class="travel-note">Interactive world map with built-in coastlines. Select a country, zoom, or drag to pan. Map locations are indicative.</p><button type="button" id="world-reset">⊕ Reset to world view</button>
           </div>
           <div class="travel-map-wrap">
-            <div id="travel-map" role="application" aria-label="Interactive global map with geographic tiles, zoom controls, and marked research and travel countries"></div>
-            <div id="map-fallback" class="map-fallback" hidden>Interactive tiles are unavailable. The country list remains accessible.</div>
+            <div id="travel-map" class="atlas-map" role="region" aria-label="Real geographic world map with India, Sweden, Denmark, Finland, the Netherlands and Norway shown">
+              <div id="atlas-stage" class="atlas-stage">
+                <img src="./world.svg?v=3" class="atlas-world" loading="lazy" width="1200" height="595" alt="Geographic world map with simplified coastlines of every continent" />
+                <button type="button" class="atlas-pin" data-country="India" style="--px:71.917%;--py:36.706%;" aria-label="Show India on world map" title="India · Kolkata, Kanpur, Nainital"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">India</span></button>
+<button type="button" class="atlas-pin" data-country="Sweden" style="--px:54.167%;--py:14.882%;" aria-label="Show Sweden on world map" title="Sweden · Gothenburg and Stockholm"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Sweden</span></button>
+<button type="button" class="atlas-pin" data-country="Denmark" style="--px:52.778%;--py:17.059%;" aria-label="Show Denmark on world map" title="Denmark"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Denmark</span></button>
+<button type="button" class="atlas-pin" data-country="Finland" style="--px:57.222%;--py:12.059%;" aria-label="Show Finland on world map" title="Finland"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Finland</span></button>
+<button type="button" class="atlas-pin" data-country="Netherlands" style="--px:51.500%;--py:19.294%;" aria-label="Show Netherlands on world map" title="The Netherlands"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Netherlands</span></button>
+<button type="button" class="atlas-pin" data-country="Norway" style="--px:52.500%;--py:13.529%;" aria-label="Show Norway on world map" title="Norway"><span class="atlas-pin-dot"></span><span class="atlas-pin-label">Norway</span></button>
+              </div>
+              <div class="atlas-toolbar" role="group" aria-label="World map controls">
+                <button type="button" id="atlas-zoom-in" aria-label="Zoom in on the map">+</button>
+                <button type="button" id="atlas-zoom-out" aria-label="Zoom out on the map">−</button>
+              </div>
+              <div class="atlas-brand">WORLD ATLAS <span>·</span> OFFLINE VECTOR MAP</div>
+            </div>
+            <div id="map-details" class="atlas-details" aria-live="polite">Select a country or drag to pan. The map works even if external mapping websites are unavailable.</div>
           </div>
         </div>
       </div>
