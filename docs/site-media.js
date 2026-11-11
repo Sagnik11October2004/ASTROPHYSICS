@@ -1,128 +1,178 @@
 'use strict';
-/* External-media safeguards for the user's research portfolio.
-   Videos are original science footage attributed to their providers.
-   Private Drive media is never made public programmatically. */
+/* Fast, source-attributed media with lazy loading and honest fallback.
+ *
+ * Hero: official external cosmological footage, with optional local model.
+ * AGN:  NASA Goddard quasar-wind feedback film, deferred until in viewport;
+ *       a separately labelled schematic illustrates *possible* recurrent fueling.
+ * PopIII.1: exact author-provided external Drive video, untouched.
+ */
 (() => {
- const root=document.body;
- const cosmosVideo=document.getElementById('cosmos-real-video');
- const cosmosIFrame=document.getElementById('cosmos-video-fallback');
- const cosmosButton=document.getElementById('cosmo-toggle-model');
- const cosmosControls=[...document.querySelectorAll('.cosmo-model-controls')];
- const stageName=document.getElementById('story-name');
- const stageSub=document.getElementById('story-subtitle');
- const stageNumber=document.getElementById('story-number');
- let cosmosModel=false, backupRequested=false, primaryReady=false;
- const textForVideo={
-   name:'GRAVITATIONAL STRUCTURE FORMATION',
-   subtitle:'NASA / MPE / Volker Springel · simulation footage',
-   number:'RESEARCH VIDEO'
- };
- function playVideo(video){
-   if(!video)return;
-   video.muted=true;video.defaultMuted=true;
-   try{
-     const p=video.play();
-     if(p&&typeof p.catch==='function')p.catch(function(){video.controls=true;});
-   }catch(error){video.controls=true;}
- }
- function cosmosLabel(){
-   if(cosmosModel)return;
-   if(stageName)stageName.textContent=backupRequested?'ILLUSTRIS · A VIRTUAL UNIVERSE':textForVideo.name;
-   if(stageSub)stageSub.textContent=backupRequested?
-     'Illustris Collaboration · cosmological hydrodynamics, z = 127 → 0':
-     textForVideo.subtitle;
-   if(stageNumber)stageNumber.textContent=backupRequested?'ILLUSTRIS':'NASA / MPE';
- }
- function setCosmosModel(value){
-   cosmosModel=!!value;
-   root.classList.toggle('cosmo-model-active',cosmosModel);
-   cosmosControls.forEach(function(el){el.hidden=!cosmosModel;});
-   if(cosmosButton){
-     cosmosButton.setAttribute('aria-pressed',String(cosmosModel));
-     cosmosButton.textContent=cosmosModel?'Show real simulation video':'Show illustrated CMB-to-today timeline';
-   }
-   if(cosmosVideo){cosmosVideo.hidden=cosmosModel||backupRequested; if(cosmosModel)cosmosVideo.pause();else if(!backupRequested)playVideo(cosmosVideo);}
-   if(cosmosIFrame){
-     cosmosIFrame.hidden=cosmosModel||!backupRequested;
-     if(cosmosModel)cosmosIFrame.removeAttribute('src');
-     else if(backupRequested&&!cosmosIFrame.getAttribute('src'))cosmosIFrame.src=cosmosIFrame.dataset.embed;
-   }
-   if(cosmosModel){
-     window.dispatchEvent(new Event('resize'));
-   }else cosmosLabel();
- }
- function useCosmosBackup(){
-   if(backupRequested||cosmosModel)return;
-   backupRequested=true;
-   if(cosmosVideo){cosmosVideo.pause();cosmosVideo.hidden=true;}
-   if(cosmosIFrame){
-     cosmosIFrame.hidden=false;
-     cosmosIFrame.src=cosmosIFrame.dataset.embed;
-   }else setCosmosModel(true);
-   cosmosLabel();
- }
- if(cosmosButton)cosmosButton.addEventListener('click',()=>setCosmosModel(!cosmosModel));
- if(cosmosVideo){
-   cosmosVideo.addEventListener('loadeddata',()=>{primaryReady=true;cosmosLabel();});
-   cosmosVideo.addEventListener('playing',()=>{primaryReady=true;});
-   cosmosVideo.addEventListener('error',useCosmosBackup);
-   cosmosVideo.addEventListener('stalled',()=>{
-     if(cosmosVideo.readyState<2)window.setTimeout(()=>{
-       if(!primaryReady&&cosmosVideo.readyState<2)useCosmosBackup();
-     },5000);
-   });
-   window.setTimeout(()=>{
-     if(!primaryReady&&cosmosVideo.readyState<2&&!cosmosModel)useCosmosBackup();
-   },12000);
- }
- if(cosmosIFrame)cosmosIFrame.addEventListener('error',()=>{setCosmosModel(true);});
- setCosmosModel(false);
+  const root=document.body;
+  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const heroVideo=document.getElementById('cosmos-real-video');
+  const heroFallback=document.getElementById('cosmos-video-fallback');
+  const heroSwitch=document.getElementById('cosmo-toggle-model');
+  const heroControls=[...document.querySelectorAll('.cosmo-model-controls')];
+  const stageName=document.getElementById('story-name');
+  const stageSub=document.getElementById('story-subtitle');
+  const stageNo=document.getElementById('story-number');
+  let heroIllustration=false,heroBackup=false,heroReady=false,heroNear=true;
+  function playMedia(video){
+    if(!video||document.hidden||reduced.matches)return;
+    video.muted=true;video.defaultMuted=true;
+    try{
+      const p=video.play();
+      if(p&&p.catch)p.catch(()=>{video.controls=true;});
+    }catch(err){video.controls=true;}
+  }
+  function heroLabel(){
+    if(heroIllustration)return;
+    if(stageName)stageName.textContent=heroBackup?'ILLUSTRIS · A VIRTUAL UNIVERSE':'GRAVITATIONAL STRUCTURE FORMATION';
+    if(stageSub)stageSub.textContent=heroBackup?'Illustris Collaboration · hydrodynamics, z = 127 → 0':'NASA / MPE / Volker Springel · original simulation footage';
+    if(stageNo)stageNo.textContent=heroBackup?'ILLUSTRIS':'NASA / MPE';
+    const metadata=document.getElementById('cosmo-epoch-readout');
+    if(metadata)metadata.textContent=heroBackup?'Illustris · z 127 → 0':'Real simulation footage';
+  }
+  function enableHeroIllustration(enabled){
+    heroIllustration=!!enabled;
+    root.classList.toggle('cosmo-model-active',heroIllustration);
+    heroControls.forEach(el=>{el.hidden=!heroIllustration;});
+    if(heroSwitch){
+      heroSwitch.setAttribute('aria-pressed',String(heroIllustration));
+      heroSwitch.textContent=heroIllustration?'Show real simulation video':'Show illustrated CMB-to-today timeline';
+    }
+    if(heroVideo){
+      heroVideo.hidden=heroIllustration||heroBackup;
+      if(heroIllustration)heroVideo.pause();
+      else if(!heroBackup)playMedia(heroVideo);
+    }
+    if(heroFallback){
+      heroFallback.hidden=heroIllustration||!heroBackup;
+      if(heroIllustration)heroFallback.removeAttribute('src');
+      else if(heroBackup && !heroFallback.getAttribute('src'))heroFallback.src=heroFallback.dataset.embed;
+    }
+    if(heroIllustration){
+      if(window.researchLoad)window.researchLoad('./cosmic-story.js?v=6')
+        .then(()=>window.dispatchEvent(new Event('resize')))
+        .catch(console.warn);
+    }else heroLabel();
+  }
+  function heroBackupVideo(){
+    if(heroBackup||heroIllustration)return;
+    heroBackup=true;
+    if(heroVideo){heroVideo.pause();heroVideo.hidden=true;}
+    if(heroFallback){
+      heroFallback.hidden=false;
+      heroFallback.src=heroFallback.dataset.embed;
+    }else enableHeroIllustration(true);
+    heroLabel();
+  }
+  if(heroSwitch)heroSwitch.addEventListener('click',()=>enableHeroIllustration(!heroIllustration));
+  if(heroVideo){
+    heroVideo.addEventListener('loadeddata',()=>{heroReady=true;heroLabel();});
+    heroVideo.addEventListener('playing',()=>{heroReady=true;});
+    heroVideo.addEventListener('error',heroBackupVideo);
+    // This timer runs only for the hero because it is visible at page load.
+    window.setTimeout(()=>{
+      if(!heroIllustration&&!heroReady&&heroVideo.readyState<2)heroBackupVideo();
+    },11000);
+    if(reduced.matches)heroVideo.controls=true;
+  }
+  if(heroFallback)heroFallback.addEventListener('error',()=>enableHeroIllustration(true));
+  enableHeroIllustration(false);
 
- // Distinguish an actual jet-feedback simulation from a conceptual duty cycle.
- const agnVideo=document.getElementById('agn-nasa-video');
- const agnCanvas=document.getElementById('agn-scene');
- const modeVideo=document.getElementById('agn-mode-video');
- const modeModel=document.getElementById('agn-mode-model');
- const controls=[...document.querySelectorAll('.agn-model-controls')];
- const agnContainer=agnVideo?.closest('.astrolab-scene-wrap')||null;
- let agnModel=false,agnReady=false;
- function setAGNModel(value){
-   agnModel=!!value;
-   root.classList.toggle('agn-model-active',agnModel);
-   root.classList.toggle('agn-video-active',!agnModel);
-   if(agnContainer)agnContainer.classList.toggle('agn-model-active',agnModel);
-   if(agnCanvas)agnCanvas.hidden=!agnModel;
-   if(agnVideo){
-     agnVideo.hidden=agnModel;
-     if(agnModel)agnVideo.pause();
-     else playVideo(agnVideo);
-   }
-   controls.forEach(el=>{el.hidden=!agnModel;});
-   if(modeVideo){
-     modeVideo.classList.toggle('active',!agnModel);
-     modeVideo.setAttribute('aria-pressed',String(!agnModel));
-   }
-   if(modeModel){
-     modeModel.classList.toggle('active',agnModel);
-     modeModel.setAttribute('aria-pressed',String(agnModel));
-   }
-   if(agnModel)window.dispatchEvent(new Event('resize'));
- }
- if(modeVideo)modeVideo.addEventListener('click',()=>setAGNModel(false));
- if(modeModel)modeModel.addEventListener('click',()=>setAGNModel(true));
- if(agnVideo){
-   agnVideo.addEventListener('loadeddata',()=>{agnReady=true;});
-   agnVideo.addEventListener('playing',()=>{agnReady=true;});
-   agnVideo.addEventListener('error',()=>setAGNModel(true));
-   window.setTimeout(()=>{
-     if(!agnReady&&agnVideo.readyState<2&&!agnModel)setAGNModel(true);
-   },12500);
- }
- setAGNModel(false);
+  const agnVideo=document.getElementById('agn-nasa-video');
+  const agnCanvas=document.getElementById('agn-scene');
+  const videoBtn=document.getElementById('agn-mode-video');
+  const modelBtn=document.getElementById('agn-mode-model');
+  const agnControls=[...document.querySelectorAll('.agn-model-controls')];
+  const agnContainer=agnVideo?.closest('.astrolab-scene-wrap')||null;
+  const agnLabel=document.getElementById('agn-phase');
+  const agnSub=document.getElementById('agn-phase-sub');
+  let agnModel=false,agnVisible=false,agnFetched=false,agnReady=false,agnStarted=false;
+  const agnCredit={
+    title:'NASA · QUASAR WIND AND GALACTIC OUTFLOW',
+    subtitle:'Accretion-disk winds launch shocks and sweep gas out of the host galaxy'
+  };
+  function ensureAGN(){
+    if(!agnVideo||agnFetched)return;
+    agnFetched=true;
+    for(const source of agnVideo.querySelectorAll('source[data-src]')){
+      source.src=source.dataset.src;
+    }
+    agnVideo.load();
+    if(reduced.matches)agnVideo.controls=true;
+    window.setTimeout(()=>{
+      if(agnFetched&&!agnReady&&agnVisible&&!agnModel&&agnVideo.readyState<2){
+        useAGNModel(true);
+        if(agnSub)agnSub.textContent='NASA video unavailable · showing the local illustrated cycle';
+      }
+    },13500);
+  }
+  function useAGNModel(value){
+    agnModel=!!value;
+    root.classList.toggle('agn-model-active',agnModel);
+    root.classList.toggle('agn-video-active',!agnModel);
+    if(agnContainer)agnContainer.classList.toggle('agn-model-active',agnModel);
+    if(agnCanvas)agnCanvas.hidden=!agnModel;
+    if(agnVideo){
+      agnVideo.hidden=agnModel;
+      if(agnModel)agnVideo.pause();
+      else if(agnVisible){
+        ensureAGN();
+        playMedia(agnVideo);
+      }
+    }
+    agnControls.forEach(el=>{el.hidden=!agnModel;});
+    if(videoBtn){
+      videoBtn.classList.toggle('active',!agnModel);
+      videoBtn.setAttribute('aria-pressed',String(!agnModel));
+    }
+    if(modelBtn){
+      modelBtn.classList.toggle('active',agnModel);
+      modelBtn.setAttribute('aria-pressed',String(agnModel));
+    }
+    if(agnModel){
+      if(window.researchLoad)window.researchLoad('./astrolab.js?v=6')
+        .then(()=>window.dispatchEvent(new Event('resize')))
+        .catch(console.warn);
+    }else{
+      if(agnLabel)agnLabel.textContent=agnCredit.title;
+      if(agnSub)agnSub.textContent=agnCredit.subtitle;
+    }
+  }
+  if(videoBtn)videoBtn.addEventListener('click',()=>useAGNModel(false));
+  if(modelBtn)modelBtn.addEventListener('click',()=>useAGNModel(true));
+  if(agnVideo){
+    agnVideo.addEventListener('loadeddata',()=>{agnReady=true;});
+    agnVideo.addEventListener('playing',()=>{agnReady=true;});
+    agnVideo.addEventListener('error',()=>useAGNModel(true));
+    const startVisible=()=>{agnVisible=true;if(!agnModel){ensureAGN();playMedia(agnVideo);}};
+    if('IntersectionObserver' in window){
+      const observer=new IntersectionObserver(entries=>{
+        const entry=entries[0];
+        const near=!!entry && entry.isIntersecting;
+        if(near){startVisible();}
+        else{
+          agnVisible=false;
+          agnVideo.pause();
+        }
+      },{rootMargin:'250px 0px',threshold:0});
+      observer.observe(agnVideo);
+    }else startVisible();
+  }
+  useAGNModel(false);
+  // A background page should not continue decoding/rendering media.
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){
+      if(agnVideo)agnVideo.pause();
+      if(heroVideo)heroVideo.pause();
+    }else{
+      if(heroVideo&&!heroIllustration&&!heroBackup)playMedia(heroVideo);
+      if(agnVideo&&agnVisible&&!agnModel)playMedia(agnVideo);
+    }
+  });
 
- // Provide an accessible escape hatch if the owner's private Drive iframe is blocked.
- const popFrame=document.getElementById('popiii-original-iframe');
- if(popFrame){
-   popFrame.setAttribute('aria-describedby','popiii-access-note');
- }
+  const original=document.getElementById('popiii-original-iframe');
+  if(original)original.setAttribute('aria-describedby','popiii-access-note');
 })();
