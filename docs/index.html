@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080e19">
+  <meta name="description" content="Sagnik Bhowmick — physics researcher working on primordial star formation, black holes, radiative transfer and numerical astrophysics.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sagnik Bhowmick | Physics & Computational Astrophysics">
+  <meta property="og:description" content="Theory, simulation and the physics of extreme cosmic environments.">
+  <title>Sagnik Bhowmick — Physics & Computational Astrophysics</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"><span id="reading-progress"></span></div>
+  <header class="site-header" id="top">
+    <div class="container nav-wrap">
+      <a class="brand" href="#top" aria-label="Sagnik Bhowmick — back to top">
+        <span class="brand-mark">S<span class="brand-dot">.</span>B</span>
+        <span class="brand-caption">PHYSICS / RESEARCH</span>
+      </a>
+      <nav class="main-nav" id="main-nav" aria-label="Main navigation">
+        <a href="#research">Research</a>
+        <a href="#projects">Projects</a>
+        <a href="#lab">Interactive lab</a>
+        <a href="#about">About</a>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="icon-button theme-button" type="button" aria-label="Switch color theme" title="Switch color theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </button>
+        <a class="nav-github" href="https://github.com/Sagnik11October2004" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+        <button id="menu-toggle" class="icon-button menu-button" type="button" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation"><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+  <main id="main">
+    <section class="hero section" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="pulse-dot"></span> EXPLORING EXTREME COSMIC ENVIRONMENTS</div>
+          <p class="hero-kicker">HELLO, I'M SAGNIK BHOWMICK</p>
+          <h1 id="hero-title">Understanding the <em>universe</em> through physics &amp; code<span class="period">.</span></h1>
+          <p class="hero-description">I'm a physics student and computational astrophysics researcher at IISER Kolkata. I study how structure forms, matter falls, and radiation escapes—from the first stars to black holes.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#research">Explore my research <span aria-hidden="true">↗</span></a>
+            <a class="button button-text" href="#projects">View selected projects <span aria-hidden="true">↓</span></a>
+          </div>
+          <div class="hero-metadata">
+            <span><i aria-hidden="true"></i> Integrated BS–MS Physics</span>
+            <span><i aria-hidden="true"></i> IISER Kolkata, India</span>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="orbital-stage">
+            <div class="orbit-decorator orbit-decorator-one"></div>
+            <div class="orbit-decorator orbit-decorator-two"></div>
+            <canvas id="blackhole-canvas" width="760" height="760" role="img" aria-label="Animated artistic illustration of a rotating accretion disk around a black hole."></canvas>
+            <div class="canvas-vignette" aria-hidden="true"></div>
+            <div class="art-caption art-caption-top">FIG. 01 <span>//</span> GRAVITATIONAL EXTREMES</div>
+            <div class="art-caption art-caption-bottom"><span class="crosshair">+</span> MATTER · GRAVITY · RADIATION</div>
+            <div class="art-index">01 / ∞</div>
+          </div>
+          <p class="art-note">An artistic black-hole visualization, rendered live in your browser.</p>
+        </div>
+      </div>
+      <div class="container scroll-line"><span>SCROLL TO EXPLORE</span><i></i><span>01 — 05</span></div>
+    </section>
+
+    <section class="research-section section" id="research" aria-labelledby="research-title">
+      <div class="container">
+        <div class="section-heading reveal">
+          <div><div class="section-index">01 / RESEARCH DIRECTIONS</div><h2 id="research-title">Questions at the <em>frontier.</em></h2></div>
+          <p>My interests sit at the intersection of physical theory, numerical methods and the observable universe.</p>
+        </div>
+        <div class="research-grid">
+          <article class="research-card reveal">
+            <div class="card-topline"><span>01</span><span class="tiny-star">✳</span></div>
+            <div class="research-symbol symbol-cusp" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="research-card-body"><p class="small-label">COSMOLOGY / FIRST STARS</p><h3>Primordial collapse &amp; dark matter</h3><p>How do the earliest star-forming haloes reshape their dark-matter distributions, and what does that imply for massive black-hole seeds?</p></div>
+            <div class="research-tags"><span>Population III</span><span>Dark matter</span><span>SPH</span></div>
+          </article>
+          <article class="research-card reveal">
+            <div class="card-topline"><span>02</span><span class="tiny-star">✳</span></div>
+            <div class="research-symbol symbol-photon" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="research-card-body"><p class="small-label">HIGH-ENERGY ASTROPHYSICS</p><h3>Radiative transfer &amp; Comptonization</h3><p>Using Monte Carlo transport to investigate how electron distributions and plasma geometry shape escaping radiation and polarization.</p></div>
+            <div class="research-tags"><span>Monte Carlo</span><span>Polarization</span><span>Plasma</span></div>
+          </article>
+          <article class="research-card reveal">
+            <div class="card-topline"><span>03</span><span class="tiny-star">✳</span></div>
+            <div class="research-symbol symbol-accretion" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="research-card-body"><p class="small-label">GRAVITY / NUMERICAL PHYSICS</p><h3>Black-hole flows &amp; simulation methods</h3><p>Connecting general relativity and fluid dynamics with robust computational tools for accretion, gravitational collapse and multiscale systems.</p></div>
+            <div class="research-tags"><span>Accretion</span><span>Relativity</span><span>HPC</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="statement-section section" aria-label="Research philosophy">
+      <div class="container statement-inner reveal">
+        <div class="statement-glyph" aria-hidden="true">“</div>
+        <blockquote>Good simulations should do more than reproduce a result. They should help us <em>understand why</em> the physics behaves that way.</blockquote>
+        <p>THEORY × COMPUTATION × CURIOSITY</p>
+      </div>
+    </section>
+
+    <section class="projects-section section" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <div class="section-heading reveal"><div><div class="section-index">02 / SELECTED WORK</div><h2 id="projects-title">Built to <em>investigate.</em></h2></div><p>Open-source work spanning astrophysics, relativity and computational fluid mechanics.</p></div>
+        <div class="project-list">
+          <a class="project-row reveal" href="https://github.com/Sagnik11October2004/ASTROPHYSICS" target="_blank" rel="noopener noreferrer"><span class="project-number">01 /</span><span class="project-primary"><strong>Astrophysics &amp; relativity explorations</strong><small>Geodesics · cosmology · gravitational waves · accretion</small></span><span class="project-category">RESEARCH CODE</span><span class="project-arrow" aria-hidden="true">↗</span></a>
+          <a class="project-row reveal" href="https://github.com/Sagnik11October2004/Inviscid-Transonic-Flows-in-BH-Spacetime" target="_blank" rel="noopener noreferrer"><span class="project-number">02 /</span><span class="project-primary"><strong>Transonic flows in black-hole spacetime</strong><small>Accretion physics and relativistic flows</small></span><span class="project-category">BLACK HOLES</span><span class="project-arrow" aria-hidden="true">↗</span></a>
+          <a class="project-row reveal" href="https://github.com/Sagnik11October2004/NON-LINEAR-DYNAMICS" target="_blank" rel="noopener noreferrer"><span class="project-number">03 /</span><span class="project-primary"><strong>Nonlinear dynamics</strong><small>Models, numerical experiments and dynamical systems</small></span><span class="project-category">PHYSICS</span><span class="project-arrow" aria-hidden="true">↗</span></a>
+          <a class="project-row reveal" href="https://github.com/Sagnik11October2004/Fluids" target="_blank" rel="noopener noreferrer"><span class="project-number">04 /</span><span class="project-primary"><strong>Computational fluid dynamics</strong><small>Explorations in fluid motion and numerical methods</small></span><span class="project-category">NUMERICS</span><span class="project-arrow" aria-hidden="true">↗</span></a>
+        </div>
+        <div class="project-footnote reveal"><span>More work lives on GitHub, including projects that are not publicly available.</span><a class="underlined-link" href="https://github.com/Sagnik11October2004?tab=repositories" target="_blank" rel="noopener noreferrer">All public repositories ↗</a></div>
+      </div>
+    </section>
+
+    <section class="lab-section section" id="lab" aria-labelledby="lab-title">
+      <div class="container lab-layout">
+        <div class="lab-intro reveal">
+          <div class="section-index">03 / INTERACTIVE LAB</div>
+          <h2 id="lab-title">Make the physics <em>visible.</em></h2>
+          <p>Explore how a simple power-law dark-matter density cusp responds to changes in its logarithmic slope. This is an illustrative model, not a simulation result.</p>
+          <div class="formula"><span>ρ(r) / ρ(1 pc) =</span> <span>(r / 1 pc)<sup>−γ</sup></span></div>
+          <label class="slider-label" for="slope-slider"><span>Inner density slope <strong>γ</strong></span><output id="slope-value" for="slope-slider">1.80</output></label>
+          <input id="slope-slider" class="slope-slider" type="range" min="0.5" max="2.5" step="0.05" value="1.80" aria-describedby="slope-description">
+          <div class="slider-ends"><span>0.5 — SHALLOWER</span><span>2.5 — STEEPER</span></div>
+          <div class="preset-row"><button type="button" class="preset-button" data-gamma="1">NFW inner slope</button><button type="button" class="preset-button active" data-gamma="1.8">Steeper cusp</button></div>
+          <p class="lab-note" id="slope-description">The model is normalized to the same density at 1 pc for every slope.</p>
+        </div>
+        <div class="chart-panel reveal">
+          <div class="chart-header"><div><span class="chart-kicker">LIVE MODEL / 001</span><h3>Dark-matter density profile</h3></div><span class="live-indicator"><span></span> INTERACTIVE</span></div>
+          <svg id="density-chart" viewBox="0 0 700 425" role="img" aria-label="Log-log plot of normalized dark matter density versus radius, comparing an adjustable power-law cusp to an NFW-like inner-slope reference."></svg>
+          <div class="chart-bottom"><div class="chart-legend"><span><i class="legend-current"></i> Adjustable cusp</span><span><i class="legend-reference"></i> γ = 1 reference</span></div><div class="chart-readout"><span>ρ(0.1 pc) / ρ(1 pc)</span><strong id="density-ratio">63.1×</strong></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section section" id="about" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <div class="about-copy reveal"><div class="section-index">04 / ABOUT</div><h2 id="about-title">A physicist by training. <em>A builder</em> by instinct.</h2><p>I am pursuing an integrated BS–MS in Physics at the Indian Institute of Science Education and Research Kolkata. My research interests extend from primordial cosmology and star formation to black-hole accretion and high-energy radiative processes.</p><p>I enjoy moving between derivations and implementations: understanding a mechanism on paper, then testing it with carefully designed computational experiments.</p><div class="about-pill-row"><span>Physics</span><span>Scientific computing</span><span>Numerical simulations</span><span>Theory</span></div></div>
+        <div class="experience-panel reveal"><div class="experience-title">SELECTED RESEARCH EXPERIENCE</div>
+          <div class="experience-item"><span class="experience-year">2026</span><div><strong>Chalmers University of Technology</strong><p>Summer research in primordial collapse and dark matter in early star-forming haloes.</p></div></div>
+          <div class="experience-item"><span class="experience-year">2026</span><div><strong>Radiative-transfer collaboration</strong><p>Monte Carlo Comptonization and polarization research with Alexandra Veledina.</p></div></div>
+          <div class="experience-item"><span class="experience-year">CURRENT</span><div><strong>IISER Kolkata</strong><p>Integrated BS–MS Physics · DST INSPIRE scholar.</p></div></div>
+          <div class="experience-caption">Research descriptions are intentionally high-level; work in progress is not presented as a published result.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section section" id="contact" aria-labelledby="contact-title">
+      <div class="container contact-inner reveal"><div class="section-index">05 / CONNECT</div><h2 id="contact-title">Let's ask <em>better questions.</em></h2><p>Interested in black-hole physics, cosmology, numerical methods or research collaborations? Explore my work and get in touch through GitHub.</p><a class="button button-light" href="https://github.com/Sagnik11October2004" target="_blank" rel="noopener noreferrer">Find me on GitHub <span aria-hidden="true">↗</span></a><div class="contact-orbit" aria-hidden="true"></div></div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container footer-inner"><a class="brand footer-brand" href="#top"><span class="brand-mark">S<span class="brand-dot">.</span>B</span><span class="brand-caption">PHYSICS / RESEARCH</span></a><p>© <span id="current-year">2026</span> Sagnik Bhowmick · Designed for the curious.</p><a href="#top">Back to top ↑</a></div></footer>
+</body>
+</html>
