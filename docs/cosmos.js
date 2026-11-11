@@ -32,8 +32,8 @@
   // Country-level markers used in the original "Travel With Me" section.
   // Coordinates are *map locators* for countries, not claims about visited cities.
   const countries = [
-    { name: 'India', lat: 22.6, lon: 78.9, region: 'india' },
-    { name: 'Sweden', lat: 62.0, lon: 15.0, region: 'northern' },
+    { name: 'India', lat: 22.6, lon: 78.9, region: 'india', detail: 'Kolkata · Nainital · Kanpur' },
+    { name: 'Sweden', lat: 59.7, lon: 15.0, region: 'northern', detail: 'Gothenburg · Stockholm · Summer research 2026' },
     { name: 'Denmark', lat: 56.0, lon: 10.0, region: 'northern' },
     { name: 'Finland', lat: 64.5, lon: 26.0, region: 'northern' },
     { name: 'Netherlands', lat: 52.2, lon: 5.4, region: 'northern' },
@@ -79,9 +79,11 @@
       else travelMap.removeLayer(marker);
     });
     const visible = visibleCountries();
-    if (visible.length) {
+    if (value === 'all') {
+      travelMap.setView([19,12], 2, { animate: true });
+    } else if (visible.length) {
       const bounds = window.L.latLngBounds(visible.map(function (item) { return [item.lat,item.lon]; }));
-      travelMap.fitBounds(bounds.pad(.48),{ maxZoom: 4,animate: true });
+      travelMap.fitBounds(bounds.pad(.45),{ maxZoom: 5,animate: true });
     }
   }
   regionButtons.forEach(function (button) {
@@ -95,7 +97,7 @@
     try {
       const L = window.L;
       travelMap = L.map(travelContainer, {
-        zoomControl: true, scrollWheelZoom: false, tap: false, worldCopyJump: true
+        zoomControl: true, scrollWheelZoom: true, tap: false, worldCopyJump: true, minZoom: 2, maxZoom: 12
       });
       // CARTO's dark OSM-derived basemap. Attribution remains visible.
       L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
@@ -105,7 +107,7 @@
       countries.forEach(function (item) {
         const icon = L.divIcon({ className: '', html: '<div class="travel-marker"></div>', iconSize: [20,20], iconAnchor: [10,10] });
         const marker = L.marker([item.lat,item.lon], { icon: icon, title:item.name })
-          .bindPopup('<strong>' + item.name + '</strong>', { className: 'travel-popup' })
+          .bindPopup('<strong>' + item.name + '</strong><p>' + (item.detail || 'Country on my travel map') + '</p>', { className: 'travel-popup' })
           .on('click',function () { selectCountry(item.name); });
         marker.addTo(travelMap);
         mapMarkers.set(item.name,marker);
@@ -117,230 +119,189 @@
   } else if (mapFallback) {
     mapFallback.hidden = false;
   }
+  const worldReset = document.getElementById('world-reset');
+  if (worldReset) worldReset.addEventListener('click', function () {
+    setRegion('all');
+    if (travelMap) travelMap.invalidateSize();
+  });
 
-  // The cosmic backdrop depicts five evolutionary eras spatially.
-  // It is original illustrative artwork, not an N-body or radiative-transfer run.
+
+  /* LIVE PHYSICS EXPERIMENT — linear Zel'dovich-approximation 2D structure
+     formation from a deterministic Gaussian-like displacement field.
+     This evolves continuous trajectories x(q,a) = q + D(a) psi(q).
+     It is not a full three-dimensional N-body, hydro or GR simulation.
+     Pre-recombination visual effects and discrete galaxy lights are illustrative.
+     All computation is local, with no external assets or backend. */
   const canvas = document.getElementById('cosmos-canvas');
-  const epochNodes = Array.from(document.querySelectorAll('.epoch'));
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   if (!canvas || !canvas.getContext) return;
-  const ctx = canvas.getContext('2d',{alpha:false});
+  const ctx=canvas.getContext('2d',{alpha:false});
   if (!ctx) return;
-
-  let width = 1000, height = 700, visible = true, frame = 0, frameRequest = 0;
-  let lastEpoch = -1;
-  let lastTime = 0;
-  let canvasScale = 1;
-
-  function seeded(seed) {
-    let state = seed >>> 0;
-    return function () {
-      state = (Math.imul(state,1664525) + 1013904223) >>> 0;
-      return state / 4294967296;
-    };
+  const scr=document.getElementById('cosmo-progress');
+  const btn=document.getElementById('cosmo-play');
+  const redshiftOutput=document.getElementById('cosmo-redshift');
+  const epochOutput=document.getElementById('cosmo-epoch-readout');
+  const epochNodes=Array.from(document.querySelectorAll('.epoch'));
+  const motionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
+  let w=800,h=650,dpr=1,visible=true,runId=0,lastTime=0,playing=!motionQuery.matches,p=0.025,accumulated=0;
+  let scrW=300,scrH=175,bufferCanvas=document.createElement('canvas'),bufferCtx=bufferCanvas.getContext('2d',{willReadFrequently:true});
+  if (!bufferCtx) return;
+  const NX=104, NY=65, NUM=NX*NY;
+  const qx=new Float32Array(NUM),qy=new Float32Array(NUM),vx=new Float32Array(NUM),vy=new Float32Array(NUM);
+  const density=new Float32Array(300*190);
+  let seed=201126;
+  function rnd(){ seed=(1664525*seed+1013904223)>>>0;return seed/4294967296; }
+  const modes=[];
+  for(let j=0;j<48;j++){
+    let kx=Math.floor(rnd()*13)-6, ky=Math.floor(rnd()*11)-5;
+    if(kx===0&&ky===0)kx=1;
+    const k=Math.sqrt(kx*kx+ky*ky);
+    modes.push({kx:kx,ky:ky,phase:rnd()*Math.PI*2,amp:(.5+rnd())/Math.pow(k,2.65)});
   }
-  const random = seeded(137913);
-  const backgroundStars = Array.from({length:240},function () {
-    return { x:random(), y:random(), size:random()*1.3+.25, a:random(), phase:random()*Math.PI*2 };
-  });
-  const gas = Array.from({length:150},function () {
-    return {x:random(),y:random(),size:.3+random()*2.7,phase:random()*6.28,speed:.2+random()*.8};
-  });
-  const webCenters = [
-    [.63,.19],[.75,.48],[.90,.22],[.92,.75],[.66,.81],[.84,.62],[.98,.45]
-  ];
-  const cosmicNodes = Array.from({length:101},function (_,index) {
-    const c = webCenters[index % webCenters.length];
-    const a = random()*Math.PI*2, r = Math.sqrt(random())*.15;
-    return {
-      x:Math.min(1.06,Math.max(.52,c[0]+Math.cos(a)*r)),
-      y:Math.max(-.08,Math.min(1.1,c[1]+Math.sin(a)*r)),
-      r: random()*1.8+.6, t:random()*6.283,
-      a:.2+random()*.6
-    };
-  });
-  const edges = [];
-  for (let i = 0; i < cosmicNodes.length; i++) {
-    for (let j = i+1; j < cosmicNodes.length; j++) {
-      const dx = cosmicNodes[i].x - cosmicNodes[j].x;
-      const dy = cosmicNodes[i].y - cosmicNodes[j].y;
-      const d = Math.sqrt(dx*dx+dy*dy);
-      if (d < .082 && edges.length < 410) edges.push({i:i,j:j,alpha:.08+(.082-d)*2.9});
+  let maxV=0;
+  for(let j=0;j<NY;j++) for(let i=0;i<NX;i++){
+    const n=j*NX+i, x=(i+.5)/NX,y=(j+.5)/NY;
+    let u=0,v=0;
+    for(const m of modes){
+      const ph=2*Math.PI*(m.kx*x+m.ky*y)+m.phase;
+      const a=m.amp*Math.sin(ph);
+      u+=m.kx*a;v+=m.ky*a;
     }
+    qx[n]=x;qy[n]=y;vx[n]=u;vy[n]=v;
+    maxV=Math.max(maxV,Math.hypot(u,v));
   }
-  function glow(x,y,rgb,radius,alpha) {
-    const g = ctx.createRadialGradient(x,y,0,x,y,radius);
-    g.addColorStop(0,'rgba('+rgb+','+alpha+')');
-    g.addColorStop(.36,'rgba('+rgb+','+(alpha*.4)+')');
-    g.addColorStop(1,'rgba('+rgb+',0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(x-radius,y-radius,radius*2,radius*2);
+  for(let i=0;i<NUM;i++){vx[i]/=maxV||1;vy[i]/=maxV||1;}
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+  function epochAt(t){
+    if(t<.16)return {i:0,name:'Hot early universe',z:'z ≫ 1100',detail:'Primordial plasma',g:0};
+    if(t<.30)return {i:1,name:'Recombination / CMB',z:'z ≈ 1100',detail:'Recombination (~380 kyr)',g:0.02};
+    if(t<.43)return {i:2,name:'Cosmic dark ages',z:'1100 → 30',detail:'Neutral gas',g:.04+(t-.30)*.24};
+    const u=(t-.43)/.57;
+    const a=1/31 + (1-1/31)*Math.pow(u,2.2);
+    const z=1/a-1;
+    return {i:u<.24?3:4,name:u<.24?'Cosmic dawn':'Cosmic-web growth',z:'z ≈ '+z.toFixed(z>5?1:2),detail:'Growing density perturbations',g:.13+Math.pow(u,.9)*1.74};
   }
-  function colorFill(x,y,radius,color,a) {
-    ctx.beginPath();
-    ctx.arc(x,y,radius,0,Math.PI*2);
-    ctx.fillStyle='rgba('+color+','+a+')';
-    ctx.fill();
+  function resize(){
+    const r=canvas.getBoundingClientRect();w=Math.max(300,r.width);h=Math.max(350,r.height);
+    dpr=Math.min(devicePixelRatio||1,1.5);
+    canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    scrW=Math.min(365,Math.max(200,Math.round(w*.44)));
+    scrH=Math.min(244,Math.max(142,Math.round(scrW*h/w)));
+    bufferCanvas.width=scrW;bufferCanvas.height=scrH;
+    if(!playing)draw();
   }
-  function drawBackground(t) {
-    const W=width,H=height;
-    ctx.fillStyle='#040a13';
-    ctx.fillRect(0,0,W,H);
-    const deep = ctx.createLinearGradient(0,H*.2,W,H*.7);
-    deep.addColorStop(0,'rgba(10,25,50,.38)');
-    deep.addColorStop(.5,'rgba(12,35,60,.22)');
-    deep.addColorStop(1,'rgba(10,40,56,.7)');
-    ctx.fillStyle=deep;ctx.fillRect(0,0,W,H);
-
-    // A primordial, expanding hot plasma cone.
-    glow(W*.10,H*.43,'255,164,96',Math.max(W*.21,190),.34);
-    glow(W*.20,H*.54,'232,111,74',W*.18,.18);
-    glow(W*.30,H*.40,'133,154,215',W*.17,.12);
+  function draw(){
+    const data=epochAt(p);
+    const background=ctx.createLinearGradient(0,0,w,h);
+    background.addColorStop(0,'#040916');background.addColorStop(.55,'#070e1a');background.addColorStop(1,'#01050c');
+    ctx.fillStyle=background;ctx.fillRect(0,0,w,h);
     ctx.save();
-    ctx.globalCompositeOperation='screen';
-    for(let k=0;k<19;k++){
-      const radius=H*(.025 + k*.027);
-      ctx.beginPath();
-      ctx.ellipse(W*.12,H*.44,radius*.61,radius,-.15,Math.PI*.44,Math.PI*1.71);
-      ctx.strokeStyle='rgba(255,186,126,'+Math.max(.009,.14-k*.006)+')';
-      ctx.lineWidth=.7+(k%4===0?1.2:0);
-      ctx.stroke();
+    const cx=w*.77,cy=h*.43,R=Math.min(w,h)*.72;
+    const glow=ctx.createRadialGradient(cx,cy,0,cx,cy,R);
+    if(data.i===0){glow.addColorStop(0,'rgba(243,171,86,.48)');glow.addColorStop(.5,'rgba(151,71,54,.2)');}
+    else if(data.i===1){glow.addColorStop(0,'rgba(246,208,150,.18)');glow.addColorStop(.5,'rgba(63,90,156,.17)');}
+    else {glow.addColorStop(0,'rgba(44,89,144,.28)');glow.addColorStop(.55,'rgba(15,52,100,.15)');}
+    glow.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=glow;ctx.fillRect(0,0,w,h);
+    // Periodically remap Lagrangian particles with linear growing-mode displacements.
+    density.fill(0);
+    const strength=data.g*.22;
+    for(let n=0;n<NUM;n++){
+      const x=((qx[n]+strength*vx[n])%1+1)%1;
+      const y=((qy[n]+strength*vy[n])%1+1)%1;
+      const ix=Math.min(scrW-2,Math.floor(x*scrW)),iy=Math.min(scrH-2,Math.floor(y*scrH));
+      const k=iy*scrW+ix;
+      density[k]+=1; density[k+1]+=.46;
+      if(iy+1<scrH){density[k+scrW]+=.46;density[k+scrW+1]+=.23;}
     }
-    ctx.restore();
-
-    // Recombination: a gently mottled last-scattering-surface motif.
-    const cx=W*.34,cy=H*.50,r=Math.min(W*.125,H*.205);
-    glow(cx,cy,'147,211,225',r*1.9,.13);
-    ctx.save();
-    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.clip();
-    const cmb=ctx.createRadialGradient(cx-r*.4,cy-r*.5,r*.1,cx,cy,r*1.2);
-    cmb.addColorStop(0,'rgba(156,204,220,.22)');
-    cmb.addColorStop(.5,'rgba(76,139,183,.16)');
-    cmb.addColorStop(1,'rgba(30,75,117,.05)');
-    ctx.fillStyle=cmb;ctx.fillRect(cx-r,cy-r,2*r,2*r);
-    for(let i=0;i<110;i++) {
-      const a=i*2.39996, radius=r*Math.sqrt((i+.5)/110);
-      colorFill(cx+radius*Math.cos(a),cy+radius*Math.sin(a),r*(.045+(i%7)/84),i%4===0?'250,178,125':'133,207,237',.03+(i%5)*.016);
+    const pixels=bufferCtx.createImageData(scrW,scrH);
+    let peak=0;for(let n=0;n<scrW*scrH;n++)peak=Math.max(peak,density[n]);
+    const inv=1/Math.max(2.5,peak*.8);
+    for(let i=0;i<scrW*scrH;i++){
+      const d=Math.pow(clamp(density[i]*inv,0,1),.58);
+      const j=i*4;
+      const age=clamp((p-.23)/.77,0,1);
+      const luminous=d*(.12+age*.88);
+      pixels.data[j]=Math.floor((data.i<2?249:95)*luminous+6);
+      pixels.data[j+1]=Math.floor((data.i<2?169:196)*luminous+10);
+      pixels.data[j+2]=Math.floor((data.i<2?105:252)*luminous+19);
+      pixels.data[j+3]=255;
     }
-    ctx.restore();
-    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);
-    ctx.strokeStyle='rgba(174,213,235,.24)';ctx.lineWidth=1;ctx.stroke();
-
-    // Dark ages are represented by sparse, dim hydrogen-cloud filaments.
-    for(let i=0;i<gas.length;i++){
-      const p=gas[i],x=W*(.39+.19*p.x),y=H*p.y;
-      const shimmer=.7+.3*Math.sin(t*p.speed+p.phase);
-      colorFill(x,y,p.size*.68,'115,173,197',.085*shimmer);
-    }
-
-    // Cosmic dawn / reionization: isolated first stellar regions.
-    const dawn = [[.56,.26],[.61,.54],[.68,.70],[.74,.33],[.78,.81],[.68,.15]];
-    dawn.forEach(function (p,index){
-      const x=W*p[0],y=H*p[1],phase=t*1.5+index*1.7;
-      glow(x,y,index%2?'125,202,219':'255,184,127',Math.min(W,H)*(.042+.007*Math.sin(phase)),.24+.045*Math.sin(phase));
-      colorFill(x,y,1.3+Math.sin(phase)*.45,index%2?'168,230,249':'255,207,157',.7);
-    });
-
-    // Structure formation: filaments condense toward luminous haloes.
-    ctx.save();
-    for (let i=0;i<edges.length;i++) {
-      const edge=edges[i],a=cosmicNodes[edge.i],b=cosmicNodes[edge.j];
-      const shiftA=Math.sin(t*.53+a.t)*1.9,shiftB=Math.sin(t*.53+b.t)*1.9;
-      ctx.beginPath();
-      ctx.moveTo(a.x*W+shiftA,a.y*H);
-      ctx.lineTo(b.x*W+shiftB,b.y*H);
-      ctx.strokeStyle='rgba(87,188,207,'+edge.alpha.toFixed(3)+')';
-      ctx.lineWidth=.7;ctx.stroke();
-    }
-    for (let i=0;i<cosmicNodes.length;i++) {
-      const node=cosmicNodes[i];
-      const x=node.x*W+Math.sin(t*.53+node.t)*1.9;
-      const y=node.y*H+Math.cos(t*.43+node.t)*1.5;
-      if (i % 14 === 0) glow(x,y,'255,181,118',Math.min(W,H)*.042,.20);
-      colorFill(x,y,node.r,i%5===0?'255,191,126':'133,223,231',node.a*(.82+.18*Math.sin(t+node.t)));
-    }
-    ctx.restore();
-
-    // Wide, gentle foreground starfield.
-    for(let i=0;i<backgroundStars.length;i++){
-      const s=backgroundStars[i],a=(.10+s.a*.37)*(.82+.18*Math.sin(t*1.5+s.phase));
-      colorFill(s.x*W,s.y*H,s.size,'201,223,241',a);
-    }
-
-    // Light propagation / evolution ribbon from the hot era to cosmic web.
-    ctx.save();ctx.globalCompositeOperation='screen';
-    for(let layer=0;layer<3;layer++) {
-      const grad=ctx.createLinearGradient(W*.16,0,W*.93,0);
-      grad.addColorStop(0,'rgba(255,176,112,.21)');
-      grad.addColorStop(.36,'rgba(151,196,226,.11)');
-      grad.addColorStop(.72,'rgba(115,210,223,.13)');
-      grad.addColorStop(1,'rgba(123,220,223,.03)');
-      ctx.beginPath();
-      for(let i=0;i<=120;i++) {
-        const v=i/120, x=W*(.16+.78*v);
-        const y=H*(.45+.032*Math.sin(v*13+t*.26+layer*.6)+layer*.025);
-        if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
+    bufferCtx.putImageData(pixels,0,0);
+    ctx.globalAlpha=data.i===0?.6:data.i===1?.55:data.i===2?.45:.9;
+    ctx.imageSmoothingEnabled=true;
+    ctx.drawImage(bufferCanvas,0,0,w,h);
+    ctx.globalAlpha=1;
+    // Recombination / plasma acoustic fluctuations shown schematically.
+    if(data.i<=1) {
+      ctx.globalCompositeOperation='screen';
+      for(let k=0;k<11;k++){
+        const x=(k/11+.05)*w;
+        ctx.beginPath();ctx.strokeStyle='rgba(255,185,115,'+(data.i===0?.12:.045)+')';
+        ctx.lineWidth=1.5;
+        for(let y=0;y<h;y+=9){
+          const xx=x+Math.sin(y*.015+k*1.8+accumulated)*23;
+          if(y===0)ctx.moveTo(xx,y);else ctx.lineTo(xx,y);
+        }
+        ctx.stroke();
       }
-      ctx.lineWidth=layer===0?1.5:.6;
-      ctx.strokeStyle=grad;
-      ctx.stroke();
+      ctx.globalCompositeOperation='source-over';
+    }
+    // Density peaks may host representative luminous objects after cosmic dawn.
+    if(data.i>=3) {
+      const stars=Math.floor(clamp((p-.43)/.57,0,1)*135);
+      for(let k=0;k<stars;k++){
+        const n=(k*1171+53)%NUM;
+        const xx=(((qx[n]+strength*vx[n])%1+1)%1)*w;
+        const yy=(((qy[n]+strength*vy[n])%1+1)%1)*h;
+        if((k*13)%7>3)continue;
+        const r=(k%5===0?2.25:1.1)*(1+.15*Math.sin(accumulated*2+k));
+        ctx.beginPath();ctx.fillStyle='rgba(255,220,156,.85)';
+        ctx.shadowColor='rgba(255,178,100,.9)';ctx.shadowBlur=12;
+        ctx.arc(xx,yy,r,0,Math.PI*2);ctx.fill();
+      }
+      ctx.shadowBlur=0;
+    }
+    // Cosmic background points in comoving visual coordinates.
+    for(let j=0;j<160;j++){
+      const x=((j*173.713)%997)/997*w,y=((j*317.471)%991)/991*h;
+      const opacity=data.i<2?.15:.23+(j%7)/60;
+      ctx.fillStyle='rgba(217,231,247,'+opacity+')';
+      ctx.fillRect(x,y,(j%11===0?1.8:.8),(j%11===0?1.8:.8));
     }
     ctx.restore();
-
-    // A drifting luminous packet advances through cosmic time.
-    const phase=(t*.041)%1;
-    const px=W*(.16+.78*phase);
-    const py=H*(.45+.032*Math.sin(phase*13+t*.26));
-    glow(px,py,phase<.26?'255,186,126':'152,235,231',Math.min(W,H)*.045,.19);
+    // Nonphysical abstract epoch boundary is never used as time-scaled data.
+    if(redshiftOutput)redshiftOutput.textContent=data.z;
+    if(epochOutput)epochOutput.textContent=data.name;
+    epochNodes.forEach(function(node,i){node.classList.toggle('current-epoch',i===data.i);});
+    if(scr && document.activeElement!==scr)scr.value=Math.round(p*1000);
   }
-
-  function resize() {
-    const rect=canvas.getBoundingClientRect();
-    if(!rect.width || !rect.height)return;
-    width=rect.width;height=rect.height;
-    canvasScale=Math.min(window.devicePixelRatio||1,2);
-    canvas.width=Math.round(width*canvasScale);
-    canvas.height=Math.round(height*canvasScale);
-    ctx.setTransform(canvasScale,0,0,canvasScale,0,0);
-    drawBackground(0);
-  }
-  function updateEpoch(time) {
-    const index=Math.floor((time*.041)%1 * epochNodes.length)%Math.max(1,epochNodes.length);
-    if(index===lastEpoch)return;
-    lastEpoch=index;
-    epochNodes.forEach(function (node,i) { node.classList.toggle('current-epoch',i===index); });
-  }
-  function animate(now) {
-    frameRequest=0;
-    if(document.hidden||!visible||reducedMotion.matches)return;
-    if(now-lastTime>40) {
-      const time=now*.001;
-      drawBackground(time);
-      updateEpoch(time);
-      lastTime=now;
+  function frame(now){
+    runId=0;
+    if(!playing||document.hidden||!visible||motionQuery.matches)return;
+    const delta=lastTime?Math.min(.1,(now-lastTime)/1000):0;
+    if(delta >=0){
+      p=(p+delta/33)%1;
+      accumulated+=delta;
     }
-    frameRequest=window.requestAnimationFrame(animate);
+    lastTime=now;draw();
+    runId=requestAnimationFrame(frame);
   }
-  function run() {
-    if(frameRequest)window.cancelAnimationFrame(frameRequest);
-    frameRequest=0;
-    if(!document.hidden && visible && !reducedMotion.matches) {
-      frameRequest=window.requestAnimationFrame(animate);
-    } else {
-      drawBackground(0);
-      epochNodes.forEach(function (node) {node.classList.remove('current-epoch');});
-    }
+  function updatePlayButton(){
+    if(btn){btn.textContent=playing?'Pause Ⅱ':'Play ▶';btn.setAttribute('aria-label',playing?'Pause cosmological simulation':'Play cosmological simulation');}
   }
+  function sync(){
+    if(runId)cancelAnimationFrame(runId);
+    runId=0;lastTime=0;
+    updatePlayButton();draw();
+    if(playing&&!document.hidden&&visible&&!motionQuery.matches)runId=requestAnimationFrame(frame);
+  }
+  if(btn)btn.addEventListener('click',function(){playing=!playing;sync();});
+  if(scr)scr.addEventListener('input',function(){p=clamp(Number(scr.value)/1000,0,1);playing=false;sync();});
   if('IntersectionObserver' in window){
-    const observer=new IntersectionObserver(function(entries){
-      visible=!!entries[0] && entries[0].isIntersecting;
-      run();
-    },{threshold:.01});
-    observer.observe(canvas);
+    new IntersectionObserver(function(entries){visible=!!entries[0]&&entries[0].isIntersecting;sync();},{threshold:.01}).observe(canvas);
   }
   window.addEventListener('resize',resize,{passive:true});
-  document.addEventListener('visibilitychange',run);
-  if(reducedMotion.addEventListener)reducedMotion.addEventListener('change',run);
-  resize();
-  run();
+  document.addEventListener('visibilitychange',sync);
+  if(motionQuery.addEventListener)motionQuery.addEventListener('change',function(){if(motionQuery.matches)playing=false;sync();});
+  resize();sync();
 })();
