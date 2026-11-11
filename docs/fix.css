@@ -160,3 +160,19 @@
 @media(prefers-reduced-motion:reduce){
   .atlas-stage{transition:none}
 }
+
+/* Animated CSS fallback remains visible if Canvas initialization fails. */
+.cosmos-stage::before{
+  content:"";position:absolute;inset:-30%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 48%,rgba(255,169,91,.5),rgba(171,71,55,.25) 23%,transparent 49%),
+    radial-gradient(ellipse at 74% 64%,rgba(50,146,198,.42),transparent 52%);
+  animation:cosmic-fallback-glow 8s ease-in-out infinite alternate;
+}
+@keyframes cosmic-fallback-glow{
+  0%{transform:scale(.82) rotate(-4deg);opacity:.6}
+  100%{transform:scale(1.25) rotate(4deg);opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+  .cosmos-stage::before{animation:none}
+}
