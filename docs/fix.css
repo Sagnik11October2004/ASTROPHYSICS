@@ -1,0 +1,178 @@
+/* Self-contained, visible cosmic-history stage and world atlas.
+   No external animation player, map tiles or mapping library required. */
+
+.cosmos-hero { min-height: min(960px,100svh); }
+.cosmos-hero-inner { z-index: 5; min-height: 630px; padding-block: 70px 34px; pointer-events: none; }
+.cosmos-copy { width: min(740px,60%); pointer-events: auto; }
+.cosmos-copy h1 { font-size: clamp(53px,6.3vw,90px); }
+.cosmos-hero-shade {
+  z-index: 1;
+  background: linear-gradient(90deg,#040a13 0%,rgba(4,10,19,.98) 22%,rgba(4,10,19,.78) 43%,rgba(4,10,19,.16) 71%,rgba(4,10,19,0) 100%);
+}
+.cosmos-orbit-art{display:none}
+.cosmos-stage{
+  position:absolute;z-index:3;top:5%;right:1.5%;
+  width:55.5%;height:79%;overflow:hidden;
+  border-radius:15px;isolation:isolate;
+  background:radial-gradient(ellipse at 50% 50%,#193551,#040915 71%);
+  box-shadow:0 0 110px rgba(19,78,107,.18),inset 0 0 50px rgba(0,0,0,.18);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 13%,#000 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,#000 13%,#000 100%);
+}
+#cosmos-story-canvas{
+  display:block;position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;
+}
+.cosmos-stage-head,.cosmos-stage-footer{
+  position:absolute;z-index:2;left:13%;right:4%;font-family:var(--display);
+  color:#eefaff;pointer-events:none;
+}
+.cosmos-stage-head{
+  top:7%;display:flex;align-items:center;gap:9px;
+  font-size:10px;font-weight:700;letter-spacing:.17em;
+  text-shadow:0 2px 8px rgba(0,0,0,.75);
+}
+.cosmos-stage-head strong{margin-left:auto;color:#a6eae0;font-size:9px}
+.story-status-dot{height:7px;width:7px;flex-shrink:0;display:block;border-radius:50%;background:#a4f5e7;box-shadow:0 0 18px #a4f5e7}
+.cosmos-stage-footer{
+  bottom:9%;display:flex;align-items:center;gap:17px;
+  border-top:1px solid rgba(204,240,245,.29);padding-top:15px;
+  text-shadow:0 2px 9px rgba(0,0,0,.78);
+}
+.cosmos-story-number{font-size:13px;font-weight:700;letter-spacing:.12em;color:#ffc08c}
+.cosmos-stage-footer div{display:flex;flex-direction:column;gap:4px;min-width:0}
+.cosmos-stage-footer strong{font-size:15px;letter-spacing:.1em}
+.cosmos-stage-footer small{font-size:11px;color:#bdd1df;letter-spacing:.02em}
+.cosmos-stage-arrow{margin-left:auto;font-size:22px;color:#96e6df}
+.cosmos-label{display:none}
+.cosmos-hero .cosmology-epoch-bar,.cosmos-hero .hero-bottom-note{z-index:6}
+.cosmo-simulator-controls {background:rgba(3,10,20,.86);border-color:rgba(145,236,224,.35)}
+.cosmo-sim-meta output{color:#a7f0e4}
+.cosmo-sim-disclaimer{max-width:520px}
+.cosmology-epoch-bar .epoch{transition:background .4s, box-shadow .4s}
+.cosmology-epoch-bar .epoch.current-epoch{background:rgba(145,236,224,.18)!important;box-shadow:inset 0 3px 0 #91ece0}
+
+/* Built-in globe: a real geographic vector map, independent of external tile servers. */
+.travel-shell{grid-template-columns:300px minmax(0,1fr);border-radius:7px;overflow:hidden}
+.travel-map-wrap{
+  min-height:450px!important;display:flex;flex-direction:column;
+  justify-content:center;background:linear-gradient(155deg,#061523,#122a3c);
+  overflow:hidden
+}
+#travel-map.atlas-map{
+  position:relative;width:100%;height:auto!important;min-height:0!important;
+  aspect-ratio:1200/595;overflow:hidden;
+  background:#0b2438;cursor:grab;touch-action:pan-y;
+  border-bottom:1px solid rgba(154,209,214,.26)
+}
+#travel-map.atlas-map.is-dragging{cursor:grabbing;touch-action:none}
+.atlas-stage{
+  position:absolute;inset:0;width:100%;height:100%;
+  transform-origin:0 0;transition:transform .43s ease-out;
+  will-change:transform;
+}
+.atlas-stage.is-grabbing{transition:none}
+.atlas-world{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:fill;user-select:none;pointer-events:none}
+.atlas-pin{
+  position:absolute;left:var(--px);top:var(--py);z-index:2;
+  padding:0;border:0;background:transparent;color:#e9fafb;
+  transform:translate(-50%,-50%) scale(var(--pin-scale,1));transform-origin:center;
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--display);font-size:10px;font-weight:700;
+  cursor:pointer;filter:drop-shadow(0 2px 6px #04151c);
+  outline-offset:6px;white-space:nowrap;
+}
+.atlas-pin-dot{
+  display:block;height:14px;width:14px;flex-shrink:0;
+  border:3px solid #133b47;border-radius:50%;background:#96f2e2;
+  box-shadow:0 0 0 4px rgba(145,236,224,.22),0 0 17px rgba(145,236,224,.7);
+}
+.atlas-pin-label{
+  display:none;background:rgba(4,18,29,.93);padding:5px 8px;
+  border:1px solid rgba(145,236,224,.36);border-radius:3px;
+}
+.atlas-pin:hover,.atlas-pin.active{z-index:5}
+.atlas-pin:hover .atlas-pin-label,.atlas-pin:focus-visible .atlas-pin-label,.atlas-pin.active .atlas-pin-label{display:block}
+.atlas-pin.active .atlas-pin-dot{background:#ffc08d;box-shadow:0 0 0 4px rgba(255,192,141,.25),0 0 20px #ffa364}
+.atlas-toolbar{
+  position:absolute;z-index:12;top:14px;right:14px;
+  display:flex;flex-direction:column;gap:5px;
+}
+.atlas-toolbar button{
+  border:1px solid rgba(170,222,230,.44);width:36px;height:36px;
+  border-radius:4px;background:rgba(5,25,36,.92);color:#d4fff5;
+  font-family:var(--display);font-size:21px;line-height:1;
+}
+.atlas-toolbar button:hover{background:#245262}
+.atlas-brand{
+  position:absolute;z-index:11;bottom:9px;left:12px;
+  color:rgba(213,242,243,.86);background:rgba(3,18,28,.7);
+  padding:4px 8px;font-size:9px;font-weight:700;letter-spacing:.13em;border-radius:2px;
+  pointer-events:none;
+}
+.atlas-brand span{color:#ffc08d}
+.atlas-details{
+  padding:17px 22px;min-height:66px;color:#c2d7e1;
+  line-height:1.65;font-size:12px;
+  border-top:1px solid rgba(154,209,214,.22)
+}
+#world-reset{background:rgba(145,236,224,.12);color:#c8fff5;border-color:rgba(145,236,224,.35)}
+.travel-map-wrap .atlas-pin:focus-visible{outline:2px solid #fff}
+@media(max-width:1150px){
+  .cosmos-copy{width:64%}
+  .cosmos-copy h1{font-size:clamp(52px,6.6vw,78px)}
+  .cosmos-stage{right:0%;width:54%}
+  .travel-shell{grid-template-columns:275px minmax(0,1fr)}
+}
+@media(max-width:900px){
+  .cosmos-hero {min-height:unset}
+  .cosmos-hero-inner{min-height:unset;padding-block:84px 18px}
+  .cosmos-copy{width:100%;max-width:720px}
+  .cosmos-copy h1{font-size:clamp(50px,8.6vw,74px)}
+  .cosmos-stage{
+    position:relative;width:min(100% - 36px,750px);height:395px;
+    top:auto;right:auto;margin:10px auto 32px;
+    -webkit-mask-image:none;mask-image:none;
+    border:1px solid rgba(145,236,224,.18);
+  }
+  .cosmos-stage-head,.cosmos-stage-footer{left:6%;right:6%}
+  .cosmos-hero-shade{background:linear-gradient(180deg,rgba(4,10,19,.6),rgba(4,10,19,.25))}
+  .travel-shell{grid-template-columns:1fr}
+  .travel-control-panel{border-right:0;border-bottom:1px solid rgba(200,234,241,.2)}
+  .travel-map-wrap{min-height:0!important}
+  .atlas-map{min-height:unset!important}
+}
+@media(max-width:560px){
+  .cosmos-hero-inner{padding-block:52px 12px}
+  .cosmos-stage{height:340px}
+  .cosmos-stage-head{font-size:9px}
+  .cosmos-stage-footer strong{font-size:12px}
+  .cosmos-stage-footer small{font-size:10px}
+  .cosmos-stage-footer{bottom:7%}
+  .cosmos-story-number{font-size:11px}
+  .travel-shell{border-radius:4px}
+  .atlas-toolbar{top:8px;right:8px}
+  .atlas-toolbar button{width:29px;height:29px}
+  .atlas-brand{font-size:7px;bottom:6px;left:6px}
+  .atlas-pin-dot{width:10px;height:10px;border-width:2px}
+  .atlas-pin-label{font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){
+  .atlas-stage{transition:none}
+}
+
+/* Animated CSS fallback remains visible if Canvas initialization fails. */
+.cosmos-stage::before{
+  content:"";position:absolute;inset:-30%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 50% 48%,rgba(255,169,91,.5),rgba(171,71,55,.25) 23%,transparent 49%),
+    radial-gradient(ellipse at 74% 64%,rgba(50,146,198,.42),transparent 52%);
+  animation:cosmic-fallback-glow 8s ease-in-out infinite alternate;
+}
+@keyframes cosmic-fallback-glow{
+  0%{transform:scale(.82) rotate(-4deg);opacity:.6}
+  100%{transform:scale(1.25) rotate(4deg);opacity:1}
+}
+@media(prefers-reduced-motion:reduce){
+  .cosmos-stage::before{animation:none}
+}
