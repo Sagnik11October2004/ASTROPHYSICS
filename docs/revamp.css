@@ -243,3 +243,7 @@
   .cosmos-hero-inner { min-height:0; padding:0; }
   .cosmos-copy,.cosmos-copy h1,.cosmos-copy .hero-description { color:#111 !important; }
 }
+
+/* A subtle highlight tracks the animated cosmic era without obscuring labels. */
+.epoch.current-epoch { background:linear-gradient(90deg,rgba(145,236,224,.095),transparent); }
+.epoch.current-epoch strong { color:#bbfff2; }
