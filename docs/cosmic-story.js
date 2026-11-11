@@ -22,13 +22,13 @@
  const S=[
    {title:'CMB · LAST SCATTERING',sub:'Primordial temperature fluctuations, before z=499',z:1100},
    {title:'INITIAL CONDITIONS · DARK AGES',sub:'Nearly uniform primordial matter at z=499',z:499},
-   {title:'FIRST STARS · COSMIC DAWN',sub:'Rare, dense minihaloes form the first stars',z:30},
-   {title:'DARK MATTER HALO FORMATION',sub:'Collapse, accretion and hierarchical halo assembly',z:15},
+   {title:'MINIHALO COLLAPSE',sub:'Rare, high-density dark-matter haloes assemble first',z:35},
+   {title:'FIRST STARS · COSMIC DAWN',sub:'Primordial gas collapses within minihaloes',z:22},
    {title:'GALAXIES & REIONIZATION',sub:'Luminous galaxies grow within dark-matter haloes',z:6},
    {title:'THE UNIVERSE TODAY',sub:'A rich cosmic web of filaments, groups and clusters',z:0}
  ];
  const stageStops=[0,.085,.225,.41,.60,.80,1];
- const zAnchor=[1100,499,30,15,6,2,0];
+ const zAnchor=[1100,499,35,22,6,2,0];
  function getState(){
    let chapter=5;
    for(let i=0;i<6;i++){if(p<stageStops[i+1]){chapter=i;break;}}
@@ -145,9 +145,9 @@
    }
  }
  function dawn(st){
-   if(st.chapter<2)return;
-   const born=smooth((p-.225)/.38);
-   const count=st.chapter===2?Math.floor(2+16*st.u):Math.floor(18+56*born);
+   if(st.chapter<3)return;
+   const born=smooth((p-.405)/.36);
+   const count=st.chapter===3?Math.floor(2+16*st.u):Math.floor(18+56*born);
    for(let i=0;i<count;i++){
      const n=haloSeeds[(i*7)%haloSeeds.length];
      const t=clock*.09+i*2.6,dist=Math.min(W,H)*(.013+(i%9)*.004);
@@ -192,7 +192,7 @@
        const f=smooth(st.u);
        for(let i=0;i<8;i++)glow(W*(.17+i*.11),H*(.25+.3*Math.sin(i)),Math.min(W,H)*(.05+f*.05),'60,98,155',.07+.06*f);
      }
-     if(st.chapter===2)for(let i=0;i<4;i++)glow(haloSeeds[i].x*W,haloSeeds[i].y*H,Math.min(W,H)*.15,'243,161,87',.13*st.u);
+     if(st.chapter===3)for(let i=0;i<4;i++)glow(haloSeeds[i].x*W,haloSeeds[i].y*H,Math.min(W,H)*.15,'243,161,87',.13*st.u);
    }
    const v=c.createRadialGradient(W*.52,H*.50,Math.min(W,H)*.08,W*.52,H*.5,Math.max(W,H)*.75);
    v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,'rgba(0,2,9,.65)');
