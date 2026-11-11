@@ -1,79 +1,88 @@
-# Sagnik Bhowmick — Theoretical & Computational Astrophysics
+# Sagnik Bhowmick — Theory & Simulations Portfolio
 
-This GitHub Pages website is a redesign based on the previous personal academic site, **"Sagnik Bhowmick — Theoretical & Computational Astrophysics"**. It restores that site's major sections and visual language (dark astronomical colors with cyan and amber accents) rather than replacing them with a generic research portfolio.
+Official academic research website, hosted on free GitHub Pages from the `main` branch and `/docs` folder:
 
-## Website sections and updated features
+https://sagnik11october2004.github.io/ASTROPHYSICS/
 
-- **Hero:** Six chapter animation from an earlier CMB prologue (z≈1100) to initial conditions at z=499, then rare minihalo collapse, first stars, galaxy assembly and today's z=0 cosmic web. Redshift is annotated; the displacement-field evolution is 2D and illustrative. Play/pause and scrubbing available.
-- **Profile:** Research overview and a GPU-based accretion-disk illustration showing qualitative Doppler beaming, disk temperature gradients, a black-hole shadow and photon-ring-inspired lensing arcs. Adjust the **inclination** slider. This is **not** a general-relativistic ray-tracer, hydrodynamic run or scientific prediction. The original Canvas 2D animation remains as the fallback when WebGL is unavailable.
-- **Selected Research:** **Eight separate CV-grounded project cards** showing the author's own specific contributions in primordial collapse; GADGET-4 chemistry/particle splitting; Monte Carlo Comptonization/polarization; halo statistics; transonic accretion; AGN feedback; nonlinear dynamics; independent two-phase CFD. Filter by topic.
-- **Research Mentors:** Eight linked institutional or academic portraits, with source credit and initials fallback if a picture is blocked by its original host. The images are **hotlinked** from the respective institutions/professional sources, not copied into this repository. Review any third-party image reuse restrictions before publishing.
-- **Travel With Me:** Self-contained Natural Earth political world map with real country boundaries and country-name labels, with no extra geographic labels. Click country pins and use pan/zoom/region filters. No third-party mapping services.
-- **Research visualizations:** Separate black-hole accretion/AGN feedback duty cycle, four-stage Pop III.1 protostellar evolution comparison based on the supplied video, and a stochastic Monte Carlo photon Comptonization transport illustration. Experience, toolkit, CV and contact sections remain.
+The design is based on the earlier dark astronomy-themed personal webpage, preserving the Profile, Research, Experience, Mentors, Travel, Toolkit, CV and Contact sections. The site deliberately stresses **original theory, numerical implementation, simulations and verification**, not simulations alone.
 
-## Source files
+## Research
 
-| File | Purpose |
-| --- | --- |
-| `docs/index.html` | Semantic sections and CV-grounded text |
-| `docs/styles.css` | Base typography and responsive styles |
-| `docs/revamp.css` | Restored personal-site visual language |
-| `docs/upgrade.css` | Detailed project cards, portraits and interactive controls |
-| `docs/script.js` | Base navigation/theme, legacy optional density chart support, Canvas 2D BH fallback |
-| `docs/cosmos.js` | Research filters, printable CV and offline atlas controls |
-| `docs/bh-relativistic.js` | WebGL qualitative relativistic disk shading |
-| `docs/enhancements.js` | Broken-image fallbacks and accessible project labels |
-| `docs/cosmic-story.js` | Six-stage CMB prologue to z=0 cosmic-history animation |
-| `docs/world.svg` | Superseded geographic vector map (retained for compatibility) |
-| `docs/world-countries.svg` | Natural Earth political map with country labels |
-| `docs/astrolab.js` | AGN, Pop III.1 and Comptonization animation logic |
-| `docs/astrolab.css` | Animation layouts and world map refinements |
-| `docs/fix.css` | High-contrast cosmic-story stage and self-contained atlas layout |
-| `docs/favicon.svg` | Vector favicon |
+Eight individual CV-grounded projects cover primordial minihalo collapse; GADGET-4 primordial chemistry and adaptive particle splitting; Comptonization and polarization; halo merger statistics from Shin-Uchuu/Phi-4096; analytical transonic accretion; AGN accretion and feedback; nonlinear fluid dynamics; and an independent CFD solver. Project cards describe the author's contributions in first person.
 
-**Scientific transparency:** These are performant browser visualizations. The hero is based on a linearized cosmological displacement scheme in two spatial dimensions; it does not solve the coupled gravity/hydrodynamics/radiation equations for the entire observable universe. The accretion-disk image is an approximate shader, not ray tracing in a Schwarzschild or Kerr metric. The earlier dark-matter-cusp graph has been replaced by a schematic AGN feedback-cycle animation.
+## Visualizations and video provenance
 
-**Privacy:** No private research code, unpublished datasets, personally identifying phone number or full CV PDF have been added. Research methods are described from the author's existing CV, and no ongoing paper is falsely described as published.
+### Cosmological evolution: real simulation footage
 
-## Enable the GitHub Pages site
+**Default:** NASA's *Imagine the Universe!* hosts an MPE/V. Springel simulation movie about structure formation, gravitational clustering, and galaxies. The primary source is `https://imagine.gsfc.nasa.gov/Videos/news/darkenergy_anim2_QT.mp4`, with information and credits on the [NASA description page](https://imagine.gsfc.nasa.gov/descriptions/darkenergy_anim2_QT.html). NASA credits **MPE / V. Springel**. Its exact initial redshift is not verified as z=499; the website does not claim that.
 
-1. Review and merge the pull request into `main`.
-2. Open **Repository → Settings → Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**.
-4. Set branch **main** and directory **/docs**, then **Save**.
-5. The anticipated Pages URL is `https://sagnik11october2004.github.io/ASTROPHYSICS/`.
+**Backup when the primary movie fails:** the official Illustris Collaboration movie, *A Virtual Universe*, embedded from YouTube, with [Illustris Media](https://www.illustris-project.org/media/) and appropriate credit. Illustris begins at **z=127**, rather than z=499.
 
-The Pages URL is not confirmed live until the repository's Pages deployment succeeds.
+**User-selectable visualization:** the existing locally rendered six-stage 2D educational animation remains available for a *CMB prologue (z~1100)*, *z=499 initial conditions*, minihalo assembly, first stars, galaxies, and z=0. Its matter displacement is a stylized first-order Fourier/Zel'dovich calculation; the other effects are illustrations, not actual z=499 full-physics simulation data. **Never present the CMB stage as a frame from a film starting at z=499.**
 
-## Preview locally
+### Black-hole feedback: real research simulation plus conceptual cycle
+
+**Default:** NASA Scientific Visualization Studio's [Simulations of Weak Black Hole Jets](https://svs.gsfc.nasa.gov/14203/). NASA Goddard credits **R. Tanner and K. Weaver**. The linked movie is an actual numerical simulation of weak AGN jets interacting with dense galactic gas. The chosen clip is not itself a full accretion/quenching/reignition cycle. 
+
+**Alternative button:** the previous animated accretion → jet/wind feedback → gas suppression → resumed accretion *conceptual* duty-cycle canvas, retained as an educational explanation of episodic fueling.
+
+### Original Pop III.1 comparison video — unchanged
+
+**This section now embeds the exact 15-second original MP4 that the user uploaded**, rather than an animation recreated from the storyboard. The uploaded file `popiii_dm_heating_comparison (1).mp4` was transferred *unchanged* into the author's connected Google Drive account with name `popiii_dm_heating_comparison_exact.mp4`.
+
+Google Drive file: https://drive.google.com/file/d/10GCHZUes3954PJawJc-R598l89ScF_7U/view
+
+Embedded player: https://drive.google.com/file/d/10GCHZUes3954PJawJc-R598l89ScF_7U/preview
+
+**Public playback limitation:** Google Drive reported `shared=false` immediately after upload. Only the file's owner can grant public link access using their Google Drive UI. For visitors to see the exact original video on the public site: open the file → **Share → General access → Anyone with the link → Viewer → Done**. The present connector does not allow changing a Drive file's permission to public/anyone, so no public playback claim is made until this is done.
+
+The Pop III.1 dark-matter annihilation heating scenario remains scientifically conditional, not a guaranteed outcome.
+
+### Monte Carlo radiative transfer — source-based educational browser port
+
+A new standalone module `docs/mcrt-source.js` implements a **fresh, self-contained JavaScript port of the physics algorithms** inspected in the author's private GitHub repository `Sagnik11October2004/nordita-mcrt`, including:
+
+- `src/transport.c`: exponential free-path / optical-depth sampling `tau=-ln(U)`, flight and boundary-escape logic.
+- `src/physics.c`: relativistic photon Lorentz boosts between the lab and electron rest frame; exact electron-rest-frame Klein–Nishina recoil and angular rejection sampling.
+- Maxwell–Jüttner thermal electron proposals, energy-dependent KN interaction weighting, and an educational nonthermal electron component.
+- Three illustrative plasma setups: H homogeneous, S0 structured static plasmoids + interblob medium, Sv cooler moving plasmoids.
+- Stochastic photon tracks, changing energies, counted scatterings and escaped-packet energy histogram.
+
+The **original research code is not republished**. The visualization is not a compiled run of the complete production C/MPI engine, does not include polarized Stokes transport or full orbital/gravitational plasma dynamics, and must **not** be presented as a quantitatively validated spectrum or scientific result.
+
+### Mentor portraits
+
+The Research Mentors section includes institutional links and images where available. The Naoki Yoshida portrait now uses a source from Research Organization of Information and Systems as the primary image, with university and other public academic fallbacks; if all sources block hotlinking, accessible initials remain visible.
+
+### World map
+
+Bundled [Natural Earth 1:110m country map](https://github.com/nvkelso/natural-earth-vector) at `docs/world-countries.svg`, with country boundaries/names only. No external tile service, API key or map-library dependency.
+
+## Main website files
+
+| File | Role |
+|---|---|
+| `index.html` | Page content, research cards and media source links |
+| `styles.css`, `revamp.css`, `upgrade.css`, `fix.css`, `astrolab.css`, `media-revision.css` | Responsive design |
+| `script.js` | Base interactions and black-hole artwork fallback |
+| `bh-relativistic.js` | Qualitative GPU accretion-disk shading |
+| `cosmos.js` | Research filters and map controls |
+| `cosmic-story.js` | Optional illustrated CMB-to-today timeline |
+| `site-media.js` | Media fallback, video/model switching, load monitoring |
+| `astrolab.js` | Optional AGN duty-cycle schematic |
+| `mcrt-source.js` | Source-informed browser Monte Carlo scattering experiment |
+| `enhancements.js` | Mentor photo fallback chain and project accessibility |
+| `world-countries.svg` | Country-labelled, self-hosted world map |
+
+## Local preview
 
 ```bash
 cd docs
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000`.
+Open `http://localhost:8000`. External videos and institutional photos require Internet connectivity and may be blocked by source-site policies; local canvas fallbacks are included. Respect reduced-motion preferences and use the playback controls as needed.
 
-The site requires only vanilla HTML/CSS/JS. The world geography is shipped with the repository as a self-contained Natural Earth SVG. No map tile libraries, API keys or remotely hosted map services are needed. Google Fonts have system-font fallbacks. The animation respects reduced-motion preferences and pauses when its canvas is offscreen.
+## Deployment
 
-## Custom domain
-
-This site currently expects the default GitHub Pages path. A domain previously used for the personal site can be connected later once it is configured in GitHub Pages and the DNS provider; do not add a CNAME file until that migration is ready.
-
-## Troubleshooting the map and animation
-
-Previously, the world map relied on externally fetched Leaflet scripts and CARTO tiles. Some visitors saw a blank map when those resources did not load. The replacement bundles the coastline map with the website so it renders regardless of third-party tile availability. The original cosmological animation was replaced first with a bright panel; the current version adds redshift-anchored sequences through z=0. After merging these changes, use Ctrl+Shift+R to avoid cached scripts. GitHub Pages is already enabled on main/docs.
-
-
-## November 2026 — cosmic-evolution and numerical-visualization update
-
-- **Country-only world map:** The map now uses a bundled high-resolution political vector derived from the public-domain [Natural Earth 1:110m countries GeoJSON](https://github.com/nvkelso/natural-earth-vector/blob/master/geojson/ne_110m_admin_0_countries.geojson). Country borders and names appear; prior ocean/grid/atlas labels have been removed. Geographic zoom/pan/selection are kept. `world-countries.svg` is self-hosted, with no externally hosted map services.
-- **Hero animation:** Six chronological chapters, beginning with an *earlier* CMB reference at z~1100 followed by initial conditions at z=499, minihalo collapse, first stars, galaxy assembly and z=0. The 2D Fourier-displacement matter evolution is a physically motivated visualization. It does not solve Poisson+hydrodynamics self-consistently or reproduce a quantitative LCDM run. The CMB rendering, first stars and galaxy art are illustrative. Redshift evolves by chapter with labeled anchors; timeline playback rate is not proportional to physical time.
-- **BH feedback:** The former dark-matter cusp plot has been replaced by an animated conceptual AGN cycle: gas supply, disk accretion, mechanical/radiative feedback, hot-gas suppression and renewed inflow. It is not a GRMHD model and does not imply every AGN is fully quenched.
-- **Pop III.1 formation:** A side-by-side four-stage animated recreation based on the user's 15-second uploaded video `popiii_dm_heating_comparison (1).mp4`. The original video was reviewed locally, including its stages (formation, divergence, feedback, late growth). The source video is **not embedded**; its sequence informs the new independent Canvas illustration. Annihilation-heated supermassive protostar formation remains hypothetical, conditional on sustained heating and accretion. Avoid interpreting the displayed relative radii/meter values as simulation results.
-- **Monte Carlo Comptonization:** Separate live packet-transport experiment with stochastic scattering, a qualitative energy-exchange kernel, changing colour as photon energy increases, escaping-packet histogram and geometry switches (H, S0 and Sv). It is not the user's production radiative-transfer solver or a calibrated physical spectrum. No unsupported quantitative polarization claims are made.
-- **Code:** `astrolab.js` and `astrolab.css` implement the three interactive research animations. The title animation remains in `cosmic-story.js`; the existing `cosmos.js` controls the self-contained map and research filters.
-
-### Privacy / publication
-
-The full original Pop III.1 presentation video has not been republished to GitHub; no private datasets, collaborator material or unpublished figures were uploaded. The animations are new client-side educational illustrations grounded in the user's published CV narrative and provided storyboard.
+GitHub Pages is already configured to deploy from `main /docs`. Merge the feature pull request to publish. Refresh with Ctrl+Shift+R if cached website CSS or JavaScript prevents the update from appearing.

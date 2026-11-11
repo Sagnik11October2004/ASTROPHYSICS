@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#080e19">
-  <meta name="description" content="Sagnik Bhowmick · Theoretical and Computational Astrophysics at IISER Kolkata. Primordial star formation, dark matter, black holes and radiative transfer.">
+  <meta name="description" content="Sagnik Bhowmick · Astrophysical theory and simulations at IISER Kolkata. Primordial star formation, dark matter, black holes, feedback and radiative transfer.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Sagnik Bhowmick — Theoretical & Computational Astrophysics">
-  <meta property="og:description" content="Tracing the physics of the early universe. Research in primordial collapse, black-hole physics and numerical astrophysics.">
+  <meta property="og:description" content="Astrophysical theory and simulations: primordial collapse, black-hole accretion, feedback and numerical radiative transfer.">
   <title>Sagnik Bhowmick — Theoretical &amp; Computational Astrophysics</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,12 +17,15 @@
   <link rel="stylesheet" href="./upgrade.css">
   <link rel="stylesheet" href="./fix.css?v=3">
   <link rel="stylesheet" href="./astrolab.css?v=4">
+  <link rel="stylesheet" href="./media-revision.css?v=5">
   <script defer src="./script.js"></script>
   <script defer src="./cosmos.js?v=3"></script>
   <script defer src="./cosmic-story.js?v=4"></script>
   <script defer src="./astrolab.js?v=4"></script>
   <script defer src="./bh-relativistic.js"></script>
-  <script defer src="./enhancements.js"></script>
+  <script defer src="./enhancements.js?v=5"></script>
+  <script defer src="./site-media.js?v=5"></script>
+  <script defer src="./mcrt-source.js?v=5"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -47,10 +50,10 @@
       <div class="cosmos-orbit-art" aria-hidden="true"></div>
       <div class="container cosmos-hero-inner">
         <div class="cosmos-copy">
-          <div class="eyebrow"><span class="pulse-dot"></span> THEORETICAL &amp; COMPUTATIONAL ASTROPHYSICS · IISER KOLKATA</div>
+          <div class="eyebrow"><span class="pulse-dot"></span> THEORY &amp; SIMULATIONS · COMPUTATIONAL ASTROPHYSICS · IISER KOLKATA</div>
           <p class="hero-kicker">SAGNIK BHOWMICK</p>
           <h1 id="hero-title">Tracing the physics of the <em>early universe.</em></h1>
-          <p class="hero-description">I am a fourth-year BS–MS Physics student studying primordial star formation, dark-matter dynamics, black-hole accretion, and radiative transfer through simulations and numerical methods.</p>
+          <p class="hero-description">I develop physical theory and numerical simulations to study primordial star formation, dark-matter dynamics, black-hole accretion and feedback, and radiation transport. I am a fourth-year BS–MS Physics student at IISER Kolkata.</p>
           <div class="hero-actions">
             <a class="button button-primary" href="#research">Explore my research <span aria-hidden="true">↗</span></a>
             <a class="button button-text" href="#cv">View CV <span aria-hidden="true">↗</span></a>
@@ -58,21 +61,26 @@
             <a class="hero-social" href="https://www.linkedin.com/in/sagnik-bhowmick-161668292/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           </div>
           <div class="cosmo-simulator-controls" aria-label="Cosmological simulation controls">
-<div class="cosmo-sim-meta"><span class="cosmo-live-dot"></span> COSMIC EVOLUTION · z = 499 TO 0 <output id="cosmo-epoch-readout">Hot plasma</output></div>
-<div class="cosmo-sim-actions"><button type="button" id="cosmo-play" aria-label="Pause cosmological animation">Pause <span aria-hidden="true">Ⅱ</span></button>
+<div class="cosmo-sim-meta"><span class="cosmo-live-dot"></span> REAL COSMOLOGICAL SIMULATION VIDEO <output id="cosmo-epoch-readout">Hot plasma</output></div>
+<div class="cosmo-sim-actions cosmo-model-controls" hidden><button type="button" id="cosmo-play" aria-label="Pause cosmological animation">Pause <span aria-hidden="true">Ⅱ</span></button>
 <label for="cosmo-progress">Cosmic time</label><input type="range" id="cosmo-progress" min="0" max="1000" value="0" step="1" aria-label="Scrub through cosmological redshift and epochs">
 <output id="cosmo-redshift" for="cosmo-progress">z ≫ 1100</output></div>
-<div class="cosmo-sim-disclaimer">A live 2D linear-displacement model for structure growth; early plasma, recombination and star light are illustrative. Not a full relativistic N-body simulation.</div>
+<div class="cosmo-sim-disclaimer">Actual simulation footage presented by NASA/MPE; Illustris backup runs from z=127 to 0. The CMB and z=499 are not frames of these external films.
+<div class="cosmo-film-actions"><button id="cosmo-toggle-model" type="button" aria-pressed="false">Show illustrated CMB-to-today timeline</button><a href="https://imagine.gsfc.nasa.gov/descriptions/darkenergy_anim2_QT.html" target="_blank" rel="noopener noreferrer">NASA/MPE source ↗</a><a href="https://www.illustris-project.org/media/" target="_blank" rel="noopener noreferrer">Illustris source ↗</a></div></div>
 </div>
         </div>
         <div class="cosmos-label" aria-hidden="true"><span class="label-line"></span> A COMPUTED JOURNEY THROUGH COSMIC TIME</div>
       </div>
       <div class="cosmos-stage" aria-label="Visibly animated cosmic history from hot plasma and recombination through cosmic dawn to a galaxy-filled cosmic web">
-        <canvas id="cosmos-story-canvas" role="img" aria-label="Animated cosmological history: a glowing hot early universe, cosmic microwave background, dark ages, first star formation, and a forming filamentary cosmic web"></canvas>
-        <div class="cosmos-stage-head"><span class="story-status-dot"></span> COSMIC STRUCTURE GROWTH <strong>z 499 → 0</strong></div>
+        <canvas id="cosmos-story-canvas" role="img" aria-label="Illustrated cosmological structure growth, used as a fallback"></canvas>
+        <video id="cosmos-real-video" class="real-footage cosmos-film" autoplay muted loop playsinline preload="metadata" aria-label="Real simulation video of structure formation, MPE/V. Springel, hosted by NASA">
+          <source src="https://imagine.gsfc.nasa.gov/Videos/news/darkenergy_anim2_QT.mp4" type="video/mp4">
+        </video>
+        <iframe id="cosmos-video-fallback" class="cosmos-film youtube-film" data-embed="https://www.youtube-nocookie.com/embed/SY0bKE10ZDM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=SY0bKE10ZDM&amp;controls=0&amp;playsinline=1&amp;rel=0" title="Illustris Collaboration · A Virtual Universe · cosmological hydrodynamical simulation" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" hidden></iframe>
+        <div class="cosmos-stage-head"><span class="story-status-dot"></span> COSMOLOGICAL SIMULATION FOOTAGE <strong>NASA / MPE · V. SPRINGEL</strong></div>
         <div class="cosmos-stage-footer">
-          <span class="cosmos-story-number" id="story-number">01 / 06</span>
-          <div><strong id="story-name">CMB · EARLIER EPOCH</strong><small id="story-subtitle">A primordial imprint on later structure</small></div>
+          <span class="cosmos-story-number" id="story-number">REAL SIMULATION</span>
+          <div><strong id="story-name">GRAVITATIONAL STRUCTURE GROWTH</strong><small id="story-subtitle">NASA/MPE/V. Springel · Illustris alternative z 127–0</small></div>
           <span class="cosmos-stage-arrow" aria-hidden="true">↗</span>
         </div>
       </div>
@@ -84,16 +92,16 @@
         <div class="epoch"><strong>04</strong><span>GALAXY FORMATION</span><small>z ≈ 8–2</small></div>
         <div class="epoch"><strong>05</strong><span>TODAY'S UNIVERSE</span><small>z = 0 · cosmic web</small></div>
       </div>
-      <div class="container hero-bottom-note"><span>CMB PRELUDE → z 499 INITIAL CONDITIONS → FIRST STARS → HALOES → GALAXIES → z 0 · VISUAL MODEL</span><span>SCROLL TO EXPLORE ↓</span></div>
+      <div class="container hero-bottom-note"><span>ACTUAL SIMULATION FOOTAGE · MPE/V. SPRINGEL · ILLUSTRIS BACKUP · SOURCE REDSHIFT RANGES DIFFER</span><span>SCROLL TO EXPLORE ↓</span></div>
     </section>
 
     <section class="section profile-section" id="about" aria-labelledby="about-heading">
       <div class="container profile-grid">
         <div class="reveal">
           <div class="section-index">01 / PROFILE</div>
-          <h2 id="about-heading" class="section-title">Physics across scales, connecting <em>theory and computation.</em></h2>
+          <h2 id="about-heading" class="section-title">Theory and simulations across <em>many astrophysical scales.</em></h2>
           <p class="lead">My work sits where cosmology, high-energy astrophysics, and scientific computing meet.</p>
-          <p class="profile-body">I use hydrodynamic and N-body simulations, Monte Carlo transport, and statistical analysis to connect small-scale physical processes with the formation of stars, haloes, and black holes.</p>
+          <p class="profile-body">I combine analytical theory, relativistic flow solutions, hydrodynamic and N-body simulations, Monte Carlo radiative transfer, and statistical analysis to connect physical mechanisms with the formation of stars, haloes, and black holes.</p>
           <p class="profile-body">I am especially interested in questions that demand both physical interpretation and careful numerical validation: how primordial gas collapses, how dark matter responds, how photons gain energy in hot plasmas, and how resolution affects the conclusions we draw.</p>
           <div class="profile-facts">
             <div><span>IISER KOLKATA</span><strong>Department of Physical Sciences</strong></div>
@@ -115,7 +123,7 @@
 
     <section class="section selected-research" id="research" aria-labelledby="research-heading">
 <div class="container">
-<div class="section-heading reveal"><div><div class="section-index">02 / SELECTED RESEARCH &amp; PROJECTS</div><h2 id="research-heading">What I actually <em>built, derived &amp; measured.</em></h2></div><p>Individual projects drawn from my research CV. Each card spells out my contribution, rather than only describing a broad research area.</p></div>
+<div class="section-heading reveal"><div><div class="section-index">02 / SELECTED RESEARCH &amp; PROJECTS</div><h2 id="research-heading">Theoretical ideas, <em>implemented and tested.</em></h2></div><p>Individual projects drawn from my research CV. Each card spells out my contribution, rather than only describing a broad research area.</p></div>
 <div class="research-filters reveal" role="group" aria-label="Filter research projects">
 <button class="research-filter active" type="button" data-filter="all" aria-pressed="true">All projects</button>
 <button class="research-filter" type="button" data-filter="cosmology" aria-pressed="false">Cosmology &amp; dark matter</button>
@@ -185,7 +193,7 @@
 <span class="mentor-monogram">JT</span><img class="mentor-photo" loading="lazy" decoding="async" alt="Portrait of Prof. Jonathan C. Tan" src="https://as.virginia.edu/sites/uva-as-as/files/styles/natural_800/public/2025-08/Jonathan_Tan.jpg?itok=kRIxWn_r" referrerpolicy="no-referrer"></div>
 <div class="mentor-details"><h3><a href="https://www.chalmers.se/en/persons/tanj/" target="_blank" rel="noopener noreferrer">Prof. Jonathan C. Tan ↗</a></h3><span>Chalmers University of Technology</span><p>Primordial collapse &amp; massive black-hole seeds</p></div></article>
 <article class="mentor-card portrait-mentor-card reveal"><div class="mentor-avatar">
-<span class="mentor-monogram">NY</span><img class="mentor-photo" loading="lazy" decoding="async" alt="Portrait of Prof. Naoki Yoshida" src="https://www.phys.s.u-tokyo.ac.jp/en/wp-content/uploads/sites/2/2024/04/NYoshida.jpg" referrerpolicy="no-referrer"></div>
+<span class="mentor-monogram">NY</span><img class="mentor-photo" loading="lazy" decoding="async" alt="Portrait of Prof. Naoki Yoshida" src="https://sr.rois.ac.jp/image/image111.jpg" data-photo-alternates="https://www.phys.s.u-tokyo.ac.jp/en/wp-content/uploads/sites/2/2024/04/NYoshida.jpg|https://www-utap.phys.s.u-tokyo.ac.jp/naoki.yoshida/NYpic.jpg|https://www.toshin.com/mirai/top_leader/article/202007/img/photo1.jpg" referrerpolicy="no-referrer"></div>
 <div class="mentor-details"><h3><a href="https://www.s.u-tokyo.ac.jp/en/people/yoshida_naoki/" target="_blank" rel="noopener noreferrer">Prof. Naoki Yoshida ↗</a></h3><span>The University of Tokyo · Kavli IPMU</span><p>First stars &amp; cosmological structure formation</p></div></article>
 <article class="mentor-card portrait-mentor-card reveal"><div class="mentor-avatar">
 <span class="mentor-monogram">SH</span><img class="mentor-photo" loading="lazy" decoding="async" alt="Portrait of Prof. Shingo Hirano" src="https://assets.kanagawa-u.ac.jp/articles/3293/e6689d38-1285-40c7-a2c2-673dd9678cea.webp" referrerpolicy="no-referrer"></div>
@@ -261,22 +269,28 @@
     <div class="section-heading reveal"><div><div class="section-index">07 / RESEARCH ANIMATIONS</div><h2 id="lab-title">The physics of <em>black-hole growth.</em></h2></div><p>Animated physical mechanisms rather than a static dark-matter density graph. The visualization is a conceptual cycle—not an MHD simulation.</p></div>
     <div class="astrolab-grid reveal">
       <div class="astrolab-scene-wrap">
-        <canvas id="agn-scene" width="1060" height="600" role="img" aria-label="Looping animation of gas feeding a black hole, a bright accretion disk, bipolar jets and shock-heated gas, a low-accretion quenched state, and subsequent reaccretion"></canvas>
-        <div class="astrolab-overlay"><span class="astrolab-live-dot"></span> BLACK HOLE · ACCRETION / FEEDBACK</div>
+        <canvas id="agn-scene" width="1060" height="600" role="img" aria-label="Fallback AGN feedback cycle model"></canvas>
+        <video id="agn-nasa-video" class="real-footage agn-film" autoplay muted loop playsinline preload="metadata" aria-label="NASA Goddard simulated weak black-hole jet feedback interacting with gas">
+          <source src="https://svs.gsfc.nasa.gov/vis/a010000/a014200/a014203/AGNwinds_TimeEvolution_Step8_4k_30.mp4" type="video/mp4">
+          <source src="https://svs.gsfc.nasa.gov/vis/a010000/a014200/a014203/AGNwinds_TimeEvolution_Step1_4k_30.webm" type="video/webm">
+        </video>
+        <div class="astrolab-overlay"><span class="astrolab-live-dot"></span> NASA GODDARD · BLACK HOLE JET FEEDBACK</div>
         <div class="astrolab-caption"><strong id="agn-phase">01 · FUEL SUPPLY</strong><span id="agn-phase-sub">Cold inflows build a luminous accretion disk</span></div>
       </div>
       <div class="astrolab-side">
-        <span class="astrolab-kicker">A CONCEPTUAL AGN DUTY CYCLE</span>
+        <span class="astrolab-kicker">RESEARCH VIDEO · ACCRETION &amp; FEEDBACK</span>
         <h3>Fuel, ignite, <em>quench, repeat.</em></h3>
         <p>Infalling gas feeds the central black hole. Energy and momentum from accretion can drive winds or jets that heat and displace the surrounding gas. Cooling, new inflows and dynamical evolution may allow accretion to restart.</p>
-        <div class="astrolab-phases" role="group" aria-label="Choose an AGN feedback phase">
+        <div class="agn-mode-picker"><button id="agn-mode-video" type="button" aria-pressed="true" class="active">NASA jet simulation</button><button id="agn-mode-model" type="button" aria-pressed="false">Illustrated duty cycle</button></div>
+        <p class="media-source-line"><a href="https://svs.gsfc.nasa.gov/14203/" target="_blank" rel="noopener noreferrer">NASA Goddard / R. Tanner &amp; K. Weaver — video source ↗</a></p>
+        <div class="astrolab-phases agn-model-controls" hidden role="group" aria-label="Choose an AGN feedback phase">
           <button type="button" class="astro-phase active" data-agn-phase="0">01 Accretion</button>
           <button type="button" class="astro-phase" data-agn-phase="1">02 AGN feedback</button>
           <button type="button" class="astro-phase" data-agn-phase="2">03 Suppression</button>
           <button type="button" class="astro-phase" data-agn-phase="3">04 Reignition</button>
         </div>
-        <div class="astro-control-row"><button type="button" id="agn-play">Pause Ⅱ</button><label for="agn-progress">Cycle</label><input type="range" id="agn-progress" min="0" max="1000" value="0" aria-label="Scrub through black-hole accretion and feedback cycle"></div>
-        <p class="astro-method-note">Schematic accretion/feedback model. Jet launching, coupling and quenching depend on environment; this is not a calibrated GRMHD or cosmological simulation.</p>
+        <div class="astro-control-row agn-model-controls" hidden><button type="button" id="agn-play">Pause Ⅱ</button><label for="agn-progress">Cycle</label><input type="range" id="agn-progress" min="0" max="1000" value="0" aria-label="Scrub through black-hole accretion and feedback cycle"></div>
+        <p class="astro-method-note">NASA footage models jet interactions with gas, not a complete accretion–quenching–restart cycle. The switchable schematic separately illustrates a possible recurrent AGN duty cycle.</p>
       </div>
     </div>
   </div>
@@ -286,20 +300,13 @@
   <div class="container">
     <div class="section-heading reveal"><div><div class="section-index">08 / POPULATION III.1 STELLAR EVOLUTION</div><h2 id="pop-title">Two possible <em>paths to a massive seed.</em></h2></div><p>An animated comparison built around the four-stage sequence in my original presentation video: without versus with dark-matter annihilation heating.</p></div>
     <div class="popiii-canvas-wrap reveal">
-      <div class="popiii-panes"><span>WITHOUT DM ANNIHILATION HEATING</span><span>WITH DM ANNIHILATION HEATING</span></div>
-      <canvas id="popiii-scene" width="1160" height="595" role="img" aria-label="Side-by-side animated Pop III.1 protostar comparison: compact hotter star without dark-matter heating versus a cooler inflated protostar with hypothetical dark-matter heating, followed by different feedback and accretion behaviour"></canvas>
-      <div class="popiii-bottom"><div><strong id="pop-phase">STAGE 1 · PROTOSTAR FORMATION</strong><p id="pop-description">Both cases begin with primordial gas accretion inside a minihalo.</p></div><span class="pop-video-note">BASED ON THE UPLOADED 15 s COMPARISON VIDEO</span></div>
+      <div class="popiii-panes"><span>ORIGINAL VIDEO · NO DM HEATING</span><span>ORIGINAL VIDEO · WITH DM HEATING</span></div>
+      <div class="pop-original-media"><iframe id="popiii-original-iframe" src="https://drive.google.com/file/d/10GCHZUes3954PJawJc-R598l89ScF_7U/preview" title="Exact original 15-second Pop III.1 dark-matter annihilation heating comparison MP4 supplied by author" allow="autoplay; encrypted-media; fullscreen" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<p class="pop-embed-access" id="popiii-access-note"><strong>Original animation:</strong> This is the exact file you supplied. To make it playable for everyone visiting this public site, open the linked file in your Google Drive and set <strong>Share → General access → Anyone with the link → Viewer</strong>. Until then, the embedded player may show a permission error to visitors.</p><div class="pop-exact-file-links"><a href="https://drive.google.com/file/d/10GCHZUes3954PJawJc-R598l89ScF_7U/view" target="_blank" rel="noopener noreferrer">Open exact original MP4 ↗</a><span>Original video, unmodified · Google Drive playback</span></div></div>
+
+      <div class="popiii-bottom"><div><strong id="pop-phase">ORIGINAL VIDEO · 15 SECONDS</strong><p id="pop-description">Exact uploaded comparison: stellar evolution without versus with dark-matter annihilation heating.</p></div><span class="pop-video-note">EXACT 15-SECOND ANIMATION · AUTHOR UPLOADED</span></div>
     </div>
-    <div class="astro-bottom-controls reveal">
-      <div class="astrolab-phases" role="group" aria-label="Select Pop III.1 evolution stage">
-        <button type="button" class="pop-phase-btn active" data-pop-phase="0">1 Formation</button>
-        <button type="button" class="pop-phase-btn" data-pop-phase="1">2 Divergence</button>
-        <button type="button" class="pop-phase-btn" data-pop-phase="2">3 Feedback</button>
-        <button type="button" class="pop-phase-btn" data-pop-phase="3">4 Later growth</button>
-      </div>
-      <div class="astro-control-row"><button type="button" id="pop-play">Pause Ⅱ</button><label for="pop-progress">Evolution</label><input id="pop-progress" type="range" min="0" max="1000" value="0" aria-label="Scrub through Pop III.1 comparison animation"></div>
-    </div>
-    <p class="astro-method-note pop-note">Scientific qualification: a sustained, annihilation-heated supermassive Pop III.1 star is a conditional theoretical scenario, not an established outcome. Illustrative radii and accretion histories are not fitted measurements. Based on the narrative of the supplied comparison video; the animation recreates its stages rather than embedding the original film.</p>
+    <p class="astro-method-note pop-note">This is the exact 15-second MP4 you supplied. It is hosted in your Google Drive; public playback requires the file to be shared as “Anyone with the link · Viewer.” Sustained dark-matter-heated supermassive-star growth remains a conditional theoretical scenario.</p>
   </div>
 </section>
 
@@ -323,7 +330,7 @@
         </div>
         <div class="astro-control-row"><button type="button" id="mcrt-play">Pause Ⅱ</button><button type="button" id="mcrt-reset">New packets ↻</button></div>
         <div class="mcrt-legend"><span><i class="mcrt-seed"></i> Seed / low energy</span><span><i class="mcrt-hard"></i> Up-scattered / harder</span><span><i class="mcrt-plasma"></i> Electron plasma</span></div>
-        <p class="astro-method-note">A qualitative Monte Carlo transport demonstration: approximate scattering and energy exchange, not the production radiative-transfer code or a validated spectrum/polarization prediction.</p>
+        <p class="astro-method-note">A browser demonstration porting the event sampling, rest-frame Klein–Nishina Compton kernel, Lorentz transformations and optical-depth escape logic from my private Nordita MCRT source. It uses Maxwell–Jüttner electron samples but not the complete production code or its polarization transport.</p>
       </div>
     </div>
   </div>

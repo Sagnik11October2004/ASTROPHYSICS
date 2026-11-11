@@ -1,0 +1,117 @@
+/* External research footage + original author video.
+   If external servers refuse hotlinking, JS reveals the in-page simulation fallback.
+   All credits and provenance are shown beside the scenes. */
+
+.cosmos-stage{isolation:isolate}
+#cosmos-story-canvas{z-index:0}
+.real-footage.cosmos-film,.cosmos-film.youtube-film{
+  position:absolute;inset:0;width:100%;height:100%;z-index:1;
+  display:block;background:#06101e;object-fit:cover;border:0
+}
+.cosmos-film.youtube-film{z-index:2}
+.cosmos-film[hidden],.cosmos-model-active .cosmos-film{display:none!important}
+.cosmos-model-active #cosmos-story-canvas{z-index:2}
+.cosmo-film-actions{
+ display:flex;align-items:center;gap:8px 15px;flex-wrap:wrap;
+ margin-top:14px;padding-top:12px;border-top:1px solid rgba(169,231,238,.24)
+}
+.cosmo-film-actions button{
+ border:1px solid rgba(145,236,224,.50);background:rgba(145,236,224,.16);
+ color:#c7fcf0;border-radius:3px;padding:9px 12px;font-size:10px;
+ font-weight:700;letter-spacing:.02em
+}
+.cosmo-film-actions button:hover{background:#91ece0;color:#061e22}
+.cosmo-film-actions a{
+ color:#b8d8e9;text-decoration:underline;text-underline-offset:3px;
+ font-size:10px;font-weight:700
+}
+.cosmo-film-actions a:hover{color:#a8fff1}
+.cosmo-model-controls[hidden]{display:none!important}
+.cosmo-model-active .cosmo-model-controls{display:flex!important}
+body:not(.cosmo-model-active) .cosmology-epoch-bar{display:none!important}
+body.cosmo-model-active .cosmology-epoch-bar{display:grid!important}
+body:not(.cosmo-model-active) #story-number{font-size:10px;color:#f9c18c}
+body:not(.cosmo-model-active) #story-name{font-size:12px}
+.cosmo-film-failed #story-name{color:#ffc592}
+.cosmos-stage-head{pointer-events:none;z-index:4}
+.cosmos-stage-footer{z-index:4}
+.cosmos-hero-shade{pointer-events:none}
+.agn-film.real-footage{
+ display:block;position:absolute;z-index:1;inset:0;
+ width:100%;height:100%;object-fit:contain;background:#040a13;
+}
+#agn-scene{display:none}
+.agn-film[hidden],.agn-model-active .agn-film{display:none!important}
+.agn-model-active #agn-scene{display:block!important}
+.agn-model-controls[hidden]{display:none!important}
+.agn-mode-picker{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 15px}
+.agn-mode-picker button{
+ border:1px solid var(--line-strong);padding:10px 13px;border-radius:3px;
+ background:var(--surface-alt);color:var(--muted);font-size:11px;font-weight:700;
+}
+.agn-mode-picker button.active,.agn-mode-picker button:hover{
+ background:var(--accent);border-color:var(--accent);color:var(--bg-deep)
+}
+.media-source-line{font-size:11px!important;margin:5px 0 17px!important;color:var(--muted)}
+.media-source-line a{text-decoration:underline;text-underline-offset:3px}
+.media-source-line a:hover{color:var(--accent)}
+.agn-mode-active .astrolab-overlay{z-index:4}
+#agn-nasa-video~.astrolab-overlay{z-index:4}
+.agn-film-failed .agn-mode-picker button:nth-child(2){border-color:var(--accent)}
+
+/* The original supplied MP4, displayed intact through Drive's embedded player.
+   The source stays on the owner's Drive, so it needs link-reader access.
+   We never substitute a new AI recreation for the exact MP4. */
+.pop-original-media{display:block;width:100%;background:#020817}
+#popiii-original-iframe{
+ border:0;display:block;width:100%;
+ aspect-ratio:1920/1032;height:auto;min-height:320px;
+ background:linear-gradient(155deg,#0c2238,#070c19);
+}
+.pop-exact-file-links{
+ display:flex;align-items:center;justify-content:space-between;gap:12px;
+ padding:13px 19px;border-top:1px solid rgba(146,187,218,.20);
+ background:#071524
+}
+.pop-exact-file-links a{
+ color:#b2fff1;text-decoration:underline;text-underline-offset:3px;
+ font-size:12px;font-weight:700
+}
+.pop-exact-file-links span{font-size:10px;color:#adc4d7;text-align:right}
+.popiii-illustrative-fallback{display:none!important}
+.pop-optional-controls,.pop-optional-controls[hidden]{display:none!important}
+.popiii-bottom{align-items:flex-start}
+.popiii-bottom .pop-video-note{font-size:10px;max-width:220px}
+.popiii-bottom strong{line-height:1.4}
+.popiii-bottom p{line-height:1.7}
+
+/* Portrait fallback stays dignified rather than displaying a broken image. */
+.mentor-avatar.portrait-unavailable{background:linear-gradient(145deg,#1b4858,#0b1d35)}
+.mentor-avatar.portrait-unavailable .mentor-monogram{z-index:3}
+
+/* Keep panels readable on narrow screens and avoid accidental video cropping. */
+@media(max-width:900px){
+ .cosmo-film-actions{gap:10px}
+ .cosmos-film.youtube-film{z-index:2}
+ #popiii-original-iframe{min-height:265px}
+}
+@media(max-width:560px){
+ .cosmo-film-actions button{width:100%;text-align:center}
+ .cosmo-film-actions a{font-size:9px}
+ #popiii-original-iframe{min-height:190px}
+ .pop-exact-file-links{flex-direction:column;align-items:flex-start;padding:12px}
+ .pop-exact-file-links span{text-align:left}
+ .agn-mode-picker button{font-size:10px;padding:9px 10px}
+}
+@media print{
+ .real-footage,.pop-original-media,.cosmo-film-actions,.agn-mode-picker{display:none!important}
+ .cosmo-model-active #cosmos-story-canvas{display:none!important}
+}
+
+.pop-embed-access{
+  margin:0;padding:14px 19px;line-height:1.65;font-size:11px;
+  color:#b9d0e0;background:#0d1b2b;
+  border-top:1px solid rgba(151,195,219,.15)
+}
+.pop-embed-access strong{color:#eaf9f8}
+.mentor-avatar .mentor-photo{object-fit:cover}
