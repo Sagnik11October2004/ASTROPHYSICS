@@ -101,7 +101,7 @@
   });
   function inBlob(r){return blobs.some(b=>norm(sub(b.p,r))<b.r);}
 
-  let mode='H',W=900,H=550,DPR=1,playing=true,visible=true,raf=0,last=0,paint=0,elapsed=0,velocity=1;
+  let mode='H',W=900,H=550,DPR=1,playing=true,visible=true,raf=0,last=0,paint=0,elapsed=0,velocity=2;
   let total=0,escaped=0,scattered=0,counts=new Uint32Array(28),packet=null,flight=0,flightTime=0;
   let dwell=.9,completed=false,lastEvent='Ready to inject seed photon';
   const counter=document.getElementById('mcrt-count'),summary=document.getElementById('mcrt-spectrum-summary');
