@@ -28,7 +28,7 @@
     {name:'THE COSMIC WEB',sub:'Galaxies and dark matter form large-scale structure',z:'z ≈ 10–0'}
   ];
   let w=800,h=620,dpr=1,playing=!reduced.matches,p=reduced.matches?.88:.035;
-  let raf=0,last=0,visible=true,elapsed=0,needsRender=true;
+  let raf=0,last=0,lastPaint=0,visible=true,elapsed=0;
   let seed=97131;
   function random(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;}
   const cl=(x,a,b)=>Math.min(b,Math.max(a,x));
@@ -285,12 +285,15 @@
     elapsed+=dt;
     p=(p+dt/23)%1;
     last=now;
-    render();
+    if(now-lastPaint>=36){
+      render();
+      lastPaint=now;
+    }
     raf=requestAnimationFrame(tick);
   }
   function sync(){
     if(raf)cancelAnimationFrame(raf);
-    raf=0;last=0;
+    raf=0;last=0;lastPaint=0;
     if(play){play.textContent=playing?'Pause Ⅱ':'Play ▶';play.setAttribute('aria-label',playing?'Pause cosmic-history animation':'Play cosmic-history animation');}
     render();
     if(playing&&!document.hidden&&visible&&!reduced.matches)raf=requestAnimationFrame(tick);
