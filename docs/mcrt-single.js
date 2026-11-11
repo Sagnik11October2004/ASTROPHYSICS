@@ -23,7 +23,7 @@
   const sub=(a,b)=>[a[0]-b[0],a[1]-b[1],a[2]-b[2]];
   const mul=(a,v)=>[a[0]*v,a[1]*v,a[2]*v];
   const dot=(a,b)=>a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
-  const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2]];
+  const cross=(a,b)=>[a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]];
   const norm=a=>Math.sqrt(dot(a,a));
   const unit=a=>mul(a,1/Math.max(norm(a),EPS));
   let seed=208110;
