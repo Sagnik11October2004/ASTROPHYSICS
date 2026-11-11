@@ -25,7 +25,7 @@
   
   
   <script defer src="./enhancements.js?v=5"></script>
-  <script defer src="./site-media.js?v=7"></script>
+  <script defer src="./site-media.js?v=8"></script>
   <script defer src="./lazy-research.js?v=6"></script>
 </head>
 <body>
@@ -268,31 +268,36 @@
     <section class="section motion-lab lab-section" id="lab" aria-labelledby="lab-title">
   <div class="container">
     <div class="section-heading reveal">
-      <div><div class="section-index">07 / BLACK-HOLE ACCRETION &amp; FEEDBACK</div><h2 id="lab-title">How accretion can <em>quench a galaxy.</em></h2></div>
-      <p>A NASA Goddard quasar-feedback movie showing a central accretion disk launching winds that transfer energy and momentum to surrounding gas.</p>
+      <div>
+        <div class="section-index">07 / BLACK-HOLE ACCRETION &amp; FEEDBACK</div>
+        <h2 id="lab-title">Accretion, feedback &amp; <em>gravitational refuelling.</em></h2>
+      </div>
+      <p>A looping gas-density visualization illustrating a black hole's delayed response to its changing gas supply, followed by winds, jets and subsequent refuelling.</p>
     </div>
     <div class="astrolab-grid agn-compact-grid reveal">
       <div class="astrolab-scene-wrap agn-video-wrap">
-        <video id="agn-nasa-video" class="real-footage agn-film" width="960" height="540" controls muted loop playsinline preload="none"
-               poster="https://svs.gsfc.nasa.gov/vis/a010000/a011800/a011821/Suzaku_Quasar_Wind_STILL_print.jpg"
-               aria-label="NASA animation showing a quasar accretion disk, disk-driven winds, and feedback that sweeps gas from the host galaxy">
-          <source data-src="https://svs.gsfc.nasa.gov/vis/a010000/a011800/a011821/11821_Suzaku_Quasar_Wind_FINAL_appletv.webm" type="video/webm">
-          <source data-src="https://svs.gsfc.nasa.gov/vis/a010000/a011800/a011821/11821_Suzaku_Quasar_Wind_FINAL_ipod_sm.mp4" type="video/mp4">
+        <video id="agn-cycle-video" class="real-footage agn-film" width="960" height="540"
+               controls autoplay muted loop playsinline preload="none"
+               poster="./media/agn-cycle-poster.jpg"
+               aria-label="32-second animation showing two repeating black-hole accretion and feedback cycles, changes in projected gas density, shrinking and expanding disk radii, bipolar jets, winds and gravitational gas return">
+          <source data-src="./media/agn-cycle.mp4" type="video/mp4">
+          Your browser does not support embedded MP4 video.
         </video>
         <div class="agn-video-footer">
           <span class="agn-source-dot" aria-hidden="true"></span>
-          <span>NASA GODDARD · ACCRETION-DRIVEN WINDS &amp; GAS OUTFLOWS</span>
+          <span>AUTHOR-GENERATED · GAS DENSITY / DISK LAG · TWO COMPLETE CYCLES</span>
         </div>
         <p class="agn-video-error" id="agn-video-error" role="status" hidden>
-          The video could not be played here. <a href="https://svs.gsfc.nasa.gov/11821/" target="_blank" rel="noopener noreferrer">Watch it on NASA’s website.</a>
+          The video could not load. <a href="./media/agn-cycle.mp4">Open the MP4 directly.</a>
         </p>
       </div>
       <div class="astrolab-side agn-video-explanation">
-        <span class="astrolab-kicker">AGN FEEDBACK · NASA GODDARD VISUALIZATION</span>
-        <h3>Accretion, winds, <em>gas depletion.</em></h3>
-        <p>Gas spirals inward to feed the black hole. The resulting accretion-powered winds interact with the interstellar medium, driving shocks and removing or heating the cold gas needed for continued black-hole fueling and star formation.</p>
-        <p>Gravity can subsequently draw bound gas back inward, while cooling and new inflows may replenish the reservoir. Whether accretion actually resumes depends on the galaxy and the energetics of the outflow; <strong>the NASA film illustrates expulsion, not a demonstrated fallback-and-reignition sequence.</strong></p>
-        <p class="media-source-line"><a href="https://svs.gsfc.nasa.gov/11821/" target="_blank" rel="noopener noreferrer">NASA Goddard · Original quasar feedback movie and credits ↗</a></p>
+        <span class="astrolab-kicker">ILLUSTRATIVE THEORY &amp; TIME-DEPENDENT MODEL</span>
+        <h3>Gas inflow, radiative activity, <em>feedback and recovery.</em></h3>
+        <p>A continuous projected gas-density field shows how the external reservoir grows and is then depleted by feedback. Blue indicates diffuse gas; warmer colours indicate higher projected density.</p>
+        <p>The accretion disk responds to the external gas supply with a finite viscous delay. Its outer radius decreases as its modelled mass declines, while luminosity, winds and bipolar jets fade. Cooling and gravity permit some bound gas to return, restarting the cycle.</p>
+        <p class="astro-method-note">Two complete 16-second cycles are shown in a 32-second MP4, looping automatically. All quantities are normalized and schematic; this animation is <strong>not a self-consistent GRMHD simulation</strong>.</p>
+        <p class="media-source-line"><a href="./media/agn-cycle.mp4" download="AGN_Density_Accretion_Feedback_Looping.mp4">Download the animation (MP4, 2.2 MB) ↗</a></p>
       </div>
     </div>
   </div>
