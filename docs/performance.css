@@ -81,3 +81,20 @@
   .mcrt-grid .astrolab-caption strong {font-size:10px}
   .mcrt-grid .astrolab-caption span {font-size:10px}
 }
+
+/* Preserve the video viewport even though its media element is positioned
+ * absolutely and the optional Canvas is initially display:none. */
+.lab-section .astrolab-scene-wrap {
+  aspect-ratio:16 / 9;
+  min-height:330px;
+}
+.lab-section .agn-film {
+  width:100%;height:100%;
+  object-fit:contain;
+}
+@media(max-width:560px){
+  .lab-section .astrolab-scene-wrap {
+    aspect-ratio:16/9;
+    min-height:230px;
+  }
+}
