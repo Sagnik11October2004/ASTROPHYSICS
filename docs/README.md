@@ -20,11 +20,13 @@ Eight individual CV-grounded projects cover primordial minihalo collapse; GADGET
 
 **User-selectable visualization:** the existing locally rendered six-stage 2D educational animation remains available for a *CMB prologue (z~1100)*, *z=499 initial conditions*, minihalo assembly, first stars, galaxies, and z=0. Its matter displacement is a stylized first-order Fourier/Zel'dovich calculation; the other effects are illustrations, not actual z=499 full-physics simulation data. **Never present the CMB stage as a frame from a film starting at z=499.**
 
-### Black-hole feedback: smaller, more relevant NASA animation plus optional duty cycle
+### Black-hole feedback: compact NASA source video only
 
-**Default:** NASA Scientific Visualization Studio's [Suzaku, Herschel Link a Black-hole 'Wind' to a Galactic Gush](https://svs.gsfc.nasa.gov/11821/) (2015). This NASA Goddard explanatory animation shows gas fueling an accretion disk, an accretion-driven wind, large-scale shocks and galactic gas outflows. Its 960×540 WebM encoding is approximately **3.3 MB** (lighter than the previous 4000×4000 jet movie), with an MP4 browser fallback. This is an illustrated explanation, **not** a direct simulation of a full quenching/reignition cycle. 
+The website shows NASA Goddard's [Suzaku, Herschel Link a Black-hole 'Wind' to a Galactic Gush](https://svs.gsfc.nasa.gov/11821/) (2015) as a **single, compact, uncropped 16:9 player**. It shows material feeding a black hole, launching an accretion-disk wind, and transferring momentum/energy to the host galaxy's gas through an outward shock. The source credit remains visible underneath the video. The 960×540 WebM is preferred; a small MP4 encoding is the fallback.
 
-**Alternative button:** the previous animated accretion → wind/jet feedback → gas suppression → replenishment/reignition *conceptual* duty-cycle canvas. Its module loads only if the visitor asks to view it. The NASA film covers fueling and feedback; the additional replenishment/reignition stage is a physically motivated extrapolation.
+The **illustrated Canvas duty-cycle animation, its toggle, controls and JavaScript implementation were removed** at the user's request. Video playback has native controls and is activated only when scrolled near its section. The video is constrained to a maximum width of 560 pixels; mobile layouts fit available screen width without cropping or stretching.
+
+**Scientific precision:** NASA documents the movie as **outflow and gas clearing**. It does **not** explicitly depict gravitationally bound gas raining back down or a complete recurrent AGN quenching/re-accretion cycle. In real systems, some displaced gas can remain bound, cool and later reaccrete, but whether this occurs depends on the energy budget and replenishment. We do not attribute a gas-fallback sequence to this particular source video.
 
 ### Original Pop III.1 comparison video — unchanged
 
@@ -69,7 +71,6 @@ Bundled [Natural Earth 1:110m country map](https://github.com/nvkelso/natural-ea
 | `cosmos.js` | Research filters and map controls |
 | `cosmic-story.js` | Optional illustrated CMB-to-today timeline, loaded only on demand |
 | `site-media.js` | On-viewport NASA video loading, source fallback and model toggles |
-| `astrolab.js` | Optional AGN duty-cycle schematic, loaded only on demand |
 | `mcrt-single.js` | One-photon-at-a-time source-informed KN scattering experiment |
 | `enhancements.js` | Mentor photo fallback chain and project accessibility |
 | `lazy-research.js` | Defers WebGL and Compton Monte Carlo engine until sections approach viewport |
@@ -83,7 +84,7 @@ cd docs
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000`. External videos and institutional photos require Internet connectivity and may be blocked by source-site policies; local canvas fallbacks are included. Respect reduced-motion preferences and use the playback controls as needed.
+Open `http://localhost:8000`. External videos and institutional photos require Internet connectivity and may be blocked by source-site policies; an error message links to NASA if the AGN film cannot play. Respect reduced-motion preferences and use the playback controls as needed.
 
 ## Deployment
 
@@ -91,6 +92,6 @@ GitHub Pages is already configured to deploy from `main /docs`. Merge the featur
 
 ## November 11, 2026 — performance and one-photon revision
 
-Performance was improved by removing the 15 MB 4K, 4000×4000 NASA jet animation from the page's initial media load and replacing it with NASA's 3.3 MB WebM quasar-wind feedback animation. The AGN video now has `preload=none`, `data-src` media sources, a static poster, and viewport-triggered source activation with offscreen pausing. The optional AGN and cosmology Canvas models no longer initialize until specifically requested, and the WebGL disk and MCRT module are deferred until their sections approach the viewport. The original Pop III.1 Google Drive player remains embedded and lazily loaded. These changes reduce work and requests at initial paint; they do not eliminate delays caused by external video hosts or the private Google Drive permissions.
+Performance was improved by removing the 15 MB 4K, 4000×4000 NASA jet animation from the page's initial media load and replacing it with NASA's 3.3 MB WebM quasar-wind feedback animation. The AGN video now has `preload=none`, `data-src` media sources, a static poster, and viewport-triggered source activation with offscreen pausing. The removed AGN Canvas model no longer loads; the optional cosmology Canvas model initializes only on demand, and the WebGL disk and MCRT module are deferred until their sections approach the viewport. The original Pop III.1 Google Drive player remains embedded and lazily loaded. These changes reduce work and requests at initial paint; they do not eliminate delays caused by external video hosts or the private Google Drive permissions.
 
 The new Compton transport page shows one photon at a time following event-sampled optical depth with energy-dependent Klein–Nishina scattering and electron-frame Compton recoil, in either H or S0. The cumulative plot builds **one escaped-photon contribution at a time**. The remaining public site does not load the retired old multi-packet demo. The spectra are educational finite-sample histograms, not fitted scientific results.
