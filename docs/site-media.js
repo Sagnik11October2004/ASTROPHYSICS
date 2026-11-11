@@ -2,8 +2,7 @@
 /* Fast, source-attributed media with lazy loading and honest fallback.
  *
  * Hero: official external cosmological footage, with optional local model.
- * AGN:  NASA Goddard quasar-wind feedback film, deferred until in viewport;
- *       a separately labelled schematic illustrates *possible* recurrent fueling.
+ * AGN:  NASA Goddard quasar-wind feedback film only, deferred until near viewport.
  * PopIII.1: exact author-provided external Drive video, untouched.
  */
 (() => {
@@ -81,95 +80,49 @@
   if(heroFallback)heroFallback.addEventListener('error',()=>enableHeroIllustration(true));
   enableHeroIllustration(false);
 
+  // The NASA film is now the only AGN visualization. It remains unloaded
+  // until near the viewport; the removed schematic is never fetched.
   const agnVideo=document.getElementById('agn-nasa-video');
-  const agnCanvas=document.getElementById('agn-scene');
-  const videoBtn=document.getElementById('agn-mode-video');
-  const modelBtn=document.getElementById('agn-mode-model');
-  const agnControls=[...document.querySelectorAll('.agn-model-controls')];
-  const agnContainer=agnVideo?.closest('.astrolab-scene-wrap')||null;
-  const agnLabel=document.getElementById('agn-phase');
-  const agnSub=document.getElementById('agn-phase-sub');
-  let agnModel=false,agnVisible=false,agnFetched=false,agnReady=false,agnStarted=false;
-  const agnCredit={
-    title:'NASA · QUASAR WIND AND GALACTIC OUTFLOW',
-    subtitle:'Accretion-disk winds launch shocks and sweep gas out of the host galaxy'
-  };
-  function ensureAGN(){
-    if(!agnVideo||agnFetched)return;
-    agnFetched=true;
+  const agnError=document.getElementById('agn-video-error');
+  let agnVisible=false,agnSourcesReady=false;
+  function loadAGN(){
+    if(!agnVideo||agnSourcesReady)return;
+    agnSourcesReady=true;
     for(const source of agnVideo.querySelectorAll('source[data-src]')){
       source.src=source.dataset.src;
     }
     agnVideo.load();
-    if(reduced.matches)agnVideo.controls=true;
-    window.setTimeout(()=>{
-      if(agnFetched&&!agnReady&&agnVisible&&!agnModel&&agnVideo.readyState<2){
-        useAGNModel(true);
-        if(agnSub)agnSub.textContent='NASA video unavailable · showing the local illustrated cycle';
-      }
-    },13500);
   }
-  function useAGNModel(value){
-    agnModel=!!value;
-    root.classList.toggle('agn-model-active',agnModel);
-    root.classList.toggle('agn-video-active',!agnModel);
-    if(agnContainer)agnContainer.classList.toggle('agn-model-active',agnModel);
-    if(agnCanvas)agnCanvas.hidden=!agnModel;
-    if(agnVideo){
-      agnVideo.hidden=agnModel;
-      if(agnModel)agnVideo.pause();
-      else if(agnVisible){
-        ensureAGN();
-        playMedia(agnVideo);
-      }
-    }
-    agnControls.forEach(el=>{el.hidden=!agnModel;});
-    if(videoBtn){
-      videoBtn.classList.toggle('active',!agnModel);
-      videoBtn.setAttribute('aria-pressed',String(!agnModel));
-    }
-    if(modelBtn){
-      modelBtn.classList.toggle('active',agnModel);
-      modelBtn.setAttribute('aria-pressed',String(agnModel));
-    }
-    if(agnModel){
-      if(window.researchLoad)window.researchLoad('./astrolab.js?v=6')
-        .then(()=>window.dispatchEvent(new Event('resize')))
-        .catch(console.warn);
-    }else{
-      if(agnLabel)agnLabel.textContent=agnCredit.title;
-      if(agnSub)agnSub.textContent=agnCredit.subtitle;
-    }
-  }
-  if(videoBtn)videoBtn.addEventListener('click',()=>useAGNModel(false));
-  if(modelBtn)modelBtn.addEventListener('click',()=>useAGNModel(true));
   if(agnVideo){
-    agnVideo.addEventListener('loadeddata',()=>{agnReady=true;});
-    agnVideo.addEventListener('playing',()=>{agnReady=true;});
-    agnVideo.addEventListener('error',()=>useAGNModel(true));
-    const startVisible=()=>{agnVisible=true;if(!agnModel){ensureAGN();playMedia(agnVideo);}};
+    agnVideo.addEventListener('error',()=>{
+      if(agnError)agnError.hidden=false;
+    });
+    agnVideo.addEventListener('loadeddata',()=>{
+      if(agnError)agnError.hidden=true;
+    });
+    const showAGN=()=>{
+      agnVisible=true;
+      loadAGN();
+      playMedia(agnVideo);
+    };
     if('IntersectionObserver' in window){
       const observer=new IntersectionObserver(entries=>{
-        const entry=entries[0];
-        const near=!!entry && entry.isIntersecting;
-        if(near){startVisible();}
-        else{
-          agnVisible=false;
-          agnVideo.pause();
-        }
-      },{rootMargin:'250px 0px',threshold:0});
+        const near=!!entries[0]&&entries[0].isIntersecting;
+        agnVisible=near;
+        if(near)showAGN();
+        else agnVideo.pause();
+      },{rootMargin:'220px 0px',threshold:0});
       observer.observe(agnVideo);
-    }else startVisible();
+    }else showAGN();
+    if(reduced.matches)agnVideo.controls=true;
   }
-  useAGNModel(false);
-  // A background page should not continue decoding/rendering media.
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden){
       if(agnVideo)agnVideo.pause();
       if(heroVideo)heroVideo.pause();
     }else{
       if(heroVideo&&!heroIllustration&&!heroBackup)playMedia(heroVideo);
-      if(agnVideo&&agnVisible&&!agnModel)playMedia(agnVideo);
+      if(agnVideo&&agnVisible)playMedia(agnVideo);
     }
   });
 

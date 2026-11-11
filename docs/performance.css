@@ -82,19 +82,95 @@
   .mcrt-grid .astrolab-caption span {font-size:10px}
 }
 
-/* Preserve the video viewport even though its media element is positioned
- * absolutely and the optional Canvas is initially display:none. */
-.lab-section .astrolab-scene-wrap {
-  aspect-ratio:16 / 9;
-  min-height:330px;
+/* Compact 16:9 AGN player: intrinsic media sizing avoids overflow/cropping.
+   It is intentionally smaller than the other scientific Canvas panels. */
+.astrolab-grid.agn-compact-grid{
+  grid-template-columns:minmax(0, 560px) minmax(0, 1fr);
+  align-items:start;
+  gap:clamp(22px,3.2vw,42px);
 }
-.lab-section .agn-film {
-  width:100%;height:100%;
+.lab-section .agn-video-wrap{
+  display:flex;
+  flex-direction:column;
+  align-self:start;
+  min-height:0;
+  max-width:560px;
+  width:100%;
+  height:auto;
+  aspect-ratio:auto;
+  overflow:hidden;
+  border:1px solid var(--sim-border);
+  background:#030b16;
+  border-radius:7px;
+}
+.lab-section .agn-video-wrap video.agn-film.real-footage{
+  position:static;
+  inset:auto;
+  z-index:auto;
+  display:block;
+  flex:0 0 auto;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  max-height:none;
+  aspect-ratio:16/9;
   object-fit:contain;
+  background:#000;
+}
+.lab-section .agn-video-wrap .agn-video-footer{
+  width:100%;
+  min-width:0;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  border-top:1px solid rgba(156,209,224,.26);
+  padding:12px 15px;
+  background:#061625;
+  color:#b6e1e7;
+  font:700 10px/1.65 var(--display);
+  letter-spacing:.10em;
+}
+.agn-source-dot{
+  flex:0 0 auto;
+  width:7px;height:7px;border-radius:50%;
+  background:#8eead7;
+  box-shadow:0 0 10px rgba(142,234,215,.43);
+}
+.lab-section .agn-video-wrap .agn-video-error{
+  padding:12px 15px;
+  font-size:12px;
+  line-height:1.65;
+  color:#f1d2b2;
+  background:#182332;
+}
+.agn-video-error[hidden]{display:none!important}
+.lab-section .agn-video-explanation{
+  min-height:0;
+  padding:clamp(23px,2.6vw,32px);
+}
+.agn-video-explanation > p:not(.astro-method-note){
+  margin-bottom:16px;
+}
+.lab-section .agn-video-explanation p strong{
+  color:var(--text);
+  font-weight:650;
+}
+@media(max-width:900px){
+  .astrolab-grid.agn-compact-grid{
+    grid-template-columns:minmax(0,1fr);
+    gap:18px;
+    justify-items:start;
+  }
+  .lab-section .agn-video-wrap{max-width:560px}
+  .lab-section .agn-video-explanation{width:100%}
 }
 @media(max-width:560px){
-  .lab-section .astrolab-scene-wrap {
-    aspect-ratio:16/9;
-    min-height:230px;
+  .lab-section .agn-video-wrap{
+    min-height:0;
+    max-width:100%;
+  }
+  .lab-section .agn-video-wrap .agn-video-footer{
+    padding:10px 11px;
+    font-size:9px;
   }
 }

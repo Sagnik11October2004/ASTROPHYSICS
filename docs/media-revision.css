@@ -36,28 +36,9 @@ body:not(.cosmo-model-active) #story-name{font-size:12px}
 .cosmos-stage-head{pointer-events:none;z-index:4}
 .cosmos-stage-footer{z-index:4}
 .cosmos-hero-shade{pointer-events:none}
-.agn-film.real-footage{
- display:block;position:absolute;z-index:1;inset:0;
- width:100%;height:100%;object-fit:contain;background:#040a13;
-}
-#agn-scene{display:none}
-.agn-film[hidden],.agn-model-active .agn-film{display:none!important}
-.agn-model-active #agn-scene{display:block!important}
-.agn-model-controls[hidden]{display:none!important}
-.agn-mode-picker{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 15px}
-.agn-mode-picker button{
- border:1px solid var(--line-strong);padding:10px 13px;border-radius:3px;
- background:var(--surface-alt);color:var(--muted);font-size:11px;font-weight:700;
-}
-.agn-mode-picker button.active,.agn-mode-picker button:hover{
- background:var(--accent);border-color:var(--accent);color:var(--bg-deep)
-}
 .media-source-line{font-size:11px!important;margin:5px 0 17px!important;color:var(--muted)}
 .media-source-line a{text-decoration:underline;text-underline-offset:3px}
 .media-source-line a:hover{color:var(--accent)}
-.agn-mode-active .astrolab-overlay{z-index:4}
-#agn-nasa-video~.astrolab-overlay{z-index:4}
-.agn-film-failed .agn-mode-picker button:nth-child(2){border-color:var(--accent)}
 
 /* The original supplied MP4, displayed intact through Drive's embedded player.
    The source stays on the owner's Drive, so it needs link-reader access.
@@ -101,10 +82,9 @@ body:not(.cosmo-model-active) #story-name{font-size:12px}
  #popiii-original-iframe{min-height:190px}
  .pop-exact-file-links{flex-direction:column;align-items:flex-start;padding:12px}
  .pop-exact-file-links span{text-align:left}
- .agn-mode-picker button{font-size:10px;padding:9px 10px}
 }
 @media print{
- .real-footage,.pop-original-media,.cosmo-film-actions,.agn-mode-picker{display:none!important}
+ .real-footage,.pop-original-media,.cosmo-film-actions{display:none!important}
  .cosmo-model-active #cosmos-story-canvas{display:none!important}
 }
 
