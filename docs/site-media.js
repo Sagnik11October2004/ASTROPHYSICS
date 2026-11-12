@@ -109,6 +109,6 @@
       if(agnVideo&&agnVisible)playMedia(agnVideo);
     }
   });
-  const original=document.getElementById('popiii-original-iframe');
+  const original=document.getElementById('popiii-original-video');
   if(original)original.setAttribute('aria-describedby','popiii-access-note');
 })();
