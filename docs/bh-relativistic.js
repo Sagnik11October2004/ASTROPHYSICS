@@ -13,7 +13,7 @@
   canvas.setAttribute('role','img');
   canvas.setAttribute('aria-label','Animated GPU-shaded black-hole accretion disk with inclination control, approximate Doppler boosting and photon-ring-inspired light bending');
   existing.parentNode.insertBefore(canvas,existing.nextSibling);
-  const gl=canvas.getContext('webgl',{alpha:true,antialias:false,preserveDrawingBuffer:false,powerPreference:'low-power'});
+  const gl=canvas.getContext('webgl',{alpha:true,antialias:true,preserveDrawingBuffer:false,powerPreference:'low-power'});
   if(!gl){canvas.remove();return;}
   const vertex=`
     attribute vec2 aPos;
@@ -58,9 +58,13 @@
       float annulus=smoothstep(rin,rin+.045,rr)*(1.-smoothstep(rout-.12,rout,rr));
       float t=pow(max(rr,.34)/rin,-.75)*pow(max(.002,1.-sqrt(rin/max(rr,rin+.005))),.25);
       t=clamp(t*1.8,0.,1.);
-      float spiral=sin(phi*11.5-1.8*uTime+10.5*log(max(rr,.1)));
-      float filaments=fbm(vec2(phi*10.+.12*uTime,rr*56.-1.9*uTime));
-      float turbulence=.58+.25*spiral+.5*filaments;
+      // Radially sheared orbital texture: angular speed falls approximately as r^(-3/2).
+      // This is a qualitative Keplerian pattern, not evolved GRMHD turbulence.
+      float omega=pow(rin/max(rr,rin),1.5);
+      float orbitPhi=phi-.88*uTime*omega;
+      float spiral=sin(13.5*orbitPhi+8.5*log(max(rr,.1)));
+      float filaments=fbm(vec2(orbitPhi*9.5,rr*57.-.22*uTime*omega));
+      float turbulence=.53+.22*spiral+.47*filaments;
       float approach=-uv.x/max(rr,.2); // left side is beamed toward the viewer
       float beta=clamp(.60*sqrt(rin/max(rr,rin)),.2,.71);
       float doppler=sqrt(1.-beta*beta)/(1.-beta*sin(incl)*approach);
@@ -132,7 +136,8 @@
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
   function resize(){
     const box=existing.getBoundingClientRect();
-    const scale=Math.min(devicePixelRatio||1,1.5);
+    // Render at full Retina resolution on desktop; retain a mobile GPU budget.
+    const scale=Math.min(devicePixelRatio||1,window.innerWidth<700?1.5:2);
     canvas.width=Math.max(64,Math.round(box.width*scale));
     canvas.height=Math.max(64,Math.round(box.height*scale));
     gl.viewport(0,0,canvas.width,canvas.height);
