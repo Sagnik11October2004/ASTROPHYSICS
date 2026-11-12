@@ -28,6 +28,7 @@ async function main(){
     const box=(sel)=>{const el=document.querySelector(sel);if(!el)throw Error('Missing '+sel);
       const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
     const intro=box('.cosmos-hero-inner .cosmos-copy');
+    const degree=box('.cosmos-copy>.hero-identity-subtitle');
     const film=box('.cosmos-hero-inner .cosmos-stage');
     const cards=[...document.querySelectorAll('.cosmos-hero-inner .hero-credential')].map(e=>{
       const r=e.getBoundingClientRect();return {x:r.x,right:r.right,y:r.y,bottom:r.bottom};
@@ -37,7 +38,7 @@ async function main(){
     const photo=box('.hero-photo-link .hero-portrait');
     const photoNatural={width:photoElement.naturalWidth,height:photoElement.naturalHeight};
     const photoObjectFit=getComputedStyle(photoElement).objectFit;
-    return {intro,film,cards,controls,photo,photoNatural,photoObjectFit,stagePosition:getComputedStyle(document.querySelector('.cosmos-stage')).position,
+    return {intro,degree,film,cards,controls,photo,photoNatural,photoObjectFit,stagePosition:getComputedStyle(document.querySelector('.cosmos-stage')).position,
       filmObjectFit:getComputedStyle(document.querySelector('.cosmos-film')).objectFit,
       viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
       overflows:[...document.querySelectorAll('body *')].filter(e=>{
@@ -60,14 +61,23 @@ async function main(){
    assert(data.photo.width>=150,'Photo is too small to view at '+width+'px');
    if(data.scrollWidth>width+3)console.warn('OVERFLOW DIAGNOSTICS',width,JSON.stringify(data.overflows));
    assert(data.scrollWidth<=width+3,'Unexpected horizontal scroll at '+width+'px');
-   if(width>=1151){
-    assert(data.film.x>=data.intro.right+8,'Expected two nonintersecting columns at '+width+'px');
+   assert(data.film.y>=Math.max(data.intro.bottom,data.photo.bottom)+7,
+     'IllustrisTNG must be below introduction and portrait at '+width+'px');
+   assert(data.film.y>=data.degree.bottom+7,
+     'IllustrisTNG must be below Integrated BS-MS Physics at '+width+'px');
+   assert(!intersects(data.intro,data.photo),
+     'The photograph overlaps the greeting at '+width+'px');
+   if(width>=981){
+    assert(data.photo.x>=data.intro.right+8,
+      'Expected portrait on the right of greeting at '+width+'px');
    }else{
-    assert(data.film.y>=data.intro.bottom+8,'Expected film below introduction at '+width+'px');
+    assert(data.photo.y>=data.intro.bottom+7,
+      'Expected portrait below greeting on narrow screens at '+width+'px');
    }
    await page.screenshot({path:path.join('/tmp','hero-'+width+'.png'),fullPage:false});
-   report.push({width,arrangement:width>=1151?'side-by-side':'stacked',
-     introRight:Math.round(data.intro.right),filmLeft:Math.round(data.film.x),
+   report.push({width,arrangement:width>=981?'greeting left / photo right / video below':'greeting then photo then video',
+     introRight:Math.round(data.intro.right),photoLeft:Math.round(data.photo.x),
+     photoTop:Math.round(data.photo.y),filmLeft:Math.round(data.film.x),
      filmTop:Math.round(data.film.y),introBottom:Math.round(data.intro.bottom),
      scrollWidth:data.scrollWidth});
    await page.close();
