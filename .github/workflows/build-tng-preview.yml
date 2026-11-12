@@ -1,0 +1,95 @@
+name: Build fast-start IllustrisTNG preview
+
+on:
+  push:
+    branches:
+      - speed-up-illustris-video-20261112
+    paths:
+      - .github/workflows/build-tng-preview.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  transcode:
+    name: Encode and publish smaller original-source TNG300 video
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Install FFmpeg when unavailable
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y ffmpeg
+          fi
+          ffmpeg -version | head -1
+      - name: Download the original D. Nelson TNG300 supercluster animation
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fLSs --retry 3 --retry-all-errors --retry-delay 5 \
+            --connect-timeout 30 --max-time 1500 \
+            "https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_1080p.mp4" \
+            -o /tmp/tng300-original.mp4
+          test -s /tmp/tng300-original.mp4
+          ffprobe -v error -show_entries format=duration,size -show_entries stream=codec_name,width,height \
+            -of default=noprint_wrappers=1 /tmp/tng300-original.mp4
+      - name: Produce lightweight 720p fast-start H.264 copy and preview image
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/media
+          ffmpeg -hide_banner -loglevel error -y \
+            -i /tmp/tng300-original.mp4 -map 0:v:0 -an \
+            -vf 'fps=24,scale=1280:-2:flags=lanczos' \
+            -c:v libx264 -preset veryfast -crf 29 \
+            -maxrate 1150k -bufsize 2300k \
+            -pix_fmt yuv420p -movflags +faststart -threads 2 \
+            docs/media/tng300-supercluster-720p-faststart.mp4
+          ffmpeg -hide_banner -loglevel error -y -ss 4 \
+            -i docs/media/tng300-supercluster-720p-faststart.mp4 \
+            -frames:v 1 -vf 'scale=960:-2' -q:v 4 \
+            docs/media/tng300-supercluster-poster.jpg
+          test -s docs/media/tng300-supercluster-720p-faststart.mp4
+          test -s docs/media/tng300-supercluster-poster.jpg
+          ffprobe -v error -show_entries format=duration,size \
+            -show_entries stream=codec_name,width,height -of default=noprint_wrappers=1 \
+            docs/media/tng300-supercluster-720p-faststart.mp4
+          du -h docs/media/tng300-supercluster-720p-faststart.mp4 docs/media/tng300-supercluster-poster.jpg
+      - name: Publish original-source attribution and encoder settings
+        run: |
+          cat > docs/media/TNG300-PREVIEW-SOURCE.txt <<'EOF'
+          IllustrisTNG / TNG300: Formation of a Galaxy Supercluster
+          Visualization by Dylan Nelson (TNG Collaboration).
+          Source: https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_1080p.mp4
+          Author page: https://nelson.tng-project.org/
+          Attribution: TNG Collaboration / D. Nelson
+          Re-encoded from the ORIGINAL 1080p video to web-friendly 720p H.264,
+          approximately 24 fps with a 1.15 Mbps peak-rate cap; all frames of the
+          original sequence are retained, sped up only at playback using JavaScript.
+          H.264 video-only; MP4 'faststart' puts metadata at file start.
+          This is real simulation footage, NOT a recomputed simulation.
+          The TNG media page explicitly permits public distribution with credit:
+          https://www.tng-project.org/media/
+          EOF
+          sha256sum docs/media/tng300-supercluster-720p-faststart.mp4 docs/media/tng300-supercluster-poster.jpg
+      - name: Commit optimized, self-hosted video to the feature branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/media/tng300-supercluster-720p-faststart.mp4 \
+                  docs/media/tng300-supercluster-poster.jpg \
+                  docs/media/TNG300-PREVIEW-SOURCE.txt
+          if ! git diff --cached --quiet; then
+            git commit -m 'Add fast-start 720p IllustrisTNG supercluster video with proper attribution'
+            git fetch --unshallow origin || true
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+            git push origin "HEAD:$GITHUB_REF_NAME"
+          fi

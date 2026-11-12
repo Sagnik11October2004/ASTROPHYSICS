@@ -391,3 +391,112 @@
 .cosmo-film-actions #cosmo-speed{min-width:69px;padding:8px 10px;border:1px solid rgba(145,236,224,.55);border-radius:4px;background:#102438;color:#e7fafc;font:700 12px/1.4 var(--display);cursor:pointer}
 .cosmo-film-actions #cosmo-speed:focus-visible{outline:2px solid #91ece0;outline-offset:3px}
 @media(max-width:560px){.cosmo-film-actions .cosmo-speed-control{width:100%;justify-content:space-between}.cosmo-film-actions #cosmo-speed{flex:none}}
+
+/* 2026-11-12: Feature the author's portrait while preserving the complete
+   IllustrisTNG film in a larger, non-overlapping video column. */
+.cosmos-hero .hero-portrait-heading{
+  align-items:center;
+  gap:20px;
+}
+.cosmos-hero .hero-portrait{
+  width:168px;
+  height:188px;
+  flex:0 0 168px;
+  border-radius:14px;
+  object-fit:cover;
+  object-position:50% 38%;
+  border:2px solid rgba(153,229,230,.7);
+  image-rendering:auto;
+}
+.cosmos-hero .cosmos-media-column .cosmos-stage{
+  aspect-ratio:16 / 9;
+  background:#020916;
+}
+.cosmos-hero .cosmos-media-column .cosmos-stage video.cosmos-film{
+  object-fit:contain;
+  object-position:center;
+}
+/* 720p first frame / poster is always visible while the native video loads. */
+.cosmo-video-loader{
+  position:absolute;
+  z-index:7;
+  bottom:94px;
+  left:4%;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  max-width:92%;
+  padding:9px 12px;
+  border-radius:6px;
+  border:1px solid rgba(152,227,236,.32);
+  background:rgba(4,20,34,.88);
+  color:#d6f4fa;
+  backdrop-filter:blur(7px);
+  pointer-events:none;
+  font:600 11px/1.5 var(--display);
+}
+.cosmo-video-loader[hidden]{display:none!important}
+.cosmo-loader-dot{
+  width:9px;height:9px;flex:none;
+  border-radius:50%;
+  background:#9cf2df;
+  box-shadow:0 0 14px rgba(122,239,219,.6);
+  animation:tng-pulse 1.5s ease-in-out infinite;
+}
+@keyframes tng-pulse{0%,100%{opacity:.6;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+@media(prefers-reduced-motion:reduce){.cosmo-loader-dot{animation:none}}
+/* A compact quality selector keeps original-resolution access explicit. */
+.cosmo-film-actions .cosmo-quality-control{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font:600 11px/1.45 var(--display);
+  color:#d4e8ef;
+}
+.cosmo-film-actions #cosmo-quality{
+  min-width:152px;
+  max-width:220px;
+  padding:8px 10px;
+  color:#e7fafc;
+  border:1px solid rgba(145,236,224,.55);
+  border-radius:4px;
+  background:#102438;
+  font:700 11px/1.5 var(--display);
+  cursor:pointer;
+}
+.cosmo-film-actions #cosmo-quality:focus-visible{
+  outline:2px solid #91ece0;outline-offset:3px;
+}
+@media(min-width:1151px){
+  .cosmos-hero .cosmos-hero-inner{
+    width:min(1540px,calc(100% - 64px));
+    grid-template-columns:minmax(0,.96fr) minmax(0,1.16fr);
+    gap:clamp(22px,2.4vw,38px);
+    align-items:start;
+  }
+  .cosmos-hero .hero-bottom-note{width:min(1540px,calc(100% - 64px))}
+}
+@media(min-width:651px) and (max-width:1150px){
+  .cosmos-hero .hero-portrait{
+    width:150px;
+    height:170px;
+    flex-basis:150px;
+  }
+}
+@media(max-width:650px){
+  .cosmos-hero .hero-portrait-heading{gap:14px}
+  .cosmos-hero .hero-portrait{
+    width:115px;
+    height:130px;
+    flex-basis:115px;
+    border-radius:11px;
+  }
+  .cosmos-hero .cosmos-media-column .cosmos-stage{aspect-ratio:16 / 9}
+  .cosmo-video-loader{left:10px;bottom:74px;max-width:calc(100% - 20px);font-size:9px;padding:6px 8px}
+  .cosmo-film-actions .cosmo-quality-control{width:100%;justify-content:space-between}
+  .cosmo-film-actions #cosmo-quality{flex:0 1 auto;min-width:147px}
+}
+@media(max-width:370px){
+  .cosmos-hero .hero-portrait{width:96px;height:116px;flex-basis:96px}
+  .cosmos-hero .hero-portrait-heading .hero-identity-subtitle{font-size:11px}
+}
