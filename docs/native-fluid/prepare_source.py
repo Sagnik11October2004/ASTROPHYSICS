@@ -112,11 +112,26 @@ extern "C" void fluid_set_physics(float g, float sigma) {
   gravity=g;
   web_surface_tension=sigma;
 }
+extern "C" float fluid_native_u(int i,int j){
+  if(i<0||j<0||i>=gn||j>=gn)return 0.0f;
+  return 0.5f*(u[0][i][j]+u[0][i+1][j]);
+}
+extern "C" float fluid_native_v(int i,int j){
+  if(i<0||j<0||i>=gn||j>=gn)return 0.0f;
+  return 0.5f*(u[1][i][j]+u[1][i][j+1]);
+}
 '''
 p.write_text(s)
 
 p = src / "solver.cpp"
 s = p.read_text()
-s = re.sub(r'^[ \t]*printf\([ \t]*"Residual = %e\\n"[ \t]*,[^\n]*\);[ \t]*$', '', s, flags=re.M)
+s = s.replace('#include "utility.h"', '#include "utility.h"\nstatic FLOAT web_pressure_residual = 0.0f;', 1)
+needle = "return res;"
+assert needle in s
+s = s.replace(needle, "web_pressure_residual=res;\n\treturn res;", 1)
+s += '\nextern "C" float fluid_pressure_residual(){return web_pressure_residual;}\n'
+s = re.sub(r'^[ \t]*printf\([ \t]*"Residual = %e\\n"[ \t]*,[^\n]*\);[ \t]*
+print("Prepared REAL_FLUID numerical sources with headless rendering and API hooks")
+, '', s, flags=re.M)
 p.write_text(s)
 print("Prepared REAL_FLUID numerical sources with headless rendering and API hooks")
