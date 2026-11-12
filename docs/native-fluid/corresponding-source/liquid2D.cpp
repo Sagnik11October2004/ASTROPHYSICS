@@ -49,7 +49,7 @@ namespace {
 	static FLOAT **A = NULL;		// Level Set Field
 	
 	static int reset_count = 0;
-	static int reset_num = 4;
+	static int reset_num = 2;
 	static char pressed = 0;
 	static FLOAT mousep[2];
 	
@@ -81,8 +81,6 @@ static bool sphere( FLOAT x, FLOAT y ) {
 			return hypot(x-0.5,y-0.8) < 0.15 || y < 0.2;
 		case 2:
 			return y < 0.1;
-		case 3:
-			return y < 0.87 && hypot(x-0.5,y-0.35) > 0.115;
 	}
 	return 0.0;
 }
