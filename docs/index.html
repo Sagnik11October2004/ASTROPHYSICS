@@ -19,15 +19,15 @@
   <link rel="stylesheet" href="./astrolab.css?v=4">
   <link rel="stylesheet" href="./media-revision.css?v=5">
   <link rel="stylesheet" href="./performance.css?v=7">
-  <link rel="stylesheet" href="./research-interactions.css?v=1">
+  <link rel="stylesheet" href="./fluid-front-demo.css?v=1">
   <script defer src="./script.js"></script>
   <script defer src="./cosmos.js?v=3"></script>
   
   
   
   <script defer src="./enhancements.js?v=5"></script>
-  <script defer src="./site-media.js?v=8"></script>
-  <script defer src="./research-interactions.js?v=1"></script>
+  <script defer src="./site-media.js?v=9"></script>
+  <script defer src="./fluid-front-demo.js?v=1"></script>
   <script defer src="./lazy-research.js?v=6"></script>
 </head>
 <body>
@@ -37,7 +37,7 @@
     <div class="container nav-wrap">
       <a class="brand" href="#top" aria-label="Sagnik Bhowmick — home"><span class="brand-mark">S<span class="brand-dot">.</span>B</span><span class="brand-caption">SAGNIK<br>BHOWMICK</span></a>
       <nav id="main-nav" class="main-nav" aria-label="Main navigation">
-        <a href="#about">About</a><a href="#research">Research</a><a href="#density-lab">DM Lab</a><a href="#mentors">Mentors</a><a href="#travel">Travel</a><a href="#lab">Animations</a><a href="#cv">CV</a><a href="#contact">Contact</a>
+        <a href="#about">About</a><a href="#research">Research</a><a href="#fluid-lab">Fluid Lab</a><a href="#mentors">Mentors</a><a href="#travel">Travel</a><a href="#lab">Animations</a><a href="#cv">CV</a><a href="#contact">Contact</a>
       </nav>
       <div class="nav-actions">
         <button id="theme-toggle" class="icon-button theme-button" type="button" aria-label="Switch color theme" title="Switch color theme"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
@@ -63,23 +63,24 @@
             <a class="hero-social" href="https://github.com/Sagnik11October2004" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
             <a class="hero-social" href="https://www.linkedin.com/in/sagnik-bhowmick-161668292/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           </div>
-          <div class="cosmo-simulator-controls" aria-label="Cosmological simulation controls">
-<div class="cosmo-sim-meta"><span class="cosmo-live-dot"></span> ILLUSTRISTNG · SIMULATION FOOTAGE <output id="cosmo-epoch-readout">TNG300 · gas density</output></div>
-<div class="cosmo-sim-actions cosmo-model-controls" hidden><button type="button" id="cosmo-play" aria-label="Pause cosmological animation">Pause <span aria-hidden="true">Ⅱ</span></button>
-<label for="cosmo-progress">Cosmic time</label><input type="range" id="cosmo-progress" min="0" max="1000" value="0" step="1" aria-label="Scrub through cosmological redshift and epochs">
-<output id="cosmo-redshift" for="cosmo-progress">z ≫ 1100</output></div>
-<div class="cosmo-sim-disclaimer">TNG300 simulates gas-density evolution from roughly 500 million years after the Big Bang to today. The CMB, z=499, and primordial-star epochs are not frames of this film; the separate illustrated timeline covers those concepts.
-<div class="cosmo-film-actions"><button id="cosmo-toggle-model" type="button" aria-pressed="false">Show illustrated CMB-to-today timeline</button><button id="cosmo-quality" type="button" aria-pressed="false" title="4K uses considerably more bandwidth">Play in 4K (larger file)</button><a href="https://www.tng-project.org/media/" target="_blank" rel="noopener noreferrer">TNG simulation &amp; credit ↗</a><a href="https://www.illustris-project.org/media/" target="_blank" rel="noopener noreferrer">Illustris backup ↗</a></div></div>
-</div>
+          <div class="cosmo-simulator-controls" aria-label="IllustrisTNG film controls">
+            <div class="cosmo-sim-meta"><span class="cosmo-live-dot"></span> ILLUSTRISTNG · REAL SIMULATION FOOTAGE <output id="cosmo-epoch-readout">TNG300 · gas density</output></div>
+            <div class="cosmo-sim-disclaimer">This IllustrisTNG TNG300 supercluster visualization follows gas-density evolution from roughly 500 million years after the Big Bang to today. It does not show the CMB or the formation of the first Population III stars.
+              <div class="cosmo-film-actions">
+                <button id="cosmo-playback" type="button" aria-pressed="true">Pause video Ⅱ</button>
+                <button id="cosmo-quality" type="button" aria-pressed="false" title="Optional 4K video requires a larger download">Play in 4K (larger file)</button>
+                <a href="https://www.tng-project.org/media/" target="_blank" rel="noopener noreferrer">Source and scientific credits ↗</a>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="cosmos-label" aria-hidden="true"><span class="label-line"></span> A COMPUTED JOURNEY THROUGH COSMIC TIME</div>
       </div>
-      <div class="cosmos-stage" aria-label="Visibly animated cosmic history from hot plasma and recombination through cosmic dawn to a galaxy-filled cosmic web">
-        <canvas id="cosmos-story-canvas" role="img" aria-label="Illustrated cosmological structure growth, used as a fallback"></canvas>
-        <video id="cosmos-real-video" class="real-footage cosmos-film" autoplay muted loop playsinline preload="metadata" aria-label="IllustrisTNG TNG300 time evolution of physical gas density during galaxy supercluster formation, from 500 million years after the Big Bang to the present">
+      <div class="cosmos-stage" aria-label="IllustrisTNG TNG300 gas-density supercluster evolution">
+        <video id="cosmos-real-video" class="real-footage cosmos-film" autoplay muted loop playsinline preload="metadata" aria-label="IllustrisTNG TNG300 supercluster gas-density movie, 500 million years after Big Bang to present">
           <source src="https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_1080p.mp4" type="video/mp4">
         </video>
-        <iframe id="cosmos-video-fallback" class="cosmos-film youtube-film" data-embed="https://www.youtube-nocookie.com/embed/SY0bKE10ZDM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=SY0bKE10ZDM&amp;controls=0&amp;playsinline=1&amp;rel=0" title="Illustris Collaboration · A Virtual Universe · cosmological hydrodynamical simulation" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" hidden></iframe>
+        <div id="cosmos-video-error" class="cosmos-video-error" role="status" hidden>The official TNG300 video could not load in this browser. <a href="https://www.tng-project.org/media/" target="_blank" rel="noopener noreferrer">View the original at IllustrisTNG ↗</a></div>
         <div class="cosmos-stage-head"><span class="story-status-dot"></span> COSMOLOGICAL SIMULATION FOOTAGE <strong id="cosmo-stage-credit">ILLUSTRISTNG · D. NELSON</strong></div>
         <div class="cosmos-stage-footer">
           <span class="cosmos-story-number" id="story-number">TNG300 · 1080P</span>
@@ -87,15 +88,6 @@
           <span class="cosmos-stage-arrow" aria-hidden="true">↗</span>
         </div>
       </div>
-      <div class="container cosmology-epoch-bar" aria-label="Cosmic evolution chapters in chronological order; timeline is not linear in cosmic age">
-        <button type="button" class="epoch" data-epoch-index="0" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>00</strong><span>CMB PRELUDE</span><small>z ≈ 1100 · earlier than start</small></button>
-        <button type="button" class="epoch" data-epoch-index="1" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>01</strong><span>INITIAL CONDITIONS</span><small>z = 499 · dark ages</small></button>
-        <button type="button" class="epoch" data-epoch-index="2" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>02</strong><span>MINIHALO COLLAPSE</span><small>z ≈ 35–25</small></button>
-        <button type="button" class="epoch" data-epoch-index="3" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>03</strong><span>FIRST STARS</span><small>z ≈ 25–15</small></button>
-        <button type="button" class="epoch" data-epoch-index="4" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>04</strong><span>GALAXY FORMATION</span><small>z ≈ 8–2</small></button>
-        <button type="button" class="epoch" data-epoch-index="5" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>05</strong><span>TODAY'S UNIVERSE</span><small>z = 0 · cosmic web</small></button>
-      </div>
-      <div class="container cosmo-chapter-explanation" id="cosmos-chapter-description" role="status" aria-live="polite">Select any chapter above to open the illustrated educational timeline. These chapters are separate from the TNG300 video.</div>
       <div class="container hero-bottom-note"><span>REAL TNG300 VISUALIZATION · 1080P BY DEFAULT · OPTIONAL 4K · NOT FOOTAGE OF THE CMB OR POP III.1 EPOCH</span><span>SCROLL TO EXPLORE ↓</span></div>
     </section>
 
@@ -103,7 +95,7 @@
       <div class="container profile-grid">
         <div class="reveal">
           <div class="profile-identity">
-            <div class="profile-avatar" title="GitHub avatar fallback until an exact LinkedIn photo can be self-hosted">
+            <div class="profile-avatar" title="Public GitHub avatar; the LinkedIn photograph requires the original image file">
               <span aria-hidden="true">SB</span>
               <img id="owner-portrait" src="https://avatars.githubusercontent.com/u/168888674?s=400" width="94" height="94" alt="Sagnik Bhowmick's GitHub profile avatar" loading="lazy" decoding="async">
             </div>
@@ -179,39 +171,40 @@
 <div class="research-tags"><span>Nonlinear dynamics</span><span>Bifurcations</span><span>Fluid instabilities</span></div>
 <a class="work-link cv-project-link" href="https://github.com/Sagnik11October2004/NON-LINEAR-DYNAMICS" target="_blank" rel="noopener noreferrer">Explore public code ↗</a></article>
 <article class="work-card cv-project-card reveal" data-topic="software"><div class="work-card-top"><span>INDEPENDENT COMPUTATIONAL PROJECT · 2023–2024</span><span>08</span></div>
-<h3>Two-phase incompressible CFD solver</h3><p class="work-supervisor">WITH Independent work</p>
-<div class="cv-contributions"><div class="cv-contribution-label">MY CONTRIBUTIONS</div><ul><li>Wrote a C++ free-surface flow solver with a level-set interface representation and staggered-grid discretization.</li><li>Implemented pressure projection and iterative sparse numerical solvers.</li><li>Benchmarked dam-break, bubble-rise, droplet-impact, Kelvin–Helmholtz, Rayleigh–Bénard and lid-driven cavity tests.</li></ul></div>
-<div class="research-tags"><span>C++</span><span>Level set</span><span>Finite difference</span><span>Pressure projection</span></div>
-<a class="work-link cv-project-link" href="https://github.com/Sagnik11October2004/Fluids" target="_blank" rel="noopener noreferrer">Explore public code ↗</a></article>
+<h3>Interface tracking &amp; incompressible CFD benchmarks</h3><p class="work-supervisor">WITH Independent work</p>
+<div class="cv-contributions"><div class="cv-contribution-label">PUBLIC CODE SHOWCASE</div><ul><li>Implemented a Python front-tracking model with velocity interpolation, multi-stage interface advection and spline-based point redistribution.</li><li>Developed numerical demonstrations for pressure-projection lid-driven cavity flow, finite-difference waves and hydrodynamic instabilities.</li><li>Added a browser-based adaptation of the single-vortex reversible-interface benchmark to this portfolio.</li></ul></div>
+<div class="research-tags"><span>Python</span><span>Front tracking</span><span>Finite differences</span><span>Pressure projection</span></div>
+<a class="work-link cv-project-link" href="#fluid-lab">Try the interactive front tracker ↗</a> <a class="work-link cv-project-link" href="https://github.com/Sagnik11October2004/Fluids" target="_blank" rel="noopener noreferrer">View GitHub code ↗</a></article>
 </div><p id="research-empty" hidden>No projects match this filter.</p><p class="cv-source-note">Project details follow my academic CV. Ongoing research is described as work in progress, not as published results.</p></div></section>
 
-<section class="section density-lab" id="density-lab" aria-labelledby="density-lab-heading">
+<section class="section fluid-lab-section" id="fluid-lab" aria-labelledby="fluid-heading">
   <div class="container">
     <div class="section-heading reveal">
-      <div><div class="section-index">INTERACTIVE RESEARCH · PRIMORDIAL MINIHALOES</div><h2 id="density-lab-heading">Explore a dark-matter <em>density cusp.</em></h2></div>
-      <p>Change the inner slope, density normalization and probe radius. Compare a contracted power-law cusp to a reference r⁻¹ profile, and see how a density-squared annihilation rate responds.</p>
+      <div><div class="section-index">INTERACTIVE NUMERICAL METHODS · CFD</div><h2 id="fluid-heading">Interface tracking <em>in a reversing vortex.</em></h2></div>
+      <p>Explore a fluid-interface advection benchmark adapted from my public <code>Fluids/Front_Tracking.py</code> code. Watch an initially circular interface stretch in a prescribed incompressible vortex field, then return as the flow reverses.</p>
     </div>
-    <div class="density-lab-layout">
-      <div class="dm-plot-panel">
-        <div class="dm-plot-heading"><span>IDEALIZED INNER-HALO POWER LAWS</span><strong>LOG–LOG PROFILE</strong></div>
-        <svg id="dm-profile-plot" class="dm-chart" viewBox="0 0 760 430" role="img" aria-label="Interactive log-log dark-matter density versus radius comparing the adjustable cusp with an r to the minus one reference slope"><title>Dark-matter inner density explorer</title><desc>Change the sliders to redraw the cusp and compare its local density to the same-normalization r^-1 reference.</desc></svg>
-        <div class="dm-legend"><span><b></b> Adjustable cusp</span><span class="dm-legend-reference"><b></b> r⁻¹ reference (matched at 1 pc)</span></div>
-        <p class="dm-note">Drag across the chart to probe a radius. This is an educational analytic power-law model, not a direct plot of published or validated simulation particles.</p>
+    <div class="fluid-grid">
+      <div class="fluid-scene-wrap">
+        <div class="fluid-scene-heading"><span>2D SINGLE-VORTEX BENCHMARK</span><strong id="fluid-phase">STRETCHING</strong></div>
+        <canvas id="fluid-front-canvas" width="760" height="456" role="img" aria-label="Interactive 2D vortex benchmark showing deforming interface curve, original boundary, advected marker points and optionally a velocity vector field."></canvas>
+        <div class="fluid-scene-key"><span>Initial circular interface</span><span>Advected interface</span></div>
+        <p id="fluid-live-note" role="status" aria-live="off">Front-tracking demonstration based on the public source code.</p>
       </div>
-      <div class="dm-controls-panel">
-        <h3>Change the <em>inner halo.</em></h3>
-        <div class="dm-control"><label for="dm-slope">Density slope α <output id="dm-slope-value" for="dm-slope">1.82</output></label>
-          <input id="dm-slope" type="range" min="1" max="2.3" value="1.82" step="0.02" aria-label="Power-law density slope alpha"><small>ρ ∝ r⁻ᵅ; larger α means a steeper cusp.</small></div>
-        <div class="dm-control"><label for="dm-rho">Density at 1 pc [GeV cm⁻³] <output id="dm-rho-value" for="dm-rho">1,770</output></label>
-          <input id="dm-rho" type="range" min="2" max="4" value="3.248" step="0.001" aria-label="Logarithmic density normalization at one parsec"><small>100–10,000 GeV cm⁻³; logarithmic slider.</small></div>
-        <div class="dm-control"><label for="dm-radius">Probe radius [pc] <output id="dm-radius-value" for="dm-radius">0.100</output></label>
-          <input id="dm-radius" type="range" min="-1.30103" max="1" value="-1" step="0.001" aria-label="Logarithmic probe radius"><small>0.05–10 pc; choose a radius or click the plot.</small></div>
-        <div class="dm-value-line"><span>Local ρ at probe radius</span><strong><output id="dm-probe-density">—</output></strong></div>
-        <div class="dm-value-line"><span>Relative annihilation power</span><strong><output id="dm-heating-ratio">—</output></strong></div>
-        <p id="dm-annotation" class="dm-annotation" role="status" aria-live="polite">Change the controls to explore the profile.</p>
-        <div class="dm-actions"><button id="dm-reset" type="button">Reset values ↻</button><button id="dm-copy" type="button">Copy model parameters</button></div>
-        <span id="dm-copy-status" role="status" aria-live="polite"></span>
-        <p class="dm-note"><strong>Physical limitation:</strong> q̇ ∝ ρ²⟨σv⟩/mχ for fixed annihilation physics. A larger local annihilation power does <em>not</em> by itself establish energy deposition in gas, long-term replenishment of dark matter, or supermassive protostellar growth.</p>
+      <div class="fluid-controls">
+        <h3>Control the <em>flow.</em></h3>
+        <p>The divergence-free velocity is imposed by a time-dependent streamfunction, ψ = cos(πt/T) sin²(πx) sin²(πy). It reverses at t = T/2.</p>
+        <div class="fluid-readouts"><span>SIMULATION TIME <output id="fluid-time-output">0.00 / 8.00</output></span><span>MARKER DISPLACEMENT RMS <output id="fluid-return-error">0.00e+0</output></span></div>
+        <label for="fluid-time">Scrub the simulation timeline</label>
+        <input class="fluid-time-slider" id="fluid-time" type="range" min="0" max="8" step="0.02" value="0" aria-label="Set vortex benchmark time between zero and eight">
+        <div class="fluid-buttons">
+          <button id="fluid-play" type="button" aria-pressed="true">Pause Ⅱ</button>
+          <button id="fluid-step" type="button">Step +0.2</button>
+          <button id="fluid-reset" type="button">Reset ↻</button>
+        </div>
+        <div class="fluid-select-row"><label for="fluid-speed">Playback speed</label><select id="fluid-speed"><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></div>
+        <div class="fluid-opts"><label><input id="fluid-velocity" type="checkbox" checked> Velocity vectors</label><label><input id="fluid-markers" type="checkbox" checked> Tracked points</label></div>
+        <a class="fluid-source-link" href="https://github.com/Sagnik11October2004/Fluids/blob/main/Front_Tracking.py" target="_blank" rel="noopener noreferrer">Read the original Python source ↗</a>
+        <p class="fluid-footnote"><strong>Numerical scope:</strong> a browser adaptation of prescribed-flow front tracking with three-stage explicit integration. It retains marker identities and omits the original SciPy spline redistribution. It does <em>not</em> solve the full two-phase Navier–Stokes equations or free-surface tension forces. <a href="https://github.com/Sagnik11October2004/Fluids" target="_blank" rel="noopener noreferrer">More CFD benchmarks on GitHub ↗</a></p>
       </div>
     </div>
   </div>
