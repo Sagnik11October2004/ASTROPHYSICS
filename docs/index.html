@@ -27,7 +27,7 @@
   
   <script defer src="./enhancements.js?v=5"></script>
   <script defer src="./site-media.js?v=9"></script>
-  <script defer src="./levelset-fluid.js?v=1"></script>
+  <script defer src="./native-fluid/ui.js?v=1"></script>
   <script defer src="./lazy-research.js?v=6"></script>
 </head>
 <body>
@@ -181,7 +181,7 @@
   <div class="container">
     <div class="section-heading reveal">
       <div><div class="section-index">INTERACTIVE NUMERICAL METHODS · LEVEL-SET CFD</div><h2 id="fluid-heading">Free surfaces, <em>gravity and impact.</em></h2></div>
-      <p>Explore a browser adaptation of my <a href="https://github.com/Sagnik11October2004/REAL_FLUID" target="_blank" rel="noopener noreferrer">C++ REAL_FLUID solver</a>, using signed-distance level sets, a staggered velocity grid, semi-Lagrangian transport and incompressible pressure projection. Switch between different initial conditions below.</p>
+      <p>Run the original <a href="https://github.com/Sagnik11October2004/REAL_FLUID" target="_blank" rel="noopener noreferrer">C++ REAL_FLUID</a> numerical engine compiled to WebAssembly: signed-distance level sets, a staggered MAC grid, Catmull–Rom/semi-Lagrangian advection, MICCG pressure projection, capillarity, viscosity, gravity, redistancing and volume correction.</p>
     </div>
     <div class="levelset-layout">
       <div class="levelset-visual">
@@ -191,15 +191,16 @@
           <button class="levelset-case" type="button" data-levelset-case="equilibrium" aria-pressed="false">Free-surface equilibrium</button>
           <button class="levelset-case" type="button" data-levelset-case="bubble" aria-pressed="false" title="Experimental extension not present in original three C++ initial conditions">Bubble · experimental</button>
         </div>
-        <div class="levelset-stage-caption"><span>LIVE 2D LEVEL-SET / MAC GRID SOLVER</span><strong id="levelset-status" role="status" aria-live="off">DAM BREAK · 0 solver steps</strong></div>
+        <div class="levelset-stage-caption"><span>NATIVE C++ PHYSICS · WEBASSEMBLY</span><strong id="levelset-status" role="status" aria-live="polite">LOADING ORIGINAL C++ ENGINE</strong></div>
         <canvas id="levelset-canvas" width="760" height="524" role="img" aria-label="Live two-dimensional level-set fluid simulation showing the evolving liquid region and optionally the internal velocity field">Fluid evolution requires HTML Canvas.</canvas>
         <div class="levelset-readouts">
           <div><span>SIMULATION TIME</span><output id="levelset-time">0.00</output></div>
           <div><span>LIQUID AREA / INITIAL</span><output id="levelset-area">100.0%</output></div>
-          <div><span>INTERIOR RMS DIVERGENCE</span><output id="levelset-divergence">0.0e+0</output></div>
+          <div><span>PCG PRESSURE RESIDUAL</span><output id="levelset-divergence">—</output></div>
         </div>
         <p id="levelset-description" class="levelset-description">A gravity-driven dam-break fluid column.</p>
-        <p class="levelset-visual-foot">Bright cyan shows the signed-distance fluid interface. Dark blue indicates liquid; the background represents the unmodeled air region. Arrows show local liquid velocity when enabled.</p>
+        <p class="levelset-visual-foot">The actual C++ level-set and MAC velocity arrays are rendered directly from WebAssembly memory. Cyan is the φ = 0 interface; navy is liquid.</p>
+        <p id="native-fluid-build-error" class="levelset-native-error" role="alert" hidden></p>
         <details class="levelset-recording">
           <summary>Watch the original C++ solver recording</summary>
           <div class="levelset-recording-body">
@@ -216,7 +217,7 @@
         <p>Integrate the evolving level set and velocity field step by step. Fluid occupies φ &lt; 0, with a free surface at φ = 0.</p>
         <div class="levelset-buttons">
           <button id="levelset-run" type="button" aria-pressed="true">Pause Ⅱ</button>
-          <button id="levelset-step" type="button">Step ×4</button>
+          <button id="levelset-step" type="button">Step +0.01</button>
           <button id="levelset-reset" type="button">Restart ↻</button>
         </div>
         <label class="levelset-select-label" for="levelset-speed">Simulation speed
@@ -224,17 +225,24 @@
         </label>
         <div class="levelset-input"><label class="levelset-label" for="levelset-gravity">Gravity g <output id="levelset-gravity-value" for="levelset-gravity">9.8</output></label>
           <input id="levelset-gravity" type="range" min="0" max="14" step="0.2" value="9.8">
-          <small>Dimensionless simulation acceleration; 9.8 matches the source code's default.</small></div>
-        <div class="levelset-input"><label class="levelset-label" for="levelset-sigma">Surface-tension coefficient <output id="levelset-sigma-value" for="levelset-sigma">0.007</output></label>
-          <input id="levelset-sigma" type="range" min="0" max="0.03" step="0.001" value="0.007">
-          <small>Numerically scaled browser-port coefficient, not the C++ code's dimensional σ/ρ.</small></div>
+          <small>The original C++ default acceleration is 9.8.</small></div>
+        <div class="levelset-input"><label class="levelset-label" for="levelset-sigma">Surface-tension coefficient <output id="levelset-sigma-value" for="levelset-sigma">0.070</output></label>
+          <input id="levelset-sigma" type="range" min="0" max="0.25" step="0.005" value="0.07">
+          <small>The original C++ term uses σ/ρ, with default σ = 0.07 and ρ = 950.</small></div>
         <div class="levelset-input-checks">
           <label><input id="levelset-vectors" type="checkbox"> Velocity arrows</label>
           <label><input id="levelset-grid" type="checkbox" checked> Grid overlay</label>
-          <label><input id="levelset-volume-correct" type="checkbox" checked> Area correction</label>
+          <label><input id="levelset-volume-correct" type="checkbox" checked> Original volume controller</label>
+          <label><input id="levelset-redistance" type="checkbox" checked> Geometric redistancing</label>
         </div>
+        <label class="levelset-select-label" for="levelset-pressure-solver">Native pressure solver
+          <select id="levelset-pressure-solver"><option value="0">Conjugate gradient</option><option value="1">ICCG</option><option value="2" selected>MICCG (original default)</option></select>
+        </label>
+        <label class="levelset-select-label" for="levelset-interpolation">Velocity interpolation
+          <select id="levelset-interpolation"><option value="0">Bilinear</option><option value="1" selected>Catmull–Rom spline</option></select>
+        </label>
         <a class="levelset-source" href="https://github.com/Sagnik11October2004/REAL_FLUID/blob/main/src/liquid2D.cpp" target="_blank" rel="noopener noreferrer">Explore the original C++ solver source ↗</a>
-        <p class="levelset-method-note"><strong>Implementation note.</strong> This is a lightweight, independent JavaScript adaptation of the algorithms and initial conditions in <a href="https://github.com/Sagnik11October2004/REAL_FLUID" target="_blank" rel="noopener noreferrer">REAL_FLUID</a> (GPL-3.0), not an execution of the C++/GLUT binary. The website uses a smaller grid, iterative SOR pressure projection and approximate redistancing/area correction rather than the C++ solver's full PCG method. Bubble rise is an <strong>experimental extension</strong> of the original three cases. Outputs are qualitative, not validated simulation benchmarks.</p>
+        <p class="levelset-method-note"><strong>Native implementation.</strong> This WebAssembly port executes the author's original C++ physics routines, including the MICCG pressure solver and geometric redistancing, with OpenGL rendering replaced by Canvas. Three initial conditions are unchanged; the fourth bubble/cavity case is an experimental addition. Preserving the original algorithms does not constitute a new validation or convergence study. <a href="./native-fluid/corresponding-source/SOURCE.txt">Build provenance and source</a> · <a href="./native-fluid/corresponding-source/LICENSE.md">GPL-3.0 license</a>.</p>
       </div>
     </div>
   </div>
