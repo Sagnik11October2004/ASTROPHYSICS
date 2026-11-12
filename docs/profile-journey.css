@@ -694,3 +694,37 @@
   .cosmos-hero .cosmos-hero-inner.hero-layout-stacked-film{display:block}
   .cosmos-hero .cosmos-hero-inner.hero-layout-stacked-film>.hero-portrait-heading{width:260px;margin:15px 0}
 }
+
+
+/* The current SIMBA study follows the joint Nordita–CASSUM stage, as the
+   sixth item on the same alternating research timeline. */
+.journey-timeline .journey-step-simba{
+  margin-top:16px;
+  scroll-margin-top:110px;
+  border-color:rgba(134,216,227,.56)!important;
+}
+.journey-timeline .journey-step-simba h3{margin-bottom:5px}
+.journey-timeline .journey-step-simba .journey-project-title{
+  font:700 clamp(14px,1.35vw,18px)/1.5 var(--display);
+  color:var(--accent);
+  letter-spacing:-.015em;
+  margin:6px 0 12px;
+}
+.journey-timeline .journey-step-simba .journey-profile-link{
+  margin-right:17px;
+  margin-top:13px;
+}
+.mentor-project-link{
+  display:inline-block;
+  margin-top:11px;
+  color:var(--accent);
+  font:700 11px/1.5 var(--display);
+  text-underline-offset:4px;
+  text-decoration:underline;
+}
+.mentor-project-link:focus-visible,
+.mentor-project-link:hover{color:var(--text)}
+#simba-black-hole-research{scroll-margin-top:110px}
+@media(max-width:760px){
+  .journey-timeline .journey-step-simba{margin-top:7px}
+}

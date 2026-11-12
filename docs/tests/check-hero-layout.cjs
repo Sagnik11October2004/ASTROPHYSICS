@@ -32,13 +32,20 @@ async function main(){
       const journey=steps.find(x=>x.textContent.includes('Romeel Davé'));
       return {projects:projects.length,steps:steps.length,mentor:mentor?.textContent||'',
         simba:simba?.textContent||'',journey:journey?.textContent||'',
+        stageNames:steps.map(x=>x.querySelector('h3')?.textContent.trim()||''),
+        simbaAfterNordita:simba ? projects.indexOf(simba)===3 : false,
+        journeyAfterFinale:journey ? steps.indexOf(journey)===5&&steps[4]?.classList.contains('journey-finale') : false,
+        mentorsLinked:!!mentor?.querySelector('a[href="#romeel-dave-project"]'),
         branding:document.querySelector('.hero-kicker')?.textContent||''};
    });
    assert(academic.projects===9,'Expected nine research project cards including SIMBA');
    assert(academic.steps===6,'Expected six journey stages, keeping Nordita/CASSUM paired');
    assert(academic.mentor.includes('Romeel Davé'),'Davé mentor/collaborator profile missing');
-   assert(academic.simba.includes('IN CONSULTATION WITH'),'SIMBA project role not labelled as consultation');
+   assert(academic.simba.includes('IN CONSULTATION WITH'),'SIMBA project consultation wording missing');
    assert(academic.journey.includes('SIMBA'),'Missing Davé journey stage');
+   assert(academic.simbaAfterNordita,'SIMBA research card must be directly after Nordita card');
+   assert(academic.journeyAfterFinale,'Davé must be stage 06 directly after the paired Nordita/CASSUM stage');
+   assert(academic.mentorsLinked,'Davé mentor card must link to the SIMBA journey project');
    assert(/ASTROPHYSICS.*COSMOLOGY/.test(academic.branding),'Astrophysics & Cosmology branding missing');
    const data=await page.evaluate(()=>{
     const box=(sel)=>{const el=document.querySelector(sel);if(!el)throw Error('Missing '+sel);
