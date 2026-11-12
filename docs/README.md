@@ -1,14 +1,22 @@
-# Theoretical & Computational Astrophysics — Research Portfolio
+# Theoretical & Computational Astrophysics and Cosmology — Research Portfolio
 
 Public academic research website for Sagnik Bhowmick, built with static HTML/CSS/JavaScript and GitHub Pages. The publishing root is **main /docs**.
 
 **Website:** https://sagnik11october2004.github.io/ASTROPHYSICS/
 
+## Astrophysics, cosmology and current SIMBA work
+
+Website branding and metadata explicitly use **Theoretical & Computational Astrophysics and Cosmology**, while retaining the existing star-formation, N-body, radiation-transfer and fluid-solver content.
+
+**Prof. Romeel Davé, University of Edinburgh** is included in the research timeline, scientific guidance cards and the project catalogue for ongoing black-hole growth work in the **SIMBA** simulation. Research covers torque-limited versus Bondi accretion, BH-mass-matched comparisons, CAESAR host-galaxy matching, and possible effects on AGN feedback and quenching. The relationship is accurately labelled **"research in consultation with" / "scientific project guidance"**; the website does *not* claim a formal internship, official MSc thesis appointment, or joint paper. The mentor image is linked directly from the Royal Observatory Edinburgh's published faculty photo, with an RD monogram fallback.
+
+The existing four-stage individual research chronology, followed by the shared Nordita/CASSUM stage, remains unchanged. An **ongoing sixth step** for Romeel Davé appears after that pair, and a ninth research project card records the SIMBA analysis as work in progress rather than published results.
+
 ## Opening profile and chronological research journey
 
 The first screen identifies the author as **Sagnik Bhowmick**, a fourth-year Integrated BS–MS Physics student at IISER Kolkata and a **DST INSPIRE Scholar**. A small portrait is displayed next to the programme, while the research summary names **black-hole accretion, feedback and seeding; large-scale structure formation; relativistic astrophysics; and radiative transport** rather than listing host institutions. The About section below contains only research narrative, academic facts, contact links and the interactive black-hole visual; duplicate portrait, LinkedIn and academic-graphic cards have been removed.
 
-The **#experience** section uses an alternating, responsive zigzag timeline, following the author's requested progression: **Soumitro Banerjee → Sandeep Kumar Kataria → Indranil Chattopadhyay → Tomoaki Ishiyama → Nordita (Alexandra Veledina) and Chalmers CASSUM (Jonathan C. Tan, Naoki Yoshida, Shingo Hirano) as a shared final stage**. The final stage contains two companion research cards; on smaller screens the entire timeline becomes an accessible vertical sequence.
+The **#experience** section uses an alternating, responsive zigzag timeline, following the author's requested progression: **Soumitro Banerjee → Sandeep Kumar Kataria → Indranil Chattopadhyay → Tomoaki Ishiyama → Nordita (Alexandra Veledina) and Chalmers CASSUM (Jonathan C. Tan, Naoki Yoshida, Shingo Hirano) together → Romeel Davé (ongoing SIMBA scientific consultation)**. The final stage contains two companion research cards; on smaller screens the entire timeline becomes an accessible vertical sequence.
 
 ### Greeting, photograph and simulation layout
 
