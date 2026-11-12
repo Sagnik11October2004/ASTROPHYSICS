@@ -14,7 +14,7 @@
 .levelset-lab{padding:clamp(44px,6vw,90px) 0;background:linear-gradient(145deg,rgba(16,77,105,.17),transparent 62%)}
 .levelset-layout{display:grid;grid-template-columns:minmax(0,1.46fr) minmax(280px,.90fr);gap:clamp(18px,3.6vw,44px);align-items:start}
 .levelset-visual,.levelset-control-panel{min-width:0;border:1px solid var(--line-strong);background:var(--surface-alt);border-radius:9px;padding:clamp(14px,2vw,24px)}
-.levelset-cases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-bottom:14px}
+.levelset-cases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-bottom:14px}
 .levelset-case{border:1px solid var(--line-strong);background:transparent;color:var(--text);padding:10px 5px;text-align:center;border-radius:5px;cursor:pointer;font:700 10px/1.35 var(--display);letter-spacing:.015em;min-height:44px}
 .levelset-case:hover,.levelset-case.active{background:rgba(109,205,226,.14);border-color:rgba(137,218,231,.7)}
 .levelset-case.active{color:#a2edf5}
