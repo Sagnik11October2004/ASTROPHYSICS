@@ -3,8 +3,9 @@
 
 All dynamics, MICCG pressure projection, surface-tension terms, redistancing,
 interpolation and volume controller remain from the user's original sources.
-Only OpenGL visualization/printfs are disabled, and parameter API hooks and
-an explicitly experimental fourth signed-distance scenario are added.
+OpenGL visualization/logging is disabled, native parameter API hooks are
+added, and the browser scenario selector is limited to the two requested
+original cases (dam break and droplet impact).
 
 The emitted source plus this patch are copied with the compiled binary.
 GPL-3.0; original: https://github.com/Sagnik11October2004/REAL_FLUID
@@ -65,16 +66,9 @@ p.write_text(s)
 p = src / "liquid2D.cpp"
 s = p.read_text()
 assert "static int reset_num = 3;" in s
-s = s.replace("static int reset_num = 3;", "static int reset_num = 4;", 1)
-# Keep the three original initial conditions unchanged; add a clearly
-# experimental fourth scenario.
-needle = "case 2:\n\t\t\treturn y < 0.1;"
-assert needle in s
-s = s.replace(
-    needle, needle +
-    "\n\t\tcase 3:\n\t\t\treturn y < 0.87 && hypot(x-0.5,y-0.35) > 0.115;",
-    1,
-)
+# Keep the native numerical implementation and original initial-condition
+# definitions; the website cycles only between original cases 0 and 1.
+s = s.replace("static int reset_num = 3;", "static int reset_num = 2;", 1)
 # Expose gravity and capillary parameters. C++ original resets gravity each
 # time step even at amplitude=0; replace the hard-coded base value.
 needle = "static FLOAT gravity = 9.8;"

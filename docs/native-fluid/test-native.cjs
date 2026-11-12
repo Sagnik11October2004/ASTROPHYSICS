@@ -1,5 +1,5 @@
 /* CI smoke test for the complete REAL_FLUID C++ WebAssembly physics engine.
- * Runs the original three cases and the clearly experimental fourth cavity. */
+ * Tests only the two website-enabled original cases: dam and drop. */
 'use strict';
 const path=require('node:path');
 const fs=require('node:fs');
@@ -12,7 +12,7 @@ async function main(){
   module._fluid_init(64);
   if(module._fluid_grid()!==64)throw Error('Grid size mismatch');
   module._fluid_set_physics(9.8,0.07);
-  for(let mode=0;mode<4;mode++){
+  for(let mode=0;mode<2;mode++){
     module._fluid_choose_case(mode);
     const initial=module._fluid_volume();
     if(!Number.isFinite(initial) || initial<=0)throw Error('Initial volume invalid: '+mode+' / '+initial);
@@ -46,6 +46,6 @@ async function main(){
     throw Error('128² native-grid smoke test failed');
   console.log(JSON.stringify({nativeGrid:128,volume:largeArea,residual:large._fluid_pressure_residual()}));
   if(!fs.existsSync(path.join(__dirname,'fluid-core.wasm')))throw Error('WASM artifact missing');
-  console.log('All four C++ / WASM solver initialization and time-step checks passed.');
+  console.log('Both dam-break and droplet-impact C++ / WASM initialization and time-step checks passed.');
 }
 main().catch(error=>{console.error(error);process.exit(1);});

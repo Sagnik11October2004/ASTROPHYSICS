@@ -21,12 +21,10 @@
     errorNote=q('native-fluid-build-error');
   const tabs=[...document.querySelectorAll('[data-levelset-case]')];
   const desc={
-    dam:'Full C++ initial condition: liquid occupies x < 0.4, y < 0.6. The gravitational release evolves under pressure projection.',
-    drop:'Full C++ initial condition: circular liquid drop at (0.5,0.8), radius 0.15, above y < 0.2 liquid pool.',
-    equilibrium:'Full C++ initial condition: initially flat layer y < 0.1; this case probes relaxation and numerical balance.',
-    bubble:'Experimental fourth condition in the WebAssembly patch: a gas cavity inside a deeper layer. Not an original validated two-fluid bubble solver.'
+    dam:'Dam break: a water column initially occupies x < 0.4 and y < 0.6. Gravity drives the free-surface collapse.',
+    drop:'Droplet impact: a liquid drop of radius 0.15, centered at (0.5, 0.8), falls toward a shallow liquid pool at y < 0.2.'
   };
-  const modeNo={dam:0,drop:1,equilibrium:2,bubble:3};
+  const modeNo={dam:0,drop:1};
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
   const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
   let model=null,mode='dam',playing=!reduced.matches,visible=false,last=0,
