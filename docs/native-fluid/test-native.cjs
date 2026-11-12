@@ -16,7 +16,8 @@ async function main(){
     module._fluid_choose_case(mode);
     const initial=module._fluid_volume();
     if(!Number.isFinite(initial) || initial<=0)throw Error('Initial volume invalid: '+mode+' / '+initial);
-    module._fluid_run_steps(3);
+    // Exercise the native solver beyond its first timestep, not only the IC.
+    for(let cycle=0;cycle<20;cycle++)module._fluid_run_steps(3);
     const volume=module._fluid_volume();
     const residual=module._fluid_pressure_residual();
     const ptr=module._fluid_phi_ptr()>>>2;
@@ -34,6 +35,16 @@ async function main(){
       throw Error('Unphysical volume in short test '+mode+': '+volume+'/'+initial);
     console.log(JSON.stringify({case:mode,initialVolume:initial,volume,pressureResidual:residual,time:module._fluid_time()}));
   }
+  // Start a fresh instance at the native desktop solver's default 128x128.
+  // The original C++ arrays do not support resizing in place.
+  const large=await createFluidModule({locateFile:p=>path.join(__dirname,p),print:()=>{},printErr:()=>{}});
+  large._fluid_init(128);
+  large._fluid_set_physics(9.8,0.07);
+  large._fluid_run_steps(2);
+  const largeArea=large._fluid_volume();
+  if(large._fluid_grid()!==128 || !Number.isFinite(largeArea)||largeArea<=0)
+    throw Error('128² native-grid smoke test failed');
+  console.log(JSON.stringify({nativeGrid:128,volume:largeArea,residual:large._fluid_pressure_residual()}));
   if(!fs.existsSync(path.join(__dirname,'fluid-core.wasm')))throw Error('WASM artifact missing');
   console.log('All four C++ / WASM solver initialization and time-step checks passed.');
 }
