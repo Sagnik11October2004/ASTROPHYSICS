@@ -27,7 +27,7 @@ The page presents work in primordial minihalo collapse, dark-matter halo statist
 The homepage embeds the **IllustrisTNG TNG300 gas-density supercluster-formation movie** by D. Nelson via the [official TNG media pages](https://www.tng-project.org/media/). It starts roughly 500 Myr after the Big Bang and does **not** depict the CMB, z=499, or first Population III stars.
 
 - **Default:** self-hosted, fast-start **720p H.264** re-encoding of D. Nelson's actual **71-second TNG300 supercluster** movie (5,022,473 bytes), with a tiny **33,077-byte poster** and MP4 metadata placed at the start. The original 1080p download is **116,810,584 bytes**, around 23× larger.
-- The original **1080p and 4K versions** remain available on demand via the video-quality dropdown. The default preview runs at 2× playback speed (user-selectable 1×–3×), with all original frames and physical sequence retained.
+- The original **1080p and 4K versions** remain available on demand via the video-quality dropdown. The default preview runs at 2× playback speed (user-selectable 1×–3×), with the entire original 71-second evolution and temporal order retained (at a reduced 24 fps).
 - GitHub Actions workflow `.github/workflows/build-tng-preview.yml` downloads the author-published original, transcodes it via ffmpeg and commits the video and source attribution in `docs/media/TNG300-PREVIEW-SOURCE.txt`.
 - This remains actual cosmological hydrodynamics footage, with no simulated/reconstructed replacement. The full 16:9 image is shown with `object-fit: contain`.
 - The old NASA/MPE movie, unrelated YouTube fallback, invented CMB-to-today storyboard, epoch buttons, local `cosmic-story.js`, and dark-matter power-law chart have all been **removed from the current page**.
