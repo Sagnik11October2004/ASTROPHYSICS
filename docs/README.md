@@ -10,6 +10,14 @@ The first screen now identifies the author as **Sagnik Bhowmick**, a fourth-year
 
 The **#experience** section uses an alternating, responsive zigzag timeline, following the author's requested progression: **Soumitro Banerjee → Sandeep Kumar Kataria → Indranil Chattopadhyay → Tomoaki Ishiyama → Nordita (Alexandra Veledina) and Chalmers CASSUM (Jonathan C. Tan, Naoki Yoshida, Shingo Hirano) as a shared final stage**. The final stage contains two companion research cards; on smaller screens the entire timeline becomes an accessible vertical sequence.
 
+## Uploaded portrait and academic contact details
+
+The hero and About section now display the author's uploaded portrait taken outside the Nobel Prize Museum rather than a generic GitHub avatar. The generated academic profile artwork is self-hosted as a small supporting graphic with adjacent HTML-based qualifications so all text remains readable and accessible. Media assets: `docs/media/sagnik-portrait.webp` and `docs/media/sagnik-academic-profile.webp`. These assets were optimized from preview derivatives of the user's uploaded/generated images; original image files remain in the conversation, not in the GitHub repository.
+
+Both verified public contact addresses are linked in the top introduction, About panel, and contact section: institutional `sb23ms007@iiserkol.ac.in` and personal `sagnikbh7@gmail.com`. No phone number or personal location is published. The department is **Department of Physical Sciences**, IISER Kolkata; programme is **Integrated BS–MS Physics**; status is **DST INSPIRE Scholar**.
+
+The existing 1920×1032 Pop III.1 comparison video is displayed with `object-fit: contain` at the full native aspect ratio, including browser fullscreen; the original MP4 is unmodified.
+
 ## Research and interactive demonstrations
 
 The page presents work in primordial minihalo collapse, dark-matter halo statistics, accretion and black-hole feedback, Monte Carlo Comptonization, and numerical fluid dynamics. All educational browser demonstrations are separately identified from production research simulation outputs.

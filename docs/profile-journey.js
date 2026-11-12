@@ -24,11 +24,11 @@
       const result=wrapper.requestFullscreen();
       if(result&&typeof result.catch==='function'){
         result.catch(()=>{
-          button.textContent='Fullscreen unavailable · use Open in Drive';
+          button.textContent='Fullscreen unavailable · open original MP4';
         });
       }
     }catch(_){
-      button.textContent='Fullscreen unavailable · use Open in Drive';
+      button.textContent='Fullscreen unavailable · open original MP4';
     }
   });
   document.addEventListener('fullscreenchange',()=>{
