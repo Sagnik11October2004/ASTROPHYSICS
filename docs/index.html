@@ -62,26 +62,26 @@
             <a class="hero-social" href="https://www.linkedin.com/in/sagnik-bhowmick-161668292/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
           </div>
           <div class="cosmo-simulator-controls" aria-label="Cosmological simulation controls">
-<div class="cosmo-sim-meta"><span class="cosmo-live-dot"></span> REAL COSMOLOGICAL SIMULATION VIDEO <output id="cosmo-epoch-readout">Hot plasma</output></div>
+<div class="cosmo-sim-meta"><span class="cosmo-live-dot"></span> ILLUSTRISTNG · SIMULATION FOOTAGE <output id="cosmo-epoch-readout">TNG300 · gas density</output></div>
 <div class="cosmo-sim-actions cosmo-model-controls" hidden><button type="button" id="cosmo-play" aria-label="Pause cosmological animation">Pause <span aria-hidden="true">Ⅱ</span></button>
 <label for="cosmo-progress">Cosmic time</label><input type="range" id="cosmo-progress" min="0" max="1000" value="0" step="1" aria-label="Scrub through cosmological redshift and epochs">
 <output id="cosmo-redshift" for="cosmo-progress">z ≫ 1100</output></div>
-<div class="cosmo-sim-disclaimer">Actual simulation footage presented by NASA/MPE; Illustris backup runs from z=127 to 0. The CMB and z=499 are not frames of these external films.
-<div class="cosmo-film-actions"><button id="cosmo-toggle-model" type="button" aria-pressed="false">Show illustrated CMB-to-today timeline</button><a href="https://imagine.gsfc.nasa.gov/descriptions/darkenergy_anim2_QT.html" target="_blank" rel="noopener noreferrer">NASA/MPE source ↗</a><a href="https://www.illustris-project.org/media/" target="_blank" rel="noopener noreferrer">Illustris source ↗</a></div></div>
+<div class="cosmo-sim-disclaimer">TNG300 simulates gas-density evolution from roughly 500 million years after the Big Bang to today. The CMB, z=499, and primordial-star epochs are not frames of this film; the separate illustrated timeline covers those concepts.
+<div class="cosmo-film-actions"><button id="cosmo-toggle-model" type="button" aria-pressed="false">Show illustrated CMB-to-today timeline</button><button id="cosmo-quality" type="button" aria-pressed="false" title="4K uses considerably more bandwidth">Play in 4K (larger file)</button><a href="https://www.tng-project.org/media/" target="_blank" rel="noopener noreferrer">TNG simulation &amp; credit ↗</a><a href="https://www.illustris-project.org/media/" target="_blank" rel="noopener noreferrer">Illustris backup ↗</a></div></div>
 </div>
         </div>
         <div class="cosmos-label" aria-hidden="true"><span class="label-line"></span> A COMPUTED JOURNEY THROUGH COSMIC TIME</div>
       </div>
       <div class="cosmos-stage" aria-label="Visibly animated cosmic history from hot plasma and recombination through cosmic dawn to a galaxy-filled cosmic web">
         <canvas id="cosmos-story-canvas" role="img" aria-label="Illustrated cosmological structure growth, used as a fallback"></canvas>
-        <video id="cosmos-real-video" class="real-footage cosmos-film" autoplay muted loop playsinline preload="metadata" aria-label="Real simulation video of structure formation, MPE/V. Springel, hosted by NASA">
-          <source src="https://imagine.gsfc.nasa.gov/Videos/news/darkenergy_anim2_QT.mp4" type="video/mp4">
+        <video id="cosmos-real-video" class="real-footage cosmos-film" autoplay muted loop playsinline preload="metadata" aria-label="IllustrisTNG TNG300 time evolution of physical gas density during galaxy supercluster formation, from 500 million years after the Big Bang to the present">
+          <source src="https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_1080p.mp4" type="video/mp4">
         </video>
         <iframe id="cosmos-video-fallback" class="cosmos-film youtube-film" data-embed="https://www.youtube-nocookie.com/embed/SY0bKE10ZDM?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=SY0bKE10ZDM&amp;controls=0&amp;playsinline=1&amp;rel=0" title="Illustris Collaboration · A Virtual Universe · cosmological hydrodynamical simulation" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" hidden></iframe>
-        <div class="cosmos-stage-head"><span class="story-status-dot"></span> COSMOLOGICAL SIMULATION FOOTAGE <strong>NASA / MPE · V. SPRINGEL</strong></div>
+        <div class="cosmos-stage-head"><span class="story-status-dot"></span> COSMOLOGICAL SIMULATION FOOTAGE <strong>ILLUSTRISTNG · D. NELSON</strong></div>
         <div class="cosmos-stage-footer">
-          <span class="cosmos-story-number" id="story-number">REAL SIMULATION</span>
-          <div><strong id="story-name">GRAVITATIONAL STRUCTURE GROWTH</strong><small id="story-subtitle">NASA/MPE/V. Springel · Illustris alternative z 127–0</small></div>
+          <span class="cosmos-story-number" id="story-number">TNG300 · 1080P</span>
+          <div><strong id="story-name">SUPERCLUSTER FORMATION</strong><small id="story-subtitle">IllustrisTNG / D. Nelson · ~500 Myr after Big Bang → today</small></div>
           <span class="cosmos-stage-arrow" aria-hidden="true">↗</span>
         </div>
       </div>
@@ -93,7 +93,7 @@
         <div class="epoch"><strong>04</strong><span>GALAXY FORMATION</span><small>z ≈ 8–2</small></div>
         <div class="epoch"><strong>05</strong><span>TODAY'S UNIVERSE</span><small>z = 0 · cosmic web</small></div>
       </div>
-      <div class="container hero-bottom-note"><span>ACTUAL SIMULATION FOOTAGE · MPE/V. SPRINGEL · ILLUSTRIS BACKUP · SOURCE REDSHIFT RANGES DIFFER</span><span>SCROLL TO EXPLORE ↓</span></div>
+      <div class="container hero-bottom-note"><span>REAL TNG300 VISUALIZATION · 1080P BY DEFAULT · OPTIONAL 4K · NOT FOOTAGE OF THE CMB OR POP III.1 EPOCH</span><span>SCROLL TO EXPLORE ↓</span></div>
     </section>
 
     <section class="section profile-section" id="about" aria-labelledby="about-heading">
@@ -307,13 +307,13 @@
   <div class="container">
     <div class="section-heading reveal"><div><div class="section-index">08 / POPULATION III.1 STELLAR EVOLUTION</div><h2 id="pop-title">Two possible <em>paths to a massive seed.</em></h2></div><p>An animated comparison built around the four-stage sequence in my original presentation video: without versus with dark-matter annihilation heating.</p></div>
     <div class="popiii-canvas-wrap reveal">
-      <div class="popiii-panes"><span>ORIGINAL VIDEO · NO DM HEATING</span><span>ORIGINAL VIDEO · WITH DM HEATING</span></div>
+      <div class="popiii-panes"><span>LEFT · STANDARD POP III.1 STAR · NO DM ANNIHILATION HEATING</span><span>RIGHT · POP III.1 WITH DARK-MATTER ANNIHILATION HEATING</span></div>
       <div class="pop-original-media"><iframe id="popiii-original-iframe" src="https://drive.google.com/file/d/10GCHZUes3954PJawJc-R598l89ScF_7U/preview" title="Exact original 15-second Pop III.1 dark-matter annihilation heating comparison MP4 supplied by author" allow="autoplay; encrypted-media; fullscreen" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
 <p class="pop-embed-access" id="popiii-access-note"><strong>Original animation:</strong> This is the exact file you supplied. To make it playable for everyone visiting this public site, open the linked file in your Google Drive and set <strong>Share → General access → Anyone with the link → Viewer</strong>. Until then, the embedded player may show a permission error to visitors.</p><div class="pop-exact-file-links"><a href="https://drive.google.com/file/d/10GCHZUes3954PJawJc-R598l89ScF_7U/view" target="_blank" rel="noopener noreferrer">Open exact original MP4 ↗</a><span>Original video, unmodified · Google Drive playback</span></div></div>
 
       <div class="popiii-bottom"><div><strong id="pop-phase">ORIGINAL VIDEO · 15 SECONDS</strong><p id="pop-description">Exact uploaded comparison: stellar evolution without versus with dark-matter annihilation heating.</p></div><span class="pop-video-note">EXACT 15-SECOND ANIMATION · AUTHOR UPLOADED</span></div>
     </div>
-    <p class="astro-method-note pop-note">This is the exact 15-second MP4 you supplied. It is hosted in your Google Drive; public playback requires the file to be shared as “Anyone with the link · Viewer.” Sustained dark-matter-heated supermassive-star growth remains a conditional theoretical scenario.</p>
+    <p class="astro-method-note pop-note">The left-hand track illustrates ordinary metal-free stellar growth; the right-hand track illustrates the proposed effect of sustained dark-matter annihilation heating on a cooler, more extended accreting protostar. Formation of a supermassive star requires continued fuel supply and efficient heating, and is not a confirmed or inevitable outcome. This exact 15-second MP4 is hosted on Google Drive and requires “Anyone with the link · Viewer” for public playback.</p>
   </div>
 </section>
 
