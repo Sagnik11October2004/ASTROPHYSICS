@@ -17,16 +17,18 @@ The homepage embeds the **IllustrisTNG TNG300 gas-density supercluster-formation
 - The old NASA/MPE movie, unrelated YouTube fallback, invented CMB-to-today storyboard, epoch buttons, local `cosmic-story.js`, and dark-matter power-law chart have all been **removed from the current page**.
 - If the official video host blocks access, the page provides a link to the original official TNG media library instead of displaying a different animation as if it were identical footage.
 
-### 2D front-tracking fluid interface (new)
+### Level-set free-surface CFD: dam break, droplet impact and bubble experiment
 
-The interactive interface-advection exhibit under **#fluid-lab** adapts a benchmark in the author's public [Fluids/Front_Tracking.py](https://github.com/Sagnik11October2004/Fluids/blob/main/Front_Tracking.py).
+The **interactive fluid laboratory** at `#fluid-lab` is now based on the author's correct C++ [REAL_FLUID repository](https://github.com/Sagnik11October2004/REAL_FLUID), *not* the unrelated Python `Fluids/Front_Tracking.py` benchmark.
 
-- An initially circular interface with center (0.5, 0.75) and radius 0.15 moves in the divergence-free prescribed flow with streamfunction
-  `ψ = cos(π t / 8) sin²(πx) sin²(πy)`.
-- The flow amplitude changes sign at t = 4 and returns its integrated displacement to approximately zero at t = 8.
-- The browser demonstration precomputes 400 steps at Δt = 0.02, with 180 tracked markers and the three-stage explicit integration coefficients taken from the prototype, evaluating the prescribed velocity at intermediate stages.
-- Controls: play/pause, single-step, timeline scrubbing, reset, speed, velocity vectors, and marker visibility. The display includes interface area relative to its initial area and marker RMS displacement from initial positions.
-- **Limitations:** this is a JavaScript adaptation, not a direct execution of Python/SciPy. Marker identities are preserved, but the source's SciPy spline redistribution is omitted. It is a kinematic interface-advection benchmark, **not** the full two-phase Navier–Stokes/free-surface solver with capillary, viscosity and pressure dynamics. The author's public `Fluids` repository presently includes this front tracker, a 2D wave demonstration, lid-driven cavity, Kelvin–Helmholtz and Rayleigh–Bénard examples; it does not publicly include a compiled C++ two-phase free-surface implementation.
+- **Original C++ code:** [`src/liquid2D.cpp`](https://github.com/Sagnik11October2004/REAL_FLUID/blob/main/src/liquid2D.cpp), [`src/levelset2D.cpp`](https://github.com/Sagnik11October2004/REAL_FLUID/blob/main/src/levelset2D.cpp) and [`src/solver.cpp`](https://github.com/Sagnik11October2004/REAL_FLUID/blob/main/src/solver.cpp), published in a repository containing a GPL-3.0 LICENSE.
+- **Original three initial conditions** (verified in the C++ source): dam break `x < 0.4 && y < 0.6`, droplet/pond `hypot(x-0.5,y-0.8) < 0.15 || y < 0.2`, and shallow equilibrium layer `y < 0.1`.
+- **Website's experimental fourth case:** a gas cavity in a liquid layer, shown as *Bubble / cavity · experimental*. This is **not** an original C++ test case and is **not** an independently validated two-phase bubble-rise simulation.
+- The C++ method uses cell-centered level sets, a staggered grid, gravity, semi-Lagrangian advection, explicit viscosity, a curvature-localized surface tension force, redistancing and a pressure-projection solver with a modified incomplete-Cholesky-preconditioned conjugate-gradient method.
+- The website cannot run the native OpenGL/GLUT C++ executable directly. Instead, `docs/levelset-fluid.js` contains a self-contained **new JavaScript numerical adaptation** using a 64² grid; bilinear semi-Lagrangian transport; signed-distance front evolution; gravity, viscosity and capillary forcing; a simpler free-surface SOR Poisson solve; approximate redistancing; and small bounded area correction. These are not byte-for-byte or floating-point-equivalent results of the original C++ code.
+- Visitors may switch cases, pause/restart, step through the solve, change gravity and a normalized capillary coefficient, adjust speed, toggle velocity vectors and grid display, and inspect relative liquid area and interior RMS divergence.
+- The equilibrium demo starts with an extra *small perturbation* to make relaxation visible; the C++ code's original layer is initially flat. The experimental bubble cavity merges into the free surface and the short demonstration loops automatically. The browser visualization is **qualitative and should not be cited as a validated numerical solution**.
+- The original repository contains source screenshots and a short recorded solver run under `images/`, linked on the website.
 
 ### Black-hole accretion disk
 
@@ -58,7 +60,7 @@ The About card links to the correct author's [LinkedIn profile](https://www.link
 
 - `docs/index.html` — page markup, sections and source attribution
 - `docs/site-media.js` — real TNG film controls and lazy AGN video
-- `docs/fluid-front-demo.js`, `docs/fluid-front-demo.css` — interactive front-tracking exhibit and portrait/black-hole controls
+- `docs/levelset-fluid.js`, `docs/levelset-fluid.css` — level-set fluid experiments, profile and black-hole controls
 - `docs/bh-relativistic.js` — qualitative GPU accretion illustration
 - `docs/mcrt-single.js` — browser Monte Carlo scattering demonstration
 - `docs/cosmos.js`, `docs/script.js` — research filters, navigation and travel-map interactions
@@ -66,7 +68,7 @@ The About card links to the correct author's [LinkedIn profile](https://www.link
 - `docs/media/` — local video poster and AGN clip
 - `docs/world-countries.svg` — self-hosted Natural Earth world map
 
-The obsolete `docs/research-interactions.js`, `docs/research-interactions.css`, and `docs/cosmic-story.js` were deleted.
+Obsolete research-interaction scripts, illustrative cosmology code and the prior front-tracking webpage have been removed.
 
 ## Running locally
 
@@ -76,3 +78,7 @@ python3 -m http.server 8000
 ```
 
 Visit http://localhost:8000. The cosmological video and university portrait sources require an Internet connection, and some hosts may block hotlinking. Browsers that disable animation automatically are respected where possible. Manual QA should check source video playback (HD/4K and failure handling), mobile controls, the front-tracking animation and the WebGL renderer before relying on the public page as the primary research portfolio.
+
+## November 12, 2026 — level-set CFD integration checks
+
+The fluid demo was executed using simulated DOM/Canvas controls for each of the four modes. After 20 and again after 128 integration steps, the reported density-independent area and interior divergence remained finite in every scenario. The area-correction stage is applied each step to limit numerical volume loss from semi-Lagrangian advection, particularly in the experimental cavity mode. Verified JS syntax for the current site files and verified controls and unique IDs in the HTML. Tests do not establish convergence, quantitative consistency with the original C++ code, or visual/browser compatibility on every device.

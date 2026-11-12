@@ -1,0 +1,59 @@
+/* Level-set fluid laboratory. Responsive, high-resolution Canvas; no JS framework. */
+.profile-identity{display:flex;align-items:center;gap:18px;margin:0 0 27px;padding:16px 17px;border:1px solid var(--line-strong);border-radius:9px;background:var(--surface-alt)}
+.profile-avatar{position:relative;display:grid;place-items:center;width:94px;height:94px;flex:0 0 94px;overflow:hidden;border-radius:8px;background:linear-gradient(135deg,#17465d,#0a172c);color:#e9f6f9;font:700 28px var(--display);border:1px solid rgba(145,218,225,.34)}
+.profile-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.profile-avatar img[hidden]{display:none}
+.profile-identity-kicker{display:block;color:var(--muted);font:700 10px/1.6 var(--display);letter-spacing:.14em}
+.profile-identity-name{display:block;color:var(--text);font:700 clamp(19px,2.2vw,27px)/1.26 var(--display);margin:5px 0 7px}
+.profile-identity a{font-size:12px;text-decoration:underline;text-underline-offset:4px}
+.bh-beaming-button{display:inline-flex;align-items:center;justify-content:center;margin-top:10px;padding:9px 11px;font:700 10px var(--display);letter-spacing:.04em;color:var(--text);background:var(--surface-alt);border:1px solid var(--line-strong);border-radius:4px;cursor:pointer}
+.bh-beaming-button:hover:not(:disabled){border-color:var(--accent)}
+.bh-beaming-button[aria-pressed=false]{opacity:.75}
+.bh-beaming-button:disabled{opacity:.45;cursor:default}
+.bh-beaming-button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.levelset-lab{padding:clamp(44px,6vw,90px) 0;background:linear-gradient(145deg,rgba(16,77,105,.17),transparent 62%)}
+.levelset-layout{display:grid;grid-template-columns:minmax(0,1.46fr) minmax(280px,.90fr);gap:clamp(18px,3.6vw,44px);align-items:start}
+.levelset-visual,.levelset-control-panel{min-width:0;border:1px solid var(--line-strong);background:var(--surface-alt);border-radius:9px;padding:clamp(14px,2vw,24px)}
+.levelset-cases{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-bottom:14px}
+.levelset-case{border:1px solid var(--line-strong);background:transparent;color:var(--text);padding:10px 5px;text-align:center;border-radius:5px;cursor:pointer;font:700 10px/1.35 var(--display);letter-spacing:.015em;min-height:44px}
+.levelset-case:hover,.levelset-case.active{background:rgba(109,205,226,.14);border-color:rgba(137,218,231,.7)}
+.levelset-case.active{color:#a2edf5}
+.levelset-case:focus-visible,.levelset-buttons button:focus-visible,#levelset-speed:focus-visible,input[type=range]:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.levelset-stage-caption{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 10px;font:700 10px/1.4 var(--display);color:var(--muted);letter-spacing:.09em}
+.levelset-stage-caption strong{font:700 10px var(--display);color:#8ddce9;letter-spacing:.05em}
+#levelset-canvas{display:block;width:100%;aspect-ratio:1.45/1;border-radius:4px;border:1px solid rgba(131,198,224,.27);background:#061927}
+.levelset-readouts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:15px 0}
+.levelset-readouts div{border:1px solid rgba(154,208,223,.15);padding:9px 8px;border-radius:4px;min-width:0}
+.levelset-readouts span{display:block;font:700 9px/1.5 var(--display);letter-spacing:.06em;color:var(--muted)}
+.levelset-readouts output{display:block;font:700 17px/1.6 var(--display);color:#8ddbe7;font-variant-numeric:tabular-nums;white-space:nowrap}
+.levelset-description{color:var(--muted);font:400 12px/1.7 var(--body);margin:10px 0 6px;min-height:3.2em}
+.levelset-visual-foot{font:500 11px/1.65 var(--display);color:var(--muted)}
+.levelset-control-panel h3{font-size:clamp(19px,2.2vw,28px);margin:0 0 13px}
+.levelset-control-panel p{font:400 12px/1.75 var(--body);color:var(--muted);margin:0 0 14px}
+.levelset-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.levelset-buttons button{border:1px solid var(--line-strong);background:transparent;color:var(--text);border-radius:4px;cursor:pointer;padding:9px 12px;font:700 11px/1.35 var(--display)}
+.levelset-buttons button:hover{background:rgba(128,210,228,.15)}
+.levelset-input{display:block;margin:15px 0}
+.levelset-input .levelset-label{display:flex;justify-content:space-between;align-items:center;gap:16px;color:var(--text);font:600 12px var(--display)}
+.levelset-input output{color:#95e6ef;font:700 13px var(--display)}
+.levelset-input input{width:100%;margin:11px 0 0;accent-color:#82d6e1;cursor:pointer}
+.levelset-input small{display:block;margin:3px 0 0;color:var(--muted);font-size:11px;line-height:1.5}
+.levelset-input-checks{display:flex;flex-wrap:wrap;gap:8px 16px;margin:13px 0 18px}
+.levelset-input-checks label{display:flex;align-items:center;gap:7px;font:600 11px var(--display);color:var(--text);cursor:pointer}
+.levelset-input-checks input{accent-color:#80d8e4}
+.levelset-control-panel .levelset-select-label{display:flex;gap:10px;align-items:center;margin:14px 0 17px;color:var(--text);font:600 12px var(--display)}
+#levelset-speed{padding:8px 9px;background:var(--surface-alt);color:var(--text);border:1px solid var(--line-strong);border-radius:4px}
+.levelset-source{display:inline-block;font:700 12px/1.5 var(--display);color:#97e5ef;text-decoration:underline;text-underline-offset:4px;margin:9px 0 15px}
+.levelset-method-note{border-top:1px solid var(--line-strong);padding-top:13px!important;font:400 11px/1.7 var(--body)!important;color:var(--muted)}
+.levelset-method-note strong{color:var(--text)}
+@media(max-width:940px){.levelset-layout{grid-template-columns:1fr}}
+@media(max-width:540px){.levelset-visual,.levelset-control-panel{padding:12px}.levelset-cases{grid-template-columns:repeat(2,minmax(0,1fr))}.levelset-readouts output{font-size:13px}.profile-identity{gap:12px;padding:11px}.profile-avatar{width:70px;height:70px;flex-basis:70px}}
+@media(prefers-reduced-motion:reduce){.levelset-case,.levelset-buttons button{transition:none}}
+
+.levelset-recording{margin-top:17px;border-top:1px solid var(--line-strong);padding-top:12px;color:var(--text)}
+.levelset-recording summary{cursor:pointer;font:700 11px/1.6 var(--display);color:#9ce8ed;letter-spacing:.04em}
+.levelset-recording summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.levelset-recording-body{padding:13px 0 0}
+.levelset-recording video{width:100%;max-width:660px;height:auto;border-radius:4px;background:#020916}
+.levelset-recording p{color:var(--muted);font:400 11px/1.7 var(--body);margin-top:10px}
+.levelset-recording a{color:#91e0e8;text-decoration:underline;text-underline-offset:3px}

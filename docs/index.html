@@ -19,7 +19,7 @@
   <link rel="stylesheet" href="./astrolab.css?v=4">
   <link rel="stylesheet" href="./media-revision.css?v=5">
   <link rel="stylesheet" href="./performance.css?v=7">
-  <link rel="stylesheet" href="./fluid-front-demo.css?v=1">
+  <link rel="stylesheet" href="./levelset-fluid.css?v=1">
   <script defer src="./script.js"></script>
   <script defer src="./cosmos.js?v=3"></script>
   
@@ -27,7 +27,7 @@
   
   <script defer src="./enhancements.js?v=5"></script>
   <script defer src="./site-media.js?v=9"></script>
-  <script defer src="./fluid-front-demo.js?v=1"></script>
+  <script defer src="./levelset-fluid.js?v=1"></script>
   <script defer src="./lazy-research.js?v=6"></script>
 </head>
 <body>
@@ -37,7 +37,7 @@
     <div class="container nav-wrap">
       <a class="brand" href="#top" aria-label="Sagnik Bhowmick — home"><span class="brand-mark">S<span class="brand-dot">.</span>B</span><span class="brand-caption">SAGNIK<br>BHOWMICK</span></a>
       <nav id="main-nav" class="main-nav" aria-label="Main navigation">
-        <a href="#about">About</a><a href="#research">Research</a><a href="#fluid-lab">Fluid Lab</a><a href="#mentors">Mentors</a><a href="#travel">Travel</a><a href="#lab">Animations</a><a href="#cv">CV</a><a href="#contact">Contact</a>
+        <a href="#about">About</a><a href="#research">Research</a><a href="#fluid-lab">Level Set</a><a href="#mentors">Mentors</a><a href="#travel">Travel</a><a href="#lab">Animations</a><a href="#cv">CV</a><a href="#contact">Contact</a>
       </nav>
       <div class="nav-actions">
         <button id="theme-toggle" class="icon-button theme-button" type="button" aria-label="Switch color theme" title="Switch color theme"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
@@ -171,40 +171,70 @@
 <div class="research-tags"><span>Nonlinear dynamics</span><span>Bifurcations</span><span>Fluid instabilities</span></div>
 <a class="work-link cv-project-link" href="https://github.com/Sagnik11October2004/NON-LINEAR-DYNAMICS" target="_blank" rel="noopener noreferrer">Explore public code ↗</a></article>
 <article class="work-card cv-project-card reveal" data-topic="software"><div class="work-card-top"><span>INDEPENDENT COMPUTATIONAL PROJECT · 2023–2024</span><span>08</span></div>
-<h3>Interface tracking &amp; incompressible CFD benchmarks</h3><p class="work-supervisor">WITH Independent work</p>
-<div class="cv-contributions"><div class="cv-contribution-label">PUBLIC CODE SHOWCASE</div><ul><li>Implemented a Python front-tracking model with velocity interpolation, multi-stage interface advection and spline-based point redistribution.</li><li>Developed numerical demonstrations for pressure-projection lid-driven cavity flow, finite-difference waves and hydrodynamic instabilities.</li><li>Added a browser-based adaptation of the single-vortex reversible-interface benchmark to this portfolio.</li></ul></div>
-<div class="research-tags"><span>Python</span><span>Front tracking</span><span>Finite differences</span><span>Pressure projection</span></div>
-<a class="work-link cv-project-link" href="#fluid-lab">Try the interactive front tracker ↗</a> <a class="work-link cv-project-link" href="https://github.com/Sagnik11October2004/Fluids" target="_blank" rel="noopener noreferrer">View GitHub code ↗</a></article>
+<h3>Level-set free-surface hydrodynamics &amp; CFD benchmarks</h3><p class="work-supervisor">WITH Independent work</p>
+<div class="cv-contributions"><div class="cv-contribution-label">PUBLIC CODE SHOWCASE</div><ul><li>Implemented a C++ level-set free-surface model with semi-Lagrangian interface transport and periodic redistancing.</li><li>Used staggered-grid incompressible pressure projection, body-force gravity, explicit viscosity and capillary terms to simulate dam break, droplet impact and a shallow free surface.</li><li>Made the initial conditions explorable through a simplified browser implementation, with an additional experimental bubble-cavity example.</li></ul></div>
+<div class="research-tags"><span>C++</span><span>Level set</span><span>MAC grid</span><span>Pressure projection</span><span>Surface tension</span></div>
+<a class="work-link cv-project-link" href="#fluid-lab">Try the level-set solver ↗</a> <a class="work-link cv-project-link" href="https://github.com/Sagnik11October2004/REAL_FLUID" target="_blank" rel="noopener noreferrer">View original C++ code ↗</a></article>
 </div><p id="research-empty" hidden>No projects match this filter.</p><p class="cv-source-note">Project details follow my academic CV. Ongoing research is described as work in progress, not as published results.</p></div></section>
 
-<section class="section fluid-lab-section" id="fluid-lab" aria-labelledby="fluid-heading">
+<section class="section levelset-lab" id="fluid-lab" aria-labelledby="fluid-heading">
   <div class="container">
     <div class="section-heading reveal">
-      <div><div class="section-index">INTERACTIVE NUMERICAL METHODS · CFD</div><h2 id="fluid-heading">Interface tracking <em>in a reversing vortex.</em></h2></div>
-      <p>Explore a fluid-interface advection benchmark adapted from my public <code>Fluids/Front_Tracking.py</code> code. Watch an initially circular interface stretch in a prescribed incompressible vortex field, then return as the flow reverses.</p>
+      <div><div class="section-index">INTERACTIVE NUMERICAL METHODS · LEVEL-SET CFD</div><h2 id="fluid-heading">Free surfaces, <em>gravity and impact.</em></h2></div>
+      <p>Explore a browser adaptation of my <a href="https://github.com/Sagnik11October2004/REAL_FLUID" target="_blank" rel="noopener noreferrer">C++ REAL_FLUID solver</a>, using signed-distance level sets, a staggered velocity grid, semi-Lagrangian transport and incompressible pressure projection. Switch between different initial conditions below.</p>
     </div>
-    <div class="fluid-grid">
-      <div class="fluid-scene-wrap">
-        <div class="fluid-scene-heading"><span>2D SINGLE-VORTEX BENCHMARK</span><strong id="fluid-phase">STRETCHING</strong></div>
-        <canvas id="fluid-front-canvas" width="760" height="456" role="img" aria-label="Interactive 2D vortex benchmark showing deforming interface curve, original boundary, advected marker points and optionally a velocity vector field."></canvas>
-        <div class="fluid-scene-key"><span>Initial circular interface</span><span>Advected interface</span></div>
-        <p id="fluid-live-note" role="status" aria-live="off">Front-tracking demonstration based on the public source code.</p>
-      </div>
-      <div class="fluid-controls">
-        <h3>Control the <em>flow.</em></h3>
-        <p>The divergence-free velocity is imposed by a time-dependent streamfunction, ψ = cos(πt/T) sin²(πx) sin²(πy). It reverses at t = T/2.</p>
-        <div class="fluid-readouts"><span>SIMULATION TIME <output id="fluid-time-output">0.00 / 8.00</output></span><span>MARKER DISPLACEMENT RMS <output id="fluid-return-error">0.00e+0</output></span></div>
-        <label for="fluid-time">Scrub the simulation timeline</label>
-        <input class="fluid-time-slider" id="fluid-time" type="range" min="0" max="8" step="0.02" value="0" aria-label="Set vortex benchmark time between zero and eight">
-        <div class="fluid-buttons">
-          <button id="fluid-play" type="button" aria-pressed="true">Pause Ⅱ</button>
-          <button id="fluid-step" type="button">Step +0.2</button>
-          <button id="fluid-reset" type="button">Reset ↻</button>
+    <div class="levelset-layout">
+      <div class="levelset-visual">
+        <div class="levelset-cases" role="group" aria-label="Select a level-set fluid scenario">
+          <button class="levelset-case active" type="button" data-levelset-case="dam" aria-pressed="true">Dam break</button>
+          <button class="levelset-case" type="button" data-levelset-case="drop" aria-pressed="false">Droplet impact</button>
+          <button class="levelset-case" type="button" data-levelset-case="equilibrium" aria-pressed="false">Free-surface equilibrium</button>
+          <button class="levelset-case" type="button" data-levelset-case="bubble" aria-pressed="false" title="Experimental extension not present in original three C++ initial conditions">Bubble · experimental</button>
         </div>
-        <div class="fluid-select-row"><label for="fluid-speed">Playback speed</label><select id="fluid-speed"><option value=".5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></div>
-        <div class="fluid-opts"><label><input id="fluid-velocity" type="checkbox" checked> Velocity vectors</label><label><input id="fluid-markers" type="checkbox" checked> Tracked points</label></div>
-        <a class="fluid-source-link" href="https://github.com/Sagnik11October2004/Fluids/blob/main/Front_Tracking.py" target="_blank" rel="noopener noreferrer">Read the original Python source ↗</a>
-        <p class="fluid-footnote"><strong>Numerical scope:</strong> a browser adaptation of prescribed-flow front tracking with three-stage explicit integration. It retains marker identities and omits the original SciPy spline redistribution. It does <em>not</em> solve the full two-phase Navier–Stokes equations or free-surface tension forces. <a href="https://github.com/Sagnik11October2004/Fluids" target="_blank" rel="noopener noreferrer">More CFD benchmarks on GitHub ↗</a></p>
+        <div class="levelset-stage-caption"><span>LIVE 2D LEVEL-SET / MAC GRID SOLVER</span><strong id="levelset-status" role="status" aria-live="off">DAM BREAK · 0 solver steps</strong></div>
+        <canvas id="levelset-canvas" width="760" height="524" role="img" aria-label="Live two-dimensional level-set fluid simulation showing the evolving liquid region and optionally the internal velocity field">Fluid evolution requires HTML Canvas.</canvas>
+        <div class="levelset-readouts">
+          <div><span>SIMULATION TIME</span><output id="levelset-time">0.00</output></div>
+          <div><span>LIQUID AREA / INITIAL</span><output id="levelset-area">100.0%</output></div>
+          <div><span>INTERIOR RMS DIVERGENCE</span><output id="levelset-divergence">0.0e+0</output></div>
+        </div>
+        <p id="levelset-description" class="levelset-description">A gravity-driven dam-break fluid column.</p>
+        <p class="levelset-visual-foot">Bright cyan shows the signed-distance fluid interface. Dark blue indicates liquid; the background represents the unmodeled air region. Arrows show local liquid velocity when enabled.</p>
+        <details class="levelset-recording">
+          <summary>Watch the original C++ solver recording</summary>
+          <div class="levelset-recording-body">
+            <video controls playsinline preload="none" width="640" aria-label="Original C++ REAL_FLUID level-set solver screen recording from the author's public GitHub repository">
+              <source src="https://raw.githubusercontent.com/Sagnik11October2004/REAL_FLUID/main/images/Screencast%20from%202025-04-19%2011-49-45.webm" type="video/webm">
+              Your browser does not support the original WebM recording.
+            </video>
+            <p>Recorded output of the original repository's C++ application; separate from the browser port above. <a href="https://github.com/Sagnik11October2004/REAL_FLUID/blob/main/images/Screencast%20from%202025-04-19%2011-49-45.webm" target="_blank" rel="noopener noreferrer">View the recording on GitHub ↗</a></p>
+          </div>
+        </details>
+      </div>
+      <div class="levelset-control-panel">
+        <h3>Modify the <em>fluid dynamics.</em></h3>
+        <p>Integrate the evolving level set and velocity field step by step. Fluid occupies φ &lt; 0, with a free surface at φ = 0.</p>
+        <div class="levelset-buttons">
+          <button id="levelset-run" type="button" aria-pressed="true">Pause Ⅱ</button>
+          <button id="levelset-step" type="button">Step ×4</button>
+          <button id="levelset-reset" type="button">Restart ↻</button>
+        </div>
+        <label class="levelset-select-label" for="levelset-speed">Simulation speed
+          <select id="levelset-speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="3">3×</option></select>
+        </label>
+        <div class="levelset-input"><label class="levelset-label" for="levelset-gravity">Gravity g <output id="levelset-gravity-value" for="levelset-gravity">9.8</output></label>
+          <input id="levelset-gravity" type="range" min="0" max="14" step="0.2" value="9.8">
+          <small>Dimensionless simulation acceleration; 9.8 matches the source code's default.</small></div>
+        <div class="levelset-input"><label class="levelset-label" for="levelset-sigma">Surface-tension coefficient <output id="levelset-sigma-value" for="levelset-sigma">0.007</output></label>
+          <input id="levelset-sigma" type="range" min="0" max="0.03" step="0.001" value="0.007">
+          <small>Numerically scaled browser-port coefficient, not the C++ code's dimensional σ/ρ.</small></div>
+        <div class="levelset-input-checks">
+          <label><input id="levelset-vectors" type="checkbox"> Velocity arrows</label>
+          <label><input id="levelset-grid" type="checkbox" checked> Grid overlay</label>
+          <label><input id="levelset-volume-correct" type="checkbox" checked> Area correction</label>
+        </div>
+        <a class="levelset-source" href="https://github.com/Sagnik11October2004/REAL_FLUID/blob/main/src/liquid2D.cpp" target="_blank" rel="noopener noreferrer">Explore the original C++ solver source ↗</a>
+        <p class="levelset-method-note"><strong>Implementation note.</strong> This is a lightweight, independent JavaScript adaptation of the algorithms and initial conditions in <a href="https://github.com/Sagnik11October2004/REAL_FLUID" target="_blank" rel="noopener noreferrer">REAL_FLUID</a> (GPL-3.0), not an execution of the C++/GLUT binary. The website uses a smaller grid, iterative SOR pressure projection and approximate redistancing/area correction rather than the C++ solver's full PCG method. Bubble rise is an <strong>experimental extension</strong> of the original three cases. Outputs are qualitative, not validated simulation benchmarks.</p>
       </div>
     </div>
   </div>
