@@ -57,3 +57,10 @@
 .levelset-recording video{width:100%;max-width:660px;height:auto;border-radius:4px;background:#020916}
 .levelset-recording p{color:var(--muted);font:400 11px/1.7 var(--body);margin-top:10px}
 .levelset-recording a{color:#91e0e8;text-decoration:underline;text-underline-offset:3px}
+
+.levelset-native-error{border:1px solid rgba(247,160,118,.45);border-radius:4px;color:#f6c8aa!important;background:rgba(96,30,31,.22);padding:12px 14px;margin:13px 0;font:600 12px/1.6 var(--display)!important}
+.levelset-native-error[hidden]{display:none!important}
+.levelset-case:disabled,.levelset-buttons button:disabled,#levelset-speed:disabled{opacity:.42;cursor:not-allowed}
+.levelset-control-panel .levelset-select-label{display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--text);font:600 12px/1.5 var(--display);margin:13px 0}
+.levelset-control-panel .levelset-select-label select{max-width:66%;background:var(--surface-alt);color:var(--text);padding:7px 9px;border:1px solid var(--line-strong);border-radius:4px}
+.levelset-control-panel .levelset-select-label select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
