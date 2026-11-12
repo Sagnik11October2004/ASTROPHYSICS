@@ -299,3 +299,28 @@
   .cosmos-hero .cosmos-hero-inner{display:block}
   .cosmos-hero .cosmos-media-column{display:none}
 }
+
+/* An existing minimum-content width in the black-hole profile controls
+   could extend the About section a few pixels beyond 390px screens. */
+@media(max-width:650px){
+  .profile-section .profile-grid{grid-template-columns:minmax(0,1fr)}
+  .profile-section .profile-visual,
+  .profile-section .portrait-orbit,
+  .profile-section .bh-controls{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    box-sizing:border-box;
+  }
+  .profile-section .bh-controls{flex-wrap:wrap}
+  .profile-section .bh-controls label{
+    max-width:100%;
+    flex:1 1 100%;
+    justify-content:space-between;
+  }
+  .profile-section .bh-controls input{
+    flex:1 1 100%;
+    width:100%;
+    min-width:0;
+  }
+}
