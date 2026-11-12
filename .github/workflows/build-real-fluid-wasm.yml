@@ -89,5 +89,9 @@ jobs:
           git add docs/native-fluid/fluid-core.js docs/native-fluid/fluid-core.wasm docs/native-fluid/corresponding-source
           if ! git diff --cached --quiet; then
             git commit -m "Build full REAL_FLUID C++ native WebAssembly physics engine"
+            # Branch may have changed while SDK compilation was running.
+            git fetch --unshallow origin || true
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
             git push origin HEAD:$GITHUB_REF_NAME
           fi
