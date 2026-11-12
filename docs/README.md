@@ -1,8 +1,12 @@
-# Theoretical & Computational Astrophysics — Research Portfolio
+# Theoretical & Computational Astrophysics & Cosmology — Research Portfolio
 
 Public academic research website for Sagnik Bhowmick, built with static HTML/CSS/JavaScript and GitHub Pages. The publishing root is **main /docs**.
 
 **Website:** https://sagnik11october2004.github.io/ASTROPHYSICS/
+
+## Romeel Davé collaboration and cosmology focus
+
+The website identifies the research area as **theoretical and computational astrophysics and cosmology** in the browser title, hero, About research focus, CV summary and footer. The Mentors & Collaborators section includes **Prof. Romeel Davé**, Chair of Physics at the **Institute for Astronomy, University of Edinburgh**, with an institutional profile and portrait. His card describes the user's **ongoing collaborative SIMBA black-hole growth, accretion-mode and AGN-feedback work**, without implying a formal thesis supervision arrangement. The chronology of the separate established research journey is unchanged.
 
 ## Opening profile and chronological research journey
 
