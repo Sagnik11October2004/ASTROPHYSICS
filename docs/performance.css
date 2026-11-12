@@ -174,3 +174,27 @@
     font-size:9px;
   }
 }
+
+
+/* HD cosmological footage: respect the 16:9 source instead of magnifying
+   and cropping the image inside a tall hero viewport. */
+.cosmos-hero .cosmos-stage {
+  height: auto;
+  aspect-ratio: 16 / 10;
+}
+.cosmos-stage .real-footage.cosmos-film {
+  object-fit: contain;
+  object-position: center;
+  image-rendering: auto;
+  background: #020711;
+}
+.cosmo-film-actions #cosmo-quality:disabled {
+  opacity: .42;
+  cursor: not-allowed;
+}
+@media (min-width:901px) {
+  .cosmos-hero .cosmos-stage { top: 13%; }
+}
+@media (max-width:900px) {
+  .cosmos-hero .cosmos-stage { top: auto; margin: 14px auto 32px; }
+}
