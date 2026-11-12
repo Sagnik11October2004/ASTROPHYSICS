@@ -472,6 +472,7 @@
     width:min(1540px,calc(100% - 64px));
     grid-template-columns:minmax(0,.96fr) minmax(0,1.16fr);
     gap:clamp(22px,2.4vw,38px);
+    align-items:start;
   }
   .cosmos-hero .hero-bottom-note{width:min(1540px,calc(100% - 64px))}
 }
