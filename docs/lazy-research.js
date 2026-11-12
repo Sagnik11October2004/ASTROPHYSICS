@@ -39,5 +39,5 @@
   // only start the engine when its section is approaching the viewport.
   near('mcrt-scene','./mcrt-single.js?v=6','480px 0px');
   // WebGL program initialization is unnecessary until the portrait/profile scene.
-  near('blackhole-canvas','./bh-relativistic.js?v=6','240px 0px');
+  near('blackhole-canvas','./bh-relativistic.js?v=7','240px 0px');
 })();
