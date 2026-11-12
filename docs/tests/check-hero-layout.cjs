@@ -24,6 +24,22 @@ async function main(){
      const photo=document.querySelector('.hero-photo-link .hero-portrait');
      return !!photo && photo.complete && photo.naturalWidth>0;
    },{timeout:15000});
+   const academic=await page.evaluate(()=>{
+      const projects=[...document.querySelectorAll('#work-grid .cv-project-card')];
+      const steps=[...document.querySelectorAll('#experience .journey-step')];
+      const mentor=[...document.querySelectorAll('#mentors .mentor-card')].find(x=>x.textContent.includes('Romeel Davé'));
+      const simba=projects.find(x=>x.textContent.includes('Torque-limited and Bondi black-hole accretion in SIMBA'));
+      const journey=steps.find(x=>x.textContent.includes('Romeel Davé'));
+      return {projects:projects.length,steps:steps.length,mentor:mentor?.textContent||'',
+        simba:simba?.textContent||'',journey:journey?.textContent||'',
+        branding:document.querySelector('.hero-kicker')?.textContent||''};
+   });
+   assert(academic.projects===9,'Expected nine research project cards including SIMBA');
+   assert(academic.steps===6,'Expected six journey stages, keeping Nordita/CASSUM paired');
+   assert(academic.mentor.includes('Romeel Davé'),'Davé mentor/collaborator profile missing');
+   assert(academic.simba.includes('IN CONSULTATION WITH'),'SIMBA project role not labelled as consultation');
+   assert(academic.journey.includes('SIMBA'),'Missing Davé journey stage');
+   assert(/ASTROPHYSICS.*COSMOLOGY/.test(academic.branding),'Astrophysics & Cosmology branding missing');
    const data=await page.evaluate(()=>{
     const box=(sel)=>{const el=document.querySelector(sel);if(!el)throw Error('Missing '+sel);
       const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
