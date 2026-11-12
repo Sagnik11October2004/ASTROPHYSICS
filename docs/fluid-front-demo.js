@@ -151,7 +151,7 @@
   function pause(){playing=false;if(play){play.textContent='Play ▶';play.setAttribute('aria-pressed','false');}}
   function sync(){
     if(raf){cancelAnimationFrame(raf);raf=0;}
-    if(playing&&visible&&!document.hidden&&!reduced.matches)raf=requestAnimationFrame(tick);
+    if(playing&&visible&&!document.hidden)raf=requestAnimationFrame(tick);
   }
   function tick(now){
     raf=0;
