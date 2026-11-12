@@ -6,7 +6,6 @@ on:
       - main
       - fix-hero-video-overlap-20261112
       - speed-up-illustris-video-20261112
-      - romeel-simba-journey-and-astro-cosmo-20261112
     paths:
       - ".github/workflows/check-hero-layout.yml"
       - "docs/tests/check-hero-layout.cjs"
