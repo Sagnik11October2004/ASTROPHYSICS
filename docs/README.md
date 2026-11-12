@@ -27,7 +27,7 @@ The **interactive fluid laboratory** at `#fluid-lab` is now based on the author'
 - The C++ method uses cell-centered level sets, a staggered grid, gravity, semi-Lagrangian advection, explicit viscosity, a curvature-localized surface tension force, redistancing and a pressure-projection solver with a modified incomplete-Cholesky-preconditioned conjugate-gradient method.
 - The website cannot run the native OpenGL/GLUT C++ executable directly. Instead, `docs/levelset-fluid.js` contains a self-contained **new JavaScript numerical adaptation** using a 64² grid; bilinear semi-Lagrangian transport; signed-distance front evolution; gravity, viscosity and capillary forcing; a simpler free-surface SOR Poisson solve; approximate redistancing; and small bounded area correction. These are not byte-for-byte or floating-point-equivalent results of the original C++ code.
 - Visitors may switch cases, pause/restart, step through the solve, change gravity and a normalized capillary coefficient, adjust speed, toggle velocity vectors and grid display, and inspect relative liquid area and interior RMS divergence.
-- The equilibrium demo starts with an extra *small perturbation* to make relaxation visible; the C++ code's original layer is initially flat. The browser visualization is **qualitative and should not be cited as a validated numerical solution**.
+- The equilibrium demo starts with an extra *small perturbation* to make relaxation visible; the C++ code's original layer is initially flat. The experimental bubble cavity merges into the free surface and the short demonstration loops automatically. The browser visualization is **qualitative and should not be cited as a validated numerical solution**.
 - The original repository contains source screenshots and a short recorded solver run under `images/`, linked on the website.
 
 ### Black-hole accretion disk
@@ -78,3 +78,7 @@ python3 -m http.server 8000
 ```
 
 Visit http://localhost:8000. The cosmological video and university portrait sources require an Internet connection, and some hosts may block hotlinking. Browsers that disable animation automatically are respected where possible. Manual QA should check source video playback (HD/4K and failure handling), mobile controls, the front-tracking animation and the WebGL renderer before relying on the public page as the primary research portfolio.
+
+## November 12, 2026 — level-set CFD integration checks
+
+The fluid demo was executed using simulated DOM/Canvas controls for each of the four modes. After 20 and again after 128 integration steps, the reported density-independent area and interior divergence remained finite in every scenario. The area-correction stage is applied each step to limit numerical volume loss from semi-Lagrangian advection, particularly in the experimental cavity mode. Verified JS syntax for the current site files and verified controls and unique IDs in the HTML. Tests do not establish convergence, quantitative consistency with the original C++ code, or visual/browser compatibility on every device.
