@@ -1,0 +1,5 @@
+Original: https://github.com/Sagnik11October2004/REAL_FLUID
+Pinned revision: 8f3b2d3e0e8e43945e2194546934564e0414c7e7
+Build patches: ../prepare_source.py
+Bridge: ../bridge.cpp
+License: GPL-3.0
