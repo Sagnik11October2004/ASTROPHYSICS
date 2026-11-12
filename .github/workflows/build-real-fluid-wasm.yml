@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - native-real-fluid-wasm-20261112
+      - 'website-fluid-*'
     paths:
       - ".github/workflows/build-real-fluid-wasm.yml"
       - "docs/native-fluid/bridge.cpp"
