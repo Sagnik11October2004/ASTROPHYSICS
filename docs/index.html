@@ -20,14 +20,15 @@
   <link rel="stylesheet" href="./media-revision.css?v=5">
   <link rel="stylesheet" href="./performance.css?v=7">
   <link rel="stylesheet" href="./levelset-fluid.css?v=1">
-  <link rel="stylesheet" href="./profile-journey.css?v=3">
+  <link rel="stylesheet" href="./profile-journey.css?v=4">
+  <link rel="preload" href="./media/tng300-supercluster-poster.jpg" as="image" fetchpriority="high">
   <script defer src="./script.js"></script>
   <script defer src="./cosmos.js?v=3"></script>
   
   
   
   <script defer src="./enhancements.js?v=5"></script>
-  <script defer src="./site-media.js?v=9"></script>
+  <script defer src="./site-media.js?v=10"></script>
   <script defer src="./native-fluid/ui.js?v=1"></script>
   <script defer src="./profile-journey.js?v=1"></script>
   <script defer src="./lazy-research.js?v=6"></script>
@@ -59,7 +60,7 @@
           <p class="hero-kicker">THEORETICAL &amp; COMPUTATIONAL ASTROPHYSICS</p>
           <h1 id="hero-title">Sagnik <em>Bhowmick.</em></h1>
           <div class="hero-portrait-heading">
-            <img class="hero-portrait" src="./media/sagnik-portrait.webp" width="108" height="108" alt="Portrait of Sagnik Bhowmick outside the Nobel Prize Museum" decoding="async" fetchpriority="high">
+            <img class="hero-portrait" src="./media/sagnik-portrait.webp" width="168" height="188" alt="Portrait of Sagnik Bhowmick outside the Nobel Prize Museum" decoding="async" fetchpriority="high">
             <p class="hero-identity-subtitle">Integrated BS–MS Physics · Department of Physical Sciences · IISER Kolkata</p>
           </div>
           <div class="hero-intro-panel" aria-label="Introduction and qualifications">
@@ -85,10 +86,13 @@
         </div>
         <div class="cosmos-media-column">
           <div class="cosmos-stage" aria-label="IllustrisTNG TNG300 gas-density supercluster evolution">
-                  <video id="cosmos-real-video" class="real-footage cosmos-film" autoplay muted loop playsinline preload="metadata" aria-label="IllustrisTNG TNG300 supercluster gas-density movie, 500 million years after Big Bang to present">
-                    <source src="https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_1080p.mp4" type="video/mp4">
+                  <video id="cosmos-real-video" class="real-footage cosmos-film" autoplay muted loop playsinline preload="auto" poster="./media/tng300-supercluster-poster.jpg" aria-label="IllustrisTNG TNG300 supercluster gas-density movie, 500 million years after Big Bang to present">
+                    <source src="./media/tng300-supercluster-720p-faststart.mp4" type="video/mp4">
                   </video>
-                  <div id="cosmos-video-error" class="cosmos-video-error" role="status" hidden>The official TNG300 video could not load in this browser. <a href="https://www.tng-project.org/media/" target="_blank" rel="noopener noreferrer">View the original at IllustrisTNG ↗</a></div>
+                  <div id="cosmo-video-loader" class="cosmo-video-loader" role="status" aria-live="polite">
+                    <span class="cosmo-loader-dot" aria-hidden="true"></span><span id="cosmo-loader-text">Loading optimized TNG300 footage…</span>
+                  </div>
+                  <div id="cosmos-video-error" class="cosmos-video-error" role="status" hidden>The TNG300 film could not load. <a href="https://www.tng-project.org/media/" target="_blank" rel="noopener noreferrer">View the original at IllustrisTNG ↗</a></div>
                   <div class="cosmos-stage-head"><span class="story-status-dot"></span> COSMOLOGICAL SIMULATION FOOTAGE <strong id="cosmo-stage-credit">ILLUSTRISTNG · D. NELSON</strong></div>
                   <div class="cosmos-stage-footer">
                     <span class="cosmos-story-number" id="story-number">TNG300 · 1080P</span>
@@ -109,14 +113,20 @@
                               <option value="3">3×</option>
                             </select>
                           </label>
-                          <button id="cosmo-quality" type="button" aria-pressed="false" title="Optional 4K video requires a larger download">Play in 4K (larger file)</button>
+                          <label class="cosmo-quality-control" for="cosmo-quality">Video quality
+                            <select id="cosmo-quality" aria-label="IllustrisTNG video quality">
+                              <option value="FAST" selected>720p · Fast loading</option>
+                              <option value="HD">1080p · Original</option>
+                              <option value="4K">4K · Original</option>
+                            </select>
+                          </label>
                           <a href="https://www.tng-project.org/media/" target="_blank" rel="noopener noreferrer">Source and scientific credits ↗</a>
                         </div>
                       </div>
                     </div>
         </div>
       </div>
-      <div class="container hero-bottom-note"><span>REAL TNG300 VISUALIZATION · 1080P BY DEFAULT · OPTIONAL 4K · NOT FOOTAGE OF THE CMB OR POP III.1 EPOCH</span><span>SCROLL TO EXPLORE ↓</span></div>
+      <div class="container hero-bottom-note"><span>REAL TNG300 VISUALIZATION · OPTIMIZED 720P BY DEFAULT · OPTIONAL 1080P / 4K · NOT FOOTAGE OF THE CMB OR POP III.1 EPOCH</span><span>SCROLL TO EXPLORE ↓</span></div>
     </section>
 
     <section class="section profile-section" id="about" aria-labelledby="about-heading">
