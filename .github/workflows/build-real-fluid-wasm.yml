@@ -1,0 +1,93 @@
+name: Build native REAL_FLUID WebAssembly
+
+on:
+  push:
+    branches:
+      - main
+      - native-real-fluid-wasm-20261112
+    paths:
+      - ".github/workflows/build-real-fluid-wasm.yml"
+      - "docs/native-fluid/bridge.cpp"
+      - "docs/native-fluid/prepare_source.py"
+      - "docs/native-fluid/test-native.cjs"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: real-fluid-native-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Compile original C++ physics engine
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout portfolio
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Install Emscripten SDK
+        uses: emscripten-core/setup-emsdk@v16
+        with:
+          version: 4.0.21
+          actions-cache-folder: emsdk-cache
+
+      - name: Retrieve pinned original REAL_FLUID source
+        run: |
+          git clone --depth=1 https://github.com/Sagnik11October2004/REAL_FLUID.git /tmp/REAL_FLUID
+          git -C /tmp/REAL_FLUID fetch --depth=1 origin 8f3b2d3e0e8e43945e2194546934564e0414c7e7
+          git -C /tmp/REAL_FLUID checkout --detach 8f3b2d3e0e8e43945e2194546934564e0414c7e7
+          python3 docs/native-fluid/prepare_source.py /tmp/REAL_FLUID
+
+      - name: Compile numerical C++ sources to WebAssembly
+        shell: bash
+        run: |
+          mkdir -p docs/native-fluid
+          em++ -O2 -std=c++11 \
+            -I/tmp/REAL_FLUID/src \
+            -fno-exceptions \
+            /tmp/REAL_FLUID/src/liquid2D.cpp \
+            /tmp/REAL_FLUID/src/levelset2D.cpp \
+            /tmp/REAL_FLUID/src/solver.cpp \
+            /tmp/REAL_FLUID/src/interp.cpp \
+            /tmp/REAL_FLUID/src/write_bmp.cpp \
+            docs/native-fluid/bridge.cpp \
+            -o docs/native-fluid/fluid-core.js \
+            -sNO_ENTRY=1 \
+            -sMODULARIZE=1 \
+            -sEXPORT_NAME=createFluidModule \
+            -sENVIRONMENT=web,node \
+            -sALLOW_MEMORY_GROWTH=1 \
+            -sFILESYSTEM=0 \
+            -sASSERTIONS=1 \
+            '-sEXPORTED_RUNTIME_METHODS=["HEAPF32"]' \
+            '-sEXPORTED_FUNCTIONS=["_fluid_init","_fluid_grid","_fluid_dt","_fluid_time","_fluid_case_current","_fluid_phi_ptr","_fluid_u_ptr","_fluid_v_ptr","_fluid_volume","_fluid_run_steps","_fluid_reset","_fluid_choose_case","_fluid_toggle_volume","_fluid_toggle_redistance","_fluid_set_solver","_fluid_set_interpolation","_fluid_set_physics","_fluid_pressure_residual"]'
+
+      - name: Test each original scenario
+        shell: bash
+        run: |
+          node docs/native-fluid/test-native.cjs
+          test -s docs/native-fluid/fluid-core.js
+          test -s docs/native-fluid/fluid-core.wasm
+
+      - name: Ship matching GPL-3.0 corresponding source
+        shell: bash
+        run: |
+          mkdir -p docs/native-fluid/corresponding-source
+          cp /tmp/REAL_FLUID/LICENSE.md docs/native-fluid/corresponding-source/LICENSE.md
+          cp /tmp/REAL_FLUID/src/{common.h,controller.cpp,controller.h,interp.cpp,interp.h,levelset2D.cpp,levelset2D.h,liquid2D.cpp,liquid2D.h,profile.cpp,profile.h,solver.cpp,solver.h,utility.h,write_bmp.cpp,write_bmp.h,fluid_gl_stub.h} docs/native-fluid/corresponding-source/
+          printf 'Original: https://github.com/Sagnik11October2004/REAL_FLUID\nPinned revision: 8f3b2d3e0e8e43945e2194546934564e0414c7e7\nBuild patches: ../prepare_source.py\nBridge: ../bridge.cpp\nLicense: GPL-3.0\n' > docs/native-fluid/corresponding-source/SOURCE.txt
+
+      - name: Commit versioned WASM runtime to portfolio docs
+        shell: bash
+        run: |
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add docs/native-fluid/fluid-core.js docs/native-fluid/fluid-core.wasm docs/native-fluid/corresponding-source
+          if ! git diff --cached --quiet; then
+            git commit -m "Build full REAL_FLUID C++ native WebAssembly physics engine"
+            git push origin HEAD:$GITHUB_REF_NAME
+          fi
