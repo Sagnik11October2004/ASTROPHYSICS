@@ -324,3 +324,39 @@
     min-width:0;
   }
 }
+
+/* Make the academic introduction and qualifications the first visual priority. */
+.cosmos-hero .hero-intro-panel{margin-top:17px;padding:17px 19px 18px;border-left:3px solid #86e3dc;background:linear-gradient(90deg,rgba(8,40,56,.76),rgba(8,30,46,.15));border-radius:0 8px 8px 0}
+.cosmos-hero .hero-intro-label{display:block;font:700 10px/1.4 var(--display);letter-spacing:.14em;color:#9dece5}
+.cosmos-hero .hero-intro-panel .hero-description{margin:9px 0 0;font-size:clamp(13px,1.15vw,16px);line-height:1.68;color:#f0f7fc}
+.cosmos-hero .hero-intro-research{margin:10px 0 0;font:500 12px/1.7 var(--body);color:#b9d9e3}
+.cosmos-hero .cosmos-copy .hero-credentials{margin-top:14px}
+.cosmos-hero .cosmos-copy .hero-credential{background:rgba(5,27,43,.92);border-color:rgba(145,219,227,.42)}
+/* A clearly alternating zigzag: Soumitro (left), Kataria (right),
+   Indranil (left), Ishiyama (right), and a paired final destination. */
+.journey-timeline .journey-step:nth-child(1),
+.journey-timeline .journey-step:nth-child(3){transform-origin:right center}
+.journey-timeline .journey-step:nth-child(2),
+.journey-timeline .journey-step:nth-child(4){transform-origin:left center}
+.journey-timeline .journey-step:not(.journey-finale):nth-child(odd){border-left:3px solid var(--accent)!important}
+.journey-timeline .journey-step:not(.journey-finale):nth-child(even){border-right:3px solid var(--accent)!important}
+.journey-timeline .journey-finale{border-top:3px solid var(--accent)!important}
+.journey-timeline .journey-step:not(.journey-finale):nth-child(even) .journey-number{float:right;margin-left:14px}
+.journey-timeline .journey-step:not(.journey-finale):nth-child(even) .journey-entry-meta{clear:both}
+/* The original movie is always letterboxed instead of cropped, and uses
+   nearly the full viewport width on desktop, tablets, and phones. */
+.motion-lab-pop .container{width:min(calc(100% - 24px),1600px)!important;max-width:1600px!important}
+.motion-lab-pop .popiii-canvas-wrap{max-width:1540px!important;overflow:visible!important}
+.motion-lab-pop .pop-original-media{max-width:100%!important;min-width:0!important}
+.motion-lab-pop .pop-video-frame{width:100%!important;aspect-ratio:80 / 43!important;max-height:none!important;min-height:0!important;overflow:visible!important;display:block;background:#020713}
+.motion-lab-pop .pop-video-frame video#popiii-original-video{width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;object-fit:contain!important;object-position:center center!important;display:block!important;position:absolute!important;inset:0!important}
+.motion-lab-pop .pop-video-frame:fullscreen{width:100vw!important;height:100vh!important;aspect-ratio:auto!important;overflow:hidden!important}
+.motion-lab-pop .pop-video-frame:fullscreen video#popiii-original-video{position:relative!important;inset:auto!important;width:100vw!important;height:100vh!important;max-width:100vw!important;max-height:100vh!important;object-fit:contain!important}
+@media(max-width:760px){
+ .journey-timeline .journey-step:not(.journey-finale):nth-child(even) .journey-number{float:none;margin-left:0}
+ .journey-timeline .journey-step:not(.journey-finale):nth-child(even){border-left:3px solid var(--accent)!important;border-right:1px solid var(--line-strong)!important}
+ .cosmos-hero .hero-intro-panel{padding:13px 14px}
+ .cosmos-hero .hero-intro-research{font-size:11px}
+ .motion-lab-pop .container{width:calc(100% - 16px)!important}
+ .motion-lab-pop .popiii-canvas-wrap{width:100%!important}
+}
