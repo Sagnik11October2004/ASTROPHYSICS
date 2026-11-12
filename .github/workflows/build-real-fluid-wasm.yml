@@ -56,7 +56,7 @@ jobs:
             /tmp/REAL_FLUID/src/write_bmp.cpp \
             docs/native-fluid/bridge.cpp \
             -o docs/native-fluid/fluid-core.js \
-            -sNO_ENTRY=1 \
+            --no-entry \
             -sMODULARIZE=1 \
             -sEXPORT_NAME=createFluidModule \
             -sENVIRONMENT=web,node \
