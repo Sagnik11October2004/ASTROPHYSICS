@@ -48,3 +48,9 @@
 @media(max-width:840px){.density-lab-layout{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:520px){.profile-identity{gap:13px;padding:12px}.profile-avatar{width:70px;height:70px;flex-basis:70px}.dm-plot-panel,.dm-controls-panel{padding:12px}.dm-axis-label{font-size:13px}.cosmo-chapter-explanation{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.cosmology-epoch-bar button.epoch{transition:none}}
+
+.bh-beaming-button{display:inline-flex;align-items:center;justify-content:center;margin-top:10px;padding:9px 11px;font:700 10px var(--display);letter-spacing:.04em;color:var(--text);background:var(--surface-alt);border:1px solid var(--line-strong);border-radius:4px;cursor:pointer}
+.bh-beaming-button:hover:not(:disabled){border-color:var(--accent)}
+.bh-beaming-button[aria-pressed=false]{opacity:.75}
+.bh-beaming-button:disabled{opacity:.45;cursor:default}
+.bh-beaming-button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
