@@ -7,6 +7,8 @@
   const existing=document.getElementById('blackhole-canvas');
   const slider=document.getElementById('bh-inclination');
   const readout=document.getElementById('bh-angle');
+  const beamingButton=document.getElementById('bh-beaming');
+  let beaming=true;
   if(!existing||!existing.parentNode)return;
   const canvas=document.createElement('canvas');
   canvas.id='bh-webgl';
@@ -24,6 +26,7 @@
     uniform vec2 uResolution;
     uniform float uTime;
     uniform float uInc;
+    uniform float uBeaming;
     float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
     float noise(vec2 p){
       vec2 i=floor(p),f=fract(p);
@@ -68,7 +71,7 @@
       float approach=-uv.x/max(rr,.2); // left side is beamed toward the viewer
       float beta=clamp(.60*sqrt(rin/max(rr,rin)),.2,.71);
       float doppler=sqrt(1.-beta*beta)/(1.-beta*sin(incl)*approach);
-      float boost=pow(doppler,3.1);
+      float boost=mix(1.,pow(doppler,3.1),uBeaming);
       float gravShift=sqrt(max(.3,1.-.16/max(rr,.17)));
       float bright=annulus*(.12+1.5*t)*max(.12,turbulence)*boost*gravShift;
       vec3 hot=vec3(1.25,1.37,1.45);
@@ -130,7 +133,8 @@
   gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
   const pos=gl.getAttribLocation(prog,'aPos');
   gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
-  const uResolution=gl.getUniformLocation(prog,'uResolution'),uTime=gl.getUniformLocation(prog,'uTime'),uInc=gl.getUniformLocation(prog,'uInc');
+  const uResolution=gl.getUniformLocation(prog,'uResolution'),uTime=gl.getUniformLocation(prog,'uTime'),uInc=gl.getUniformLocation(prog,'uInc'),uBeaming=gl.getUniformLocation(prog,'uBeaming');
+  if(beamingButton)beamingButton.disabled=false;
   existing.classList.add('bh-fallback-hidden');
   let visible=true,handle=0,lastTime=0;
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -148,6 +152,7 @@
     gl.uniform2f(uResolution,canvas.width,canvas.height);
     gl.uniform1f(uTime,time);
     gl.uniform1f(uInc,Number(slider?slider.value:65));
+    gl.uniform1f(uBeaming,beaming?1:0);
     gl.drawArrays(gl.TRIANGLES,0,6);
   }
   function tick(now){
@@ -161,6 +166,12 @@
     if(!document.hidden&&visible&&!reduced.matches)handle=requestAnimationFrame(tick);
     else render(0);
   }
+  if(beamingButton)beamingButton.addEventListener('click',function(){
+    beaming=!beaming;
+    beamingButton.setAttribute('aria-pressed',String(beaming));
+    beamingButton.textContent=beaming?'Doppler beaming: ON':'Doppler beaming: OFF';
+    render(performance.now()*.001);
+  });
   if(slider)slider.addEventListener('input',function(){
     if(readout)readout.textContent=slider.value+'°';
     render(performance.now()*.001);
