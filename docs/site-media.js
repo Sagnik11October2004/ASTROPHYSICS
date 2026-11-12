@@ -8,12 +8,26 @@
   const video=document.getElementById('cosmos-real-video');
   const qualityButton=document.getElementById('cosmo-quality');
   const playbackButton=document.getElementById('cosmo-playback');
+  const speedSelect=document.getElementById('cosmo-speed');
   const errorNote=document.getElementById('cosmos-video-error');
   const stageNo=document.getElementById('story-number');
   const metadata=document.getElementById('cosmo-epoch-readout');
   const HD='https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_1080p.mp4';
   const UHD='https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_4k.mp4';
   let quality='HD',requestedPlayback=!reduced.matches,ready=false;
+  const supportedSpeeds=[1,1.5,2,3];
+  let playbackSpeed=2; // Faster presentation of the unchanged original TNG footage.
+  function setPlaybackSpeed(value){
+    const next=Number(value);
+    if(!supportedSpeeds.includes(next))return;
+    playbackSpeed=next;
+    if(video){
+      video.defaultPlaybackRate=next;
+      video.playbackRate=next;
+    }
+    if(speedSelect)speedSelect.value=String(next);
+    updateQuality();
+  }
   function playMedia(el){
     if(!el||document.hidden||reduced.matches)return;
     el.muted=true;
@@ -34,7 +48,7 @@
       qualityButton.setAttribute('aria-pressed',String(quality==='4K'));
     }
     if(stageNo)stageNo.textContent=quality==='4K'?'TNG300 · 4K':'TNG300 · 1080P';
-    if(metadata)metadata.textContent='TNG300 · gas density · '+quality;
+    if(metadata)metadata.textContent='TNG300 · gas density · '+quality+' · '+playbackSpeed+'×';
   }
   function setQuality(next){
     if(!video||next===quality)return;
@@ -57,7 +71,8 @@
     if(requestedPlayback)playMedia(video);
   }
   if(video){
-    video.addEventListener('loadeddata',()=>{ready=true;if(errorNote)errorNote.hidden=true;});
+    video.addEventListener('loadedmetadata',()=>setPlaybackSpeed(playbackSpeed));
+    video.addEventListener('loadeddata',()=>{ready=true;if(errorNote)errorNote.hidden=true;setPlaybackSpeed(playbackSpeed);});
     video.addEventListener('play',updatePlayback);
     video.addEventListener('pause',updatePlayback);
     video.addEventListener('error',()=>{
@@ -71,8 +86,9 @@
     // an unrelated illustrative or third-party movie as simulation footage.
     window.setTimeout(()=>{if(!ready&&video.readyState<2&&errorNote)errorNote.hidden=false;},18000);
     if(reduced.matches){video.autoplay=false;video.controls=true;video.pause();requestedPlayback=false;}
-    updateQuality();updatePlayback();
+    setPlaybackSpeed(playbackSpeed);updatePlayback();
   }
+  if(speedSelect)speedSelect.addEventListener('change',()=>setPlaybackSpeed(speedSelect.value));
   if(qualityButton)qualityButton.addEventListener('click',()=>setQuality(quality==='HD'?'4K':'HD'));
   if(playbackButton)playbackButton.addEventListener('click',()=>{
     if(!video)return;
