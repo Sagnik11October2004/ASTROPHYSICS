@@ -24,6 +24,23 @@ async function main(){
      const photo=document.querySelector('.hero-photo-link .hero-portrait');
      return !!photo && photo.complete && photo.naturalWidth>0;
    },{timeout:15000});
+   // Verify updated subject branding and the ongoing SIMBA project are
+   // included in the published document, without claiming formal supervision.
+   const branding=await page.evaluate(()=>{
+     const heading=document.querySelector('.hero-kicker')?.textContent||'';
+     const project=[...document.querySelectorAll('#work-grid .cv-project-card')].find(x=>x.textContent.includes('Torque-limited vs Bondi'));
+     const mentor=[...document.querySelectorAll('#mentors .mentor-card')].find(x=>x.textContent.includes('Romeel Davé'));
+     const journey=[...document.querySelectorAll('#experience .journey-step')].find(x=>x.textContent.includes('Romeel Davé'));
+     return {heading,project:project?.textContent||'',mentor:mentor?.textContent||'',journey:journey?.textContent||'',
+       steps:document.querySelectorAll('#experience .journey-step').length,
+       projects:document.querySelectorAll('#work-grid .cv-project-card').length};
+   });
+   assert(/ASTROPHYSICS.*COSMOLOGY/.test(branding.heading),'Astrophysics and Cosmology branding missing');
+   assert(branding.project.includes('RESEARCH IN CONSULTATION WITH'),'SIMBA project must avoid formal supervision claims');
+   assert(branding.mentor.includes('Scientific project guidance'),'Davé role must reflect scientific guidance');
+   assert(branding.journey.includes('SIMBA'),'SIMBA discussion step missing');
+   assert(branding.steps===6,'Expected six journey stages with both Nordita and CASSUM together');
+   assert(branding.projects===9,'Expected nine research project cards');
    const data=await page.evaluate(()=>{
     const box=(sel)=>{const el=document.querySelector(sel);if(!el)throw Error('Missing '+sel);
       const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
