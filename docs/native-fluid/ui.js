@@ -16,6 +16,7 @@
     time=q('levelset-time'),area=q('levelset-area'),residual=q('levelset-divergence'),
     correction=q('levelset-volume-correct'),redistance=q('levelset-redistance'),
     solverSelect=q('levelset-pressure-solver'),interpSelect=q('levelset-interpolation'),
+    resolution=q('levelset-resolution'),
     speed=q('levelset-speed'),description=q('levelset-description'),
     errorNote=q('native-fluid-build-error');
   const tabs=[...document.querySelectorAll('[data-levelset-case]')];
@@ -29,7 +30,7 @@
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
   const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
   let model=null,mode='dam',playing=!reduced.matches,visible=false,last=0,
-      accumulator=0,raf=0,initialVolume=1,initialized=false,loading=false;
+      accumulator=0,raf=0,initialVolume=1,initialized=false,loading=false,coreReady=false;
   const setStatus=s=>{if(status)status.textContent=s;};
   function syncPlay(){
     if(run){
@@ -39,37 +40,51 @@
     }
   }
   function enableControls(ready){
-    for(const el of [run,step,reset,gravity,sigma,correction,redistance,solverSelect,interpSelect,speed,...tabs])
+    for(const el of [run,step,reset,gravity,sigma,correction,redistance,solverSelect,interpSelect,resolution,speed,...tabs])
       if(el)el.disabled=!ready;
   }
   enableControls(false);syncPlay();
   const prefix='./native-fluid/';
   async function loadModule(){
     if(loading||initialized)return;
-    loading=true;setStatus('LOADING ORIGINAL C++ / WASM SOLVER');
+    loading=true;enableControls(false);
+    setStatus('LOADING ORIGINAL C++ / WASM SOLVER');
     try{
-      await new Promise((resolve,reject)=>{
-        const tag=document.createElement('script');
-        tag.src=prefix+'fluid-core.js';
-        tag.async=true;
-        tag.onload=resolve;
-        tag.onerror=()=>reject(new Error('Compiled WebAssembly loader is missing.'));
-        document.head.appendChild(tag);
-      });
+      if(!coreReady){
+        await new Promise((resolve,reject)=>{
+          const tag=document.createElement('script');
+          tag.src=prefix+'fluid-core.js';
+          tag.async=true;
+          tag.onload=resolve;
+          tag.onerror=()=>reject(new Error('Compiled WebAssembly loader is missing.'));
+          document.head.appendChild(tag);
+        });
+        coreReady=true;
+      }
       if(typeof createFluidModule!=='function')throw Error('Native solver factory was not exported.');
-      model=await createFluidModule({
+      const fresh=await createFluidModule({
         locateFile:f=>prefix+f,
         print:()=>{},printErr:()=>{}
       });
-      model._fluid_init(64);
-      const n=model._fluid_grid();
-      if(n!==64||!model.HEAPF32)throw Error('Native solver exports or Float32 heap not available.');
+      const target=Number(resolution?.value||64);
+      if(target!==64&&target!==128)throw Error('Unsupported grid size.');
+      fresh._fluid_init(target);
+      if(fresh._fluid_grid()!==target||!fresh.HEAPF32)
+        throw Error('Native solver exports or Float32 heap not available.');
+      // The original source allocates its arrays at initialization, so a grid
+      // change creates a fresh WASM instance rather than resizing in place.
+      model=fresh;
+      if(mode!=='dam')model._fluid_choose_case(modeNo[mode]);
+      if(correction&&!correction.checked)model._fluid_toggle_volume(0);
+      if(redistance&&!redistance.checked)model._fluid_toggle_redistance(0);
+      if(solverSelect)model._fluid_set_solver(Number(solverSelect.value));
+      if(interpSelect)model._fluid_set_interpolation(Number(interpSelect.value));
       initialVolume=Math.abs(model._fluid_volume())||1;
-      initialized=true;
+      initialized=true;loading=false;
       enableControls(true);
       setPhysics();
       if(desc[mode]&&description)description.textContent=desc[mode];
-      setStatus('FULL C++ ENGINE · MICCG');
+      setStatus('FULL C++ ENGINE · '+target+'²');
       redraw();syncPlay();
       schedule();
     }catch(err){
@@ -234,6 +249,11 @@
   if(redistance)redistance.addEventListener('change',()=>model?model._fluid_toggle_redistance(redistance.checked?1:0):null);
   if(solverSelect)solverSelect.addEventListener('change',()=>model?model._fluid_set_solver(Number(solverSelect.value)):null);
   if(interpSelect)interpSelect.addEventListener('change',()=>model?model._fluid_set_interpolation(Number(interpSelect.value)):null);
+  if(resolution)resolution.addEventListener('change',()=>{
+    if(loading)return;
+    playing=false;syncPlay();model=null;initialized=false;last=0;accumulator=0;
+    loadModule();
+  });
   if(grid)grid.addEventListener('change',redraw);
   if(vectors)vectors.addEventListener('change',redraw);
   if('IntersectionObserver' in window)
