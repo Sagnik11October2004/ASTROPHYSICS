@@ -217,7 +217,7 @@
       accumulator-=.01;advanced++;
     }
     if(advanced)redraw();
-    if(model._fluid_time()>4){playing=false;syncPlay();return;}
+    // The native solver has no artificial four-second simulation cutoff.
     schedule();
   }
   tabs.forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.levelsetCase)));
