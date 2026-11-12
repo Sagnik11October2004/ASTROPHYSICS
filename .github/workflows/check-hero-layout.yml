@@ -1,0 +1,50 @@
+name: Check hero video layout
+
+on:
+  push:
+    branches:
+      - main
+      - fix-hero-video-overlap-20261112
+    paths:
+      - ".github/workflows/check-hero-layout.yml"
+      - "docs/tests/check-hero-layout.cjs"
+      - "docs/index.html"
+      - "docs/profile-journey.css"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Chrome automation client
+        run: npm install --no-save --no-audit --no-fund playwright-core@1.55.0
+      - name: Check headless browser
+        run: |
+          if command -v google-chrome; then
+            google-chrome --version
+          elif command -v chromium; then
+            chromium --version
+          else
+            echo "No system browser installed"
+            exit 1
+          fi
+      - name: Serve portfolio and test responsive hero bounds
+        shell: bash
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory docs > /tmp/portfolio-server.log 2>&1 &
+          sleep 2
+          node docs/tests/check-hero-layout.cjs
+      - name: Upload screenshots for review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hero-layout-viewports
+          path: /tmp/hero-*.png
+          if-no-files-found: ignore

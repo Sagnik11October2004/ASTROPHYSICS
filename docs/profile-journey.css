@@ -120,3 +120,207 @@
  .site-header .main-nav.open{display:flex}
  .site-header .main-nav a{font-size:14px;padding:12px 0;border-bottom:1px solid var(--line)}
 }
+
+/* 2026-11-12: Fix the screenshot-reported collision between the introduction,
+   credentials, and absolute-positioned cosmic video. The film is now in its
+   own normal-flow grid column; no text or qualifications may paint over it. */
+.cosmos-hero{
+  min-height:0;
+  height:auto;
+}
+.cosmos-hero .cosmos-hero-inner{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  align-items:center;
+  gap:clamp(26px,3.5vw,58px);
+  width:min(1340px,calc(100% - 88px));
+  min-height:0;
+  flex:none;
+  padding-block:clamp(44px,5.2vw,76px) 40px;
+  pointer-events:auto;
+}
+.cosmos-hero .cosmos-hero-inner .cosmos-copy{
+  width:100%;
+  max-width:none;
+  min-width:0;
+  position:relative;
+  z-index:2;
+}
+.cosmos-hero .cosmos-copy .eyebrow{
+  margin-bottom:23px;
+  max-width:100%;
+  line-height:1.65;
+}
+.cosmos-hero .cosmos-copy .hero-kicker{margin-bottom:13px}
+.cosmos-hero .cosmos-copy h1#hero-title{
+  font-size:clamp(45px,4.15vw,66px);
+  line-height:1.07;
+  letter-spacing:-.064em;
+  max-width:100%;
+  text-wrap:balance;
+}
+.cosmos-hero .cosmos-copy .hero-description{
+  max-width:100%;
+  font-size:clamp(13px,1.1vw,15px);
+  line-height:1.74;
+}
+.cosmos-hero .cosmos-copy .hero-credentials{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  max-width:100%;
+  margin-top:20px;
+}
+.cosmos-hero .cosmos-copy .hero-credential:nth-child(3){
+  grid-column:1 / -1;
+}
+.cosmos-hero .cosmos-copy .hero-actions{
+  margin-top:22px;
+  gap:8px 12px;
+}
+.cosmos-hero .cosmos-media-column{
+  min-width:0;
+  width:100%;
+  z-index:2;
+  position:relative;
+  pointer-events:auto;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+.cosmos-hero .cosmos-media-column .cosmos-stage{
+  position:relative;
+  top:auto!important;
+  left:auto!important;
+  right:auto!important;
+  bottom:auto!important;
+  margin:0!important;
+  padding:0;
+  width:100%;
+  max-width:100%;
+  height:auto!important;
+  aspect-ratio:16 / 10;
+  overflow:hidden;
+  isolation:isolate;
+  border-radius:12px;
+  -webkit-mask-image:none!important;
+  mask-image:none!important;
+  box-sizing:border-box;
+}
+.cosmos-hero .cosmos-media-column .cosmos-stage video.cosmos-film{
+  object-fit:contain;
+  object-position:center;
+}
+.cosmos-hero .cosmos-media-column .cosmos-stage-head,
+.cosmos-hero .cosmos-media-column .cosmos-stage-footer{
+  left:5%;
+  right:5%;
+  text-shadow:0 2px 9px #04111b;
+}
+.cosmos-hero .cosmos-media-column .cosmo-simulator-controls{
+  width:100%;
+  max-width:none;
+  box-sizing:border-box;
+  margin:0;
+  box-shadow:none;
+  backdrop-filter:none;
+  background:rgba(7,21,36,.94);
+}
+.cosmos-hero .cosmos-media-column .cosmo-sim-disclaimer{
+  max-width:none;
+}
+.cosmos-hero .hero-bottom-note{
+  width:min(1340px,calc(100% - 88px));
+  border-top:1px solid rgba(180,219,237,.14);
+}
+@media(max-width:1150px){
+  .cosmos-hero .cosmos-hero-inner{
+    grid-template-columns:minmax(0,1fr);
+    gap:32px;
+    width:min(930px,calc(100% - 64px));
+    padding-block:clamp(50px,7vw,85px) 28px;
+  }
+  .cosmos-hero .cosmos-copy h1#hero-title{
+    font-size:clamp(48px,7vw,82px);
+  }
+  .cosmos-hero .cosmos-copy .hero-credentials{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+  .cosmos-hero .cosmos-copy .hero-credential:nth-child(3){
+    grid-column:auto;
+  }
+  .cosmos-hero .cosmos-media-column{max-width:930px}
+  .cosmos-hero .hero-bottom-note{width:min(930px,calc(100% - 64px))}
+}
+@media(max-width:650px){
+  .cosmos-hero .cosmos-hero-inner{
+    width:calc(100% - 34px);
+    padding-block:36px 21px;
+    gap:22px;
+  }
+  .cosmos-hero .cosmos-copy h1#hero-title{
+    font-size:clamp(43px,10.8vw,68px);
+    line-height:1.08;
+  }
+  .cosmos-hero .cosmos-copy .eyebrow{margin-bottom:19px}
+  .cosmos-hero .cosmos-copy .hero-credentials{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  .cosmos-hero .cosmos-copy .hero-credential:nth-child(3){
+    grid-column:1 / -1;
+  }
+  .cosmos-hero .cosmos-media-column{gap:12px}
+  .cosmos-hero .cosmos-media-column .cosmos-stage{
+    aspect-ratio:16 / 10;
+    border-radius:8px;
+  }
+  .cosmos-hero .cosmos-media-column .cosmos-stage-head{
+    top:5%;font-size:7px;letter-spacing:.04em;
+  }
+  .cosmos-hero .cosmos-media-column .cosmos-stage-head strong{
+    display:none;
+  }
+  .cosmos-hero .cosmos-media-column .cosmos-stage-footer{
+    bottom:4%;
+    padding-top:7px;
+    gap:8px;
+  }
+  .cosmos-hero .cosmos-media-column .cosmos-stage-footer small{
+    display:none;
+  }
+  .cosmos-hero .cosmos-media-column .cosmo-simulator-controls{
+    padding:12px;
+  }
+  .cosmos-hero .hero-bottom-note{
+    width:calc(100% - 34px);
+  }
+}
+@media print{
+  .cosmos-hero .cosmos-hero-inner{display:block}
+  .cosmos-hero .cosmos-media-column{display:none}
+}
+
+/* An existing minimum-content width in the black-hole profile controls
+   could extend the About section a few pixels beyond 390px screens. */
+@media(max-width:650px){
+  .profile-section .profile-grid{grid-template-columns:minmax(0,1fr)}
+  .profile-section .profile-visual,
+  .profile-section .portrait-orbit,
+  .profile-section .bh-controls{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    box-sizing:border-box;
+  }
+  .profile-section .bh-controls{flex-wrap:wrap}
+  .profile-section .bh-controls label{
+    max-width:100%;
+    flex:1 1 100%;
+    justify-content:space-between;
+  }
+  .profile-section .bh-controls input{
+    flex:1 1 100%;
+    width:100%;
+    min-width:0;
+  }
+}
