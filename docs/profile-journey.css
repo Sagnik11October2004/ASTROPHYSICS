@@ -500,3 +500,63 @@
   .cosmos-hero .hero-portrait{width:96px;height:116px;flex-basis:96px}
   .cosmos-hero .hero-portrait-heading .hero-identity-subtitle{font-size:11px}
 }
+
+/* Full 1536 × 1152 uploaded museum photograph (not a compressed face crop).
+   Display all four edges so the Nobel Prize Museum sign stays in frame. */
+.cosmos-hero .hero-portrait-heading{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  justify-items:start;
+  align-items:start;
+  gap:11px;
+  margin-top:19px;
+  width:100%;
+}
+.cosmos-hero .hero-photo-link{
+  display:block;
+  width:min(100%,460px);
+  max-width:100%;
+  flex:none;
+  overflow:hidden;
+  border:1px solid rgba(151,226,225,.57);
+  border-radius:10px;
+  background:#091c2c;
+  box-shadow:0 14px 39px rgba(0,0,0,.25);
+  text-decoration:none;
+}
+.cosmos-hero .hero-photo-link:hover{border-color:#a1eee4}
+.cosmos-hero .hero-photo-link:focus-visible{
+  outline:3px solid #a1eee4;
+  outline-offset:4px;
+}
+.cosmos-hero .hero-photo-link .hero-portrait{
+  width:100%!important;
+  max-width:100%!important;
+  height:auto!important;
+  max-height:none!important;
+  aspect-ratio:4 / 3!important;
+  flex:none!important;
+  display:block!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  object-fit:contain!important;
+  object-position:center center!important;
+  image-rendering:auto;
+}
+.cosmos-hero .hero-portrait-heading .hero-identity-subtitle{
+  margin:0;
+  max-width:560px;
+  line-height:1.55;
+}
+@media(min-width:651px) and (max-width:1150px){
+  .cosmos-hero .hero-photo-link{width:min(100%,520px)}
+}
+@media(max-width:650px){
+  .cosmos-hero .hero-portrait-heading{gap:10px}
+  .cosmos-hero .hero-photo-link{width:min(100%,430px)}
+  .cosmos-hero .hero-portrait-heading .hero-identity-subtitle{
+    font-size:12px;
+    max-width:100%;
+  }
+}
