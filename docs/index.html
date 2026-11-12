@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="./astrolab.css?v=4">
   <link rel="stylesheet" href="./media-revision.css?v=5">
   <link rel="stylesheet" href="./performance.css?v=7">
+  <link rel="stylesheet" href="./research-interactions.css?v=1">
   <script defer src="./script.js"></script>
   <script defer src="./cosmos.js?v=3"></script>
   
@@ -26,6 +27,7 @@
   
   <script defer src="./enhancements.js?v=5"></script>
   <script defer src="./site-media.js?v=8"></script>
+  <script defer src="./research-interactions.js?v=1"></script>
   <script defer src="./lazy-research.js?v=6"></script>
 </head>
 <body>
@@ -35,7 +37,7 @@
     <div class="container nav-wrap">
       <a class="brand" href="#top" aria-label="Sagnik Bhowmick — home"><span class="brand-mark">S<span class="brand-dot">.</span>B</span><span class="brand-caption">SAGNIK<br>BHOWMICK</span></a>
       <nav id="main-nav" class="main-nav" aria-label="Main navigation">
-        <a href="#about">About</a><a href="#research">Research</a><a href="#mentors">Mentors</a><a href="#travel">Travel</a><a href="#lab">Animations</a><a href="#cv">CV</a><a href="#contact">Contact</a>
+        <a href="#about">About</a><a href="#research">Research</a><a href="#density-lab">DM Lab</a><a href="#mentors">Mentors</a><a href="#travel">Travel</a><a href="#lab">Animations</a><a href="#cv">CV</a><a href="#contact">Contact</a>
       </nav>
       <div class="nav-actions">
         <button id="theme-toggle" class="icon-button theme-button" type="button" aria-label="Switch color theme" title="Switch color theme"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
@@ -86,19 +88,27 @@
         </div>
       </div>
       <div class="container cosmology-epoch-bar" aria-label="Cosmic evolution chapters in chronological order; timeline is not linear in cosmic age">
-        <div class="epoch"><strong>00</strong><span>CMB PRELUDE</span><small>z ≈ 1100 · earlier than start</small></div>
-        <div class="epoch"><strong>01</strong><span>INITIAL CONDITIONS</span><small>z = 499 · dark ages</small></div>
-        <div class="epoch"><strong>02</strong><span>MINIHALO COLLAPSE</span><small>z ≈ 35–25</small></div>
-        <div class="epoch"><strong>03</strong><span>FIRST STARS</span><small>z ≈ 25–15</small></div>
-        <div class="epoch"><strong>04</strong><span>GALAXY FORMATION</span><small>z ≈ 8–2</small></div>
-        <div class="epoch"><strong>05</strong><span>TODAY'S UNIVERSE</span><small>z = 0 · cosmic web</small></div>
+        <button type="button" class="epoch" data-epoch-index="0" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>00</strong><span>CMB PRELUDE</span><small>z ≈ 1100 · earlier than start</small></button>
+        <button type="button" class="epoch" data-epoch-index="1" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>01</strong><span>INITIAL CONDITIONS</span><small>z = 499 · dark ages</small></button>
+        <button type="button" class="epoch" data-epoch-index="2" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>02</strong><span>MINIHALO COLLAPSE</span><small>z ≈ 35–25</small></button>
+        <button type="button" class="epoch" data-epoch-index="3" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>03</strong><span>FIRST STARS</span><small>z ≈ 25–15</small></button>
+        <button type="button" class="epoch" data-epoch-index="4" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>04</strong><span>GALAXY FORMATION</span><small>z ≈ 8–2</small></button>
+        <button type="button" class="epoch" data-epoch-index="5" aria-pressed="false" title="Open illustrated cosmic epoch"><strong>05</strong><span>TODAY'S UNIVERSE</span><small>z = 0 · cosmic web</small></button>
       </div>
+      <div class="container cosmo-chapter-explanation" id="cosmos-chapter-description" role="status" aria-live="polite">Select any chapter above to open the illustrated educational timeline. These chapters are separate from the TNG300 video.</div>
       <div class="container hero-bottom-note"><span>REAL TNG300 VISUALIZATION · 1080P BY DEFAULT · OPTIONAL 4K · NOT FOOTAGE OF THE CMB OR POP III.1 EPOCH</span><span>SCROLL TO EXPLORE ↓</span></div>
     </section>
 
     <section class="section profile-section" id="about" aria-labelledby="about-heading">
       <div class="container profile-grid">
         <div class="reveal">
+          <div class="profile-identity">
+            <div class="profile-avatar" title="GitHub avatar fallback until an exact LinkedIn photo can be self-hosted">
+              <span aria-hidden="true">SB</span>
+              <img id="owner-portrait" src="https://avatars.githubusercontent.com/u/168888674?s=400" width="94" height="94" alt="Sagnik Bhowmick's GitHub profile avatar" loading="lazy" decoding="async">
+            </div>
+            <div><span class="profile-identity-kicker">THE RESEARCHER</span><strong class="profile-identity-name">Sagnik Bhowmick</strong><a href="https://www.linkedin.com/in/sagnik-bhowmick-161668292/" target="_blank" rel="noopener noreferrer">View my LinkedIn profile ↗</a></div>
+          </div>
           <div class="section-index">01 / PROFILE</div>
           <h2 id="about-heading" class="section-title">Theory and simulations across <em>many astrophysical scales.</em></h2>
           <p class="lead">My work sits where cosmology, high-energy astrophysics, and scientific computing meet.</p>
@@ -174,6 +184,38 @@
 <div class="research-tags"><span>C++</span><span>Level set</span><span>Finite difference</span><span>Pressure projection</span></div>
 <a class="work-link cv-project-link" href="https://github.com/Sagnik11October2004/Fluids" target="_blank" rel="noopener noreferrer">Explore public code ↗</a></article>
 </div><p id="research-empty" hidden>No projects match this filter.</p><p class="cv-source-note">Project details follow my academic CV. Ongoing research is described as work in progress, not as published results.</p></div></section>
+
+<section class="section density-lab" id="density-lab" aria-labelledby="density-lab-heading">
+  <div class="container">
+    <div class="section-heading reveal">
+      <div><div class="section-index">INTERACTIVE RESEARCH · PRIMORDIAL MINIHALOES</div><h2 id="density-lab-heading">Explore a dark-matter <em>density cusp.</em></h2></div>
+      <p>Change the inner slope, density normalization and probe radius. Compare a contracted power-law cusp to a reference r⁻¹ profile, and see how a density-squared annihilation rate responds.</p>
+    </div>
+    <div class="density-lab-layout">
+      <div class="dm-plot-panel">
+        <div class="dm-plot-heading"><span>IDEALIZED INNER-HALO POWER LAWS</span><strong>LOG–LOG PROFILE</strong></div>
+        <svg id="dm-profile-plot" class="dm-chart" viewBox="0 0 760 430" role="img" aria-label="Interactive log-log dark-matter density versus radius comparing the adjustable cusp with an r to the minus one reference slope"><title>Dark-matter inner density explorer</title><desc>Change the sliders to redraw the cusp and compare its local density to the same-normalization r^-1 reference.</desc></svg>
+        <div class="dm-legend"><span><b></b> Adjustable cusp</span><span class="dm-legend-reference"><b></b> r⁻¹ reference (matched at 1 pc)</span></div>
+        <p class="dm-note">Drag across the chart to probe a radius. This is an educational analytic power-law model, not a direct plot of published or validated simulation particles.</p>
+      </div>
+      <div class="dm-controls-panel">
+        <h3>Change the <em>inner halo.</em></h3>
+        <div class="dm-control"><label for="dm-slope">Density slope α <output id="dm-slope-value" for="dm-slope">1.82</output></label>
+          <input id="dm-slope" type="range" min="1" max="2.3" value="1.82" step="0.02" aria-label="Power-law density slope alpha"><small>ρ ∝ r⁻ᵅ; larger α means a steeper cusp.</small></div>
+        <div class="dm-control"><label for="dm-rho">Density at 1 pc [GeV cm⁻³] <output id="dm-rho-value" for="dm-rho">1,770</output></label>
+          <input id="dm-rho" type="range" min="2" max="4" value="3.248" step="0.001" aria-label="Logarithmic density normalization at one parsec"><small>100–10,000 GeV cm⁻³; logarithmic slider.</small></div>
+        <div class="dm-control"><label for="dm-radius">Probe radius [pc] <output id="dm-radius-value" for="dm-radius">0.100</output></label>
+          <input id="dm-radius" type="range" min="-1.30103" max="1" value="-1" step="0.001" aria-label="Logarithmic probe radius"><small>0.05–10 pc; choose a radius or click the plot.</small></div>
+        <div class="dm-value-line"><span>Local ρ at probe radius</span><strong><output id="dm-probe-density">—</output></strong></div>
+        <div class="dm-value-line"><span>Relative annihilation power</span><strong><output id="dm-heating-ratio">—</output></strong></div>
+        <p id="dm-annotation" class="dm-annotation" role="status" aria-live="polite">Change the controls to explore the profile.</p>
+        <div class="dm-actions"><button id="dm-reset" type="button">Reset values ↻</button><button id="dm-copy" type="button">Copy model parameters</button></div>
+        <span id="dm-copy-status" role="status" aria-live="polite"></span>
+        <p class="dm-note"><strong>Physical limitation:</strong> q̇ ∝ ρ²⟨σv⟩/mχ for fixed annihilation physics. A larger local annihilation power does <em>not</em> by itself establish energy deposition in gas, long-term replenishment of dark matter, or supermassive protostellar growth.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="section experience-section" id="experience" aria-labelledby="experience-heading">
       <div class="container experience-layout">
