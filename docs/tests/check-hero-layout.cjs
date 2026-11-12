@@ -28,7 +28,7 @@ async function main(){
       const projects=[...document.querySelectorAll('#work-grid .cv-project-card')];
       const steps=[...document.querySelectorAll('#experience .journey-step')];
       const mentor=[...document.querySelectorAll('#mentors .mentor-card')].find(x=>x.textContent.includes('Romeel Davé'));
-      const simba=projects.find(x=>x.textContent.includes('SIMBA black-hole accretion, feedback'));
+      const simba=projects.find(x=>x.textContent.includes('Torque-limited and Bondi black-hole accretion in SIMBA'));
       const journey=steps.find(x=>x.textContent.includes('Romeel Davé'));
       return {projects:projects.length,steps:steps.length,mentor:mentor?.textContent||'',
         simba:simba?.textContent||'',journey:journey?.textContent||'',
@@ -41,7 +41,7 @@ async function main(){
    assert(academic.projects===9,'Expected nine research project cards including SIMBA');
    assert(academic.steps===6,'Expected six journey stages, keeping Nordita/CASSUM paired');
    assert(academic.mentor.includes('Romeel Davé'),'Davé mentor/collaborator profile missing');
-   assert(academic.simba.includes('RESEARCH WITH'),'SIMBA project research attribution missing');
+   assert(academic.simba.includes('IN CONSULTATION WITH'),'SIMBA project consultation wording missing');
    assert(academic.journey.includes('SIMBA'),'Missing Davé journey stage');
    assert(academic.simbaAfterNordita,'SIMBA research card must be directly after Nordita card');
    assert(academic.journeyAfterFinale,'Davé must be stage 06 directly after the paired Nordita/CASSUM stage');
