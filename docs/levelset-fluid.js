@@ -403,7 +403,13 @@
     accumulator+=elapsed*speedValue;
     let worked=0;
     while(accumulator>=DT&&worked<4){solver.advance();accumulator-=DT;worked++;}
-    if(worked){redraw();if(solver.age>3.0){pause();}}
+    if(worked){
+      // The experimental cavity reaches the open surface and disappears.
+      // Loop its short cycle so visitors can watch another rise.
+      if(mode==='bubble'&&solver.age>1.45){solver.initialize(mode);}
+      else if(solver.age>3.0){pause();}
+      redraw();
+    }
     raf=playing?requestAnimationFrame(frame):0;
   }
   function setMode(next){
