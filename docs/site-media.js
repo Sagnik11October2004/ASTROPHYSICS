@@ -1,168 +1,114 @@
 'use strict';
-/* Fast, source-attributed media with lazy loading and honest fallback.
- *
- * Hero: official IllustrisTNG TNG300 HD footage with opt-in 4K, plus local model.
- * AGN:  original self-hosted gas-density feedback cycle, lazy-loaded.
- * PopIII.1: exact author-provided Drive video, untouched.
+/* IllustrisTNG-only homepage hero, 1080p default / optional 4K.
+ * No illustrated universe sequence or unrelated backup video.
+ * The original self-hosted AGN cycle and Pop III player remain unchanged.
  */
 (() => {
-  const root=document.body;
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const heroVideo=document.getElementById('cosmos-real-video');
-  const heroFallback=document.getElementById('cosmos-video-fallback');
-  const heroSwitch=document.getElementById('cosmo-toggle-model');
-  const qualitySwitch=document.getElementById('cosmo-quality');
-  const heroHdUrl='https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_1080p.mp4';
-  const hero4kUrl='https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_4k.mp4';
-  const heroControls=[...document.querySelectorAll('.cosmo-model-controls')];
-  const stageName=document.getElementById('story-name');
-  const stageSub=document.getElementById('story-subtitle');
+  const video=document.getElementById('cosmos-real-video');
+  const qualityButton=document.getElementById('cosmo-quality');
+  const playbackButton=document.getElementById('cosmo-playback');
+  const errorNote=document.getElementById('cosmos-video-error');
   const stageNo=document.getElementById('story-number');
-  const stageCredit=document.getElementById('cosmo-stage-credit');
-  let heroIllustration=false,heroBackup=false,heroReady=false,heroQuality='HD';
-  function playMedia(video){
-    if(!video||document.hidden||reduced.matches)return;
-    video.muted=true;video.defaultMuted=true;
+  const metadata=document.getElementById('cosmo-epoch-readout');
+  const HD='https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_1080p.mp4';
+  const UHD='https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_4k.mp4';
+  let quality='HD',requestedPlayback=!reduced.matches,ready=false;
+  function playMedia(el){
+    if(!el||document.hidden||reduced.matches)return;
+    el.muted=true;
     try{
-      const p=video.play();
-      if(p&&p.catch)p.catch(()=>{video.controls=true;});
-    }catch(err){video.controls=true;}
+      const p=el.play();
+      if(p&&p.catch)p.catch(()=>{el.controls=true;updatePlayback();});
+    }catch(_){el.controls=true;updatePlayback();}
   }
-  function setHeroQuality(next){
-    if(!heroVideo||heroBackup)return;
-    const selected=next==='4K'?'4K':'HD';
-    if(selected===heroQuality)return;
-    const previousTime=Number.isFinite(heroVideo.currentTime)?heroVideo.currentTime:0;
-    heroQuality=selected;
-    heroReady=false;
-    const source=heroVideo.querySelector('source');
+  function updatePlayback(){
+    if(!playbackButton||!video)return;
+    const active=!video.paused;
+    playbackButton.textContent=active?'Pause video Ⅱ':'Play video ▶';
+    playbackButton.setAttribute('aria-pressed',String(active));
+  }
+  function updateQuality(){
+    if(qualityButton){
+      qualityButton.textContent=quality==='4K'?'Switch to HD 1080p':'Play in 4K (larger file)';
+      qualityButton.setAttribute('aria-pressed',String(quality==='4K'));
+    }
+    if(stageNo)stageNo.textContent=quality==='4K'?'TNG300 · 4K':'TNG300 · 1080P';
+    if(metadata)metadata.textContent='TNG300 · gas density · '+quality;
+  }
+  function setQuality(next){
+    if(!video||next===quality)return;
+    const oldTime=Number.isFinite(video.currentTime)?video.currentTime:0;
+    quality=next==='4K'?'4K':'HD';
+    ready=false;
+    if(errorNote)errorNote.hidden=true;
+    const source=video.querySelector('source');
     if(!source)return;
-    source.src=selected==='4K'?hero4kUrl:heroHdUrl;
-    heroVideo.load();
-    if(previousTime>0){
-      heroVideo.addEventListener('loadedmetadata',()=>{
-        if(Number.isFinite(heroVideo.duration)&&heroVideo.duration>0){
-          try{heroVideo.currentTime=Math.min(previousTime,Math.max(0,heroVideo.duration-.25));}catch(_){}
+    source.src=quality==='4K'?UHD:HD;
+    video.load();
+    if(oldTime>0){
+      video.addEventListener('loadedmetadata',()=>{
+        if(Number.isFinite(video.duration)&&video.duration>0){
+          try{video.currentTime=Math.min(oldTime,video.duration-.2);}catch(_){}
         }
       },{once:true});
     }
-    if(qualitySwitch){
-      qualitySwitch.textContent=selected==='4K'?'Switch to HD 1080p':'Play in 4K (larger file)';
-      qualitySwitch.setAttribute('aria-pressed',String(selected==='4K'));
-    }
-    heroLabel();
-    if(!heroIllustration)playMedia(heroVideo);
+    updateQuality();
+    if(requestedPlayback)playMedia(video);
   }
-  function heroLabel(){
-    if(heroIllustration)return;
-    if(stageName)stageName.textContent=heroBackup?'ILLUSTRIS · A VIRTUAL UNIVERSE':'TNG300 · SUPERCLUSTER FORMATION';
-    if(stageSub)stageSub.textContent=heroBackup?'Illustris Collaboration · hydrodynamics, z = 127 → 0':'IllustrisTNG / D. Nelson · gas density · 500 Myr → present';
-    if(stageNo)stageNo.textContent=heroBackup?'ILLUSTRIS':'TNG300 · '+(heroQuality==='4K'?'4K':'1080P');
-    if(stageCredit)stageCredit.textContent=heroBackup?'ILLUSTRIS COLLABORATION':'ILLUSTRISTNG · D. NELSON';
-    const metadata=document.getElementById('cosmo-epoch-readout');
-    if(metadata)metadata.textContent=heroBackup?'Illustris · z 127 → 0':'TNG300 · gas density · '+(heroQuality==='4K'?'4K':'HD');
-  }
-  function enableHeroIllustration(enabled){
-    heroIllustration=!!enabled;
-    root.classList.toggle('cosmo-model-active',heroIllustration);
-    if(qualitySwitch)qualitySwitch.disabled=heroIllustration||heroBackup;
-    if(stageCredit&&heroIllustration)stageCredit.textContent='EDUCATIONAL MODEL';
-    heroControls.forEach(el=>{el.hidden=!heroIllustration;});
-    if(heroSwitch){
-      heroSwitch.setAttribute('aria-pressed',String(heroIllustration));
-      heroSwitch.textContent=heroIllustration?'Show real simulation video':'Show illustrated CMB-to-today timeline';
-    }
-    if(heroVideo){
-      heroVideo.hidden=heroIllustration||heroBackup;
-      if(heroIllustration)heroVideo.pause();
-      else if(!heroBackup)playMedia(heroVideo);
-    }
-    if(heroFallback){
-      heroFallback.hidden=heroIllustration||!heroBackup;
-      if(heroIllustration)heroFallback.removeAttribute('src');
-      else if(heroBackup && !heroFallback.getAttribute('src'))heroFallback.src=heroFallback.dataset.embed;
-    }
-    if(heroIllustration){
-      if(window.researchLoad)window.researchLoad('./cosmic-story.js?v=6')
-        .then(()=>window.dispatchEvent(new Event('resize')))
-        .catch(console.warn);
-    }else heroLabel();
-  }
-  function heroBackupVideo(){
-    if(heroBackup||heroIllustration)return;
-    heroBackup=true;
-    if(qualitySwitch)qualitySwitch.disabled=true;
-    if(heroVideo){heroVideo.pause();heroVideo.hidden=true;}
-    if(heroFallback){
-      heroFallback.hidden=false;
-      heroFallback.src=heroFallback.dataset.embed;
-    }else enableHeroIllustration(true);
-    heroLabel();
-  }
-  if(heroSwitch)heroSwitch.addEventListener('click',()=>enableHeroIllustration(!heroIllustration));
-  if(qualitySwitch)qualitySwitch.addEventListener('click',()=>setHeroQuality(heroQuality==='HD'?'4K':'HD'));
-  if(heroVideo){
-    heroVideo.addEventListener('loadeddata',()=>{heroReady=true;heroLabel();});
-    heroVideo.addEventListener('playing',()=>{heroReady=true;});
-    heroVideo.addEventListener('error',()=>{
-      if(heroQuality==='4K'){setHeroQuality('HD');}
-      else heroBackupVideo();
+  if(video){
+    video.addEventListener('loadeddata',()=>{ready=true;if(errorNote)errorNote.hidden=true;});
+    video.addEventListener('play',updatePlayback);
+    video.addEventListener('pause',updatePlayback);
+    video.addEventListener('error',()=>{
+      if(quality==='4K')setQuality('HD');
+      else{
+        if(errorNote)errorNote.hidden=false;
+        if(playbackButton)playbackButton.disabled=true;
+      }
     });
-    // This timer runs only for the hero because it is visible at page load.
-    window.setTimeout(()=>{
-      if(!heroIllustration&&!heroReady&&heroVideo.readyState<2)heroBackupVideo();
-    },18000);
-    if(reduced.matches)heroVideo.controls=true;
+    // If the source host blocks streaming, show a link rather than presenting
+    // an unrelated illustrative or third-party movie as simulation footage.
+    window.setTimeout(()=>{if(!ready&&video.readyState<2&&errorNote)errorNote.hidden=false;},18000);
+    if(reduced.matches){video.autoplay=false;video.controls=true;video.pause();requestedPlayback=false;}
+    updateQuality();updatePlayback();
   }
-  if(heroFallback)heroFallback.addEventListener('error',()=>enableHeroIllustration(true));
-  enableHeroIllustration(false);
+  if(qualityButton)qualityButton.addEventListener('click',()=>setQuality(quality==='HD'?'4K':'HD'));
+  if(playbackButton)playbackButton.addEventListener('click',()=>{
+    if(!video)return;
+    if(video.paused){requestedPlayback=true;if(reduced.matches){video.play().catch(()=>{video.controls=true;});}else playMedia(video);}
+    else{requestedPlayback=false;video.pause();}
+    updatePlayback();
+  });
 
-  // The author-generated MP4 is the only AGN visualization. It remains unloaded
-  // until near the viewport; the removed schematic is never fetched.
   const agnVideo=document.getElementById('agn-cycle-video');
   const agnError=document.getElementById('agn-video-error');
   let agnVisible=false,agnSourcesReady=false;
   function loadAGN(){
     if(!agnVideo||agnSourcesReady)return;
     agnSourcesReady=true;
-    for(const source of agnVideo.querySelectorAll('source[data-src]')){
-      source.src=source.dataset.src;
-    }
+    for(const source of agnVideo.querySelectorAll('source[data-src]'))source.src=source.dataset.src;
     agnVideo.load();
   }
   if(agnVideo){
-    agnVideo.addEventListener('error',()=>{
-      if(agnError)agnError.hidden=false;
-    });
-    agnVideo.addEventListener('loadeddata',()=>{
-      if(agnError)agnError.hidden=true;
-    });
-    const showAGN=()=>{
-      agnVisible=true;
-      loadAGN();
-      playMedia(agnVideo);
-    };
+    agnVideo.addEventListener('error',()=>{if(agnError)agnError.hidden=false;});
+    agnVideo.addEventListener('loadeddata',()=>{if(agnError)agnError.hidden=true;});
+    const showAGN=()=>{agnVisible=true;loadAGN();playMedia(agnVideo);};
     if('IntersectionObserver' in window){
-      const observer=new IntersectionObserver(entries=>{
+      new IntersectionObserver(entries=>{
         const near=!!entries[0]&&entries[0].isIntersecting;
-        agnVisible=near;
-        if(near)showAGN();
-        else agnVideo.pause();
-      },{rootMargin:'220px 0px',threshold:0});
-      observer.observe(agnVideo);
+        agnVisible=near;if(near)showAGN();else agnVideo.pause();
+      },{rootMargin:'220px 0px',threshold:0}).observe(agnVideo);
     }else showAGN();
     if(reduced.matches)agnVideo.controls=true;
   }
   document.addEventListener('visibilitychange',()=>{
-    if(document.hidden){
-      if(agnVideo)agnVideo.pause();
-      if(heroVideo)heroVideo.pause();
-    }else{
-      if(heroVideo&&!heroIllustration&&!heroBackup)playMedia(heroVideo);
+    if(document.hidden){if(video)video.pause();if(agnVideo)agnVideo.pause();}
+    else{
+      if(video&&requestedPlayback)playMedia(video);
       if(agnVideo&&agnVisible)playMedia(agnVideo);
     }
   });
-
   const original=document.getElementById('popiii-original-iframe');
   if(original)original.setAttribute('aria-describedby','popiii-access-note');
 })();
