@@ -4,8 +4,8 @@ Source: https://www.tng-project.org/movies/tng/tng300_most_massive_cluster_gas_1
 Author page: https://nelson.tng-project.org/
 Attribution: TNG Collaboration / D. Nelson
 Re-encoded from the ORIGINAL 1080p video to web-friendly 720p H.264,
-approximately 24 fps with a 1.15 Mbps peak-rate cap; all frames of the
-original sequence are retained, sped up only at playback using JavaScript.
+approximately 24 fps with a 1.15 Mbps peak-rate cap; the entire 71-second evolution and time ordering are preserved (frame
+rate reduced to 24 fps for bandwidth; some intermediate frames are omitted), sped up only at playback using JavaScript.
 H.264 video-only; MP4 'faststart' puts metadata at file start.
 This is real simulation footage, NOT a recomputed simulation.
 The TNG media page explicitly permits public distribution with credit:
