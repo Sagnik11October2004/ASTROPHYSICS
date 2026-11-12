@@ -46,7 +46,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p docs/native-fluid
-          em++ -O2 -std=c++11 \
+          em++ -O2 -std=c++11 -Wno-c++11-narrowing \
             -I/tmp/REAL_FLUID/src \
             -fno-exceptions \
             /tmp/REAL_FLUID/src/liquid2D.cpp \
