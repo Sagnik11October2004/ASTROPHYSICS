@@ -272,7 +272,10 @@
       this.project();
       this.advectLevelSet();
       this.steps++;this.age+=DT;
-      if(this.steps%6===0){this.reinitialize();this.correctArea();}
+      if(this.steps%6===0)this.reinitialize();
+      // Apply the bounded shift each integration step; correcting only after
+      // redistancing loses excessive area for the experimental cavity case.
+      this.correctArea();
     }
   }
 
