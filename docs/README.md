@@ -4,6 +4,12 @@ Public academic research website for Sagnik Bhowmick, built with static HTML/CSS
 
 **Website:** https://sagnik11october2004.github.io/ASTROPHYSICS/
 
+## Opening profile and chronological research journey
+
+The first screen now identifies the author as **Sagnik Bhowmick**, a fourth-year integrated BS–MS Physics student at IISER Kolkata and a **DST INSPIRE Scholar**, with research experience at CASSUM/Chalmers and Nordita. These academic qualifications appear before the cosmological-film controls, while the detailed About panel remains immediately below the hero.
+
+The **#experience** section uses an alternating, responsive zigzag timeline, following the author's requested progression: **Soumitro Banerjee → Sandeep Kumar Kataria → Indranil Chattopadhyay → Tomoaki Ishiyama → Nordita (Alexandra Veledina) and Chalmers CASSUM (Jonathan C. Tan, Naoki Yoshida, Shingo Hirano) as a shared final stage**. The final stage contains two companion research cards; on smaller screens the entire timeline becomes an accessible vertical sequence.
+
 ## Research and interactive demonstrations
 
 The page presents work in primordial minihalo collapse, dark-matter halo statistics, accretion and black-hole feedback, Monte Carlo Comptonization, and numerical fluid dynamics. All educational browser demonstrations are separately identified from production research simulation outputs.
@@ -48,11 +54,9 @@ The original self-hosted `docs/media/agn-cycle.mp4` is a 32-second 960×540 H.26
 
 ### Population III.1 stellar comparison
 
-The Pop III.1 comparison embeds the original author-provided 15-second MP4 from Google Drive. The left-hand track illustrates normal metal-free stellar evolution, and the right-hand track illustrates a hypothetical sustained dark-matter-annihilation-heated pathway. A supermassive star is **conditional on adequate gas accretion and continued DM heating**.
+The Pop III.1 comparison uses the author's **exact original 15-second 1920×1032 H.264 MP4**, now self-hosted as `docs/media/popiii_dm_heating_comparison_exact.mp4` rather than an embedded private Google Drive player. The video was copied **without cropping, re-rendering, or transcoding**: the published Git blob hash `298f929f6e268765c358b1301116582b69299574` matches the original file exactly (3,360,554 bytes).
 
-Google Drive preview: https://drive.google.com/file/d/10GCHZUes3954PJawJc-R598l89ScF_7U/preview
-
-The author must select **Share → General access → Anyone with the link → Viewer** for the video to play publicly. The repository does not contain the MP4.
+The HTML5 player uses the true `1920/1032` aspect ratio, native playback controls, an accessible fullscreen button, and a direct download link. It can play publicly without requiring visitors to log into the author's Google account. The left-hand track illustrates ordinary metal-free stellar growth, and the right-hand track illustrates a hypothetical sustained dark-matter-annihilation-heated pathway. Formation of a supermassive star is **conditional on continued gas accretion and sufficient dark-matter heating**.
 
 ### Monte Carlo Comptonization demo
 
@@ -70,11 +74,12 @@ The About card links to the correct author's [LinkedIn profile](https://www.link
 - `docs/site-media.js` — real TNG film controls and lazy AGN video
 - `docs/native-fluid/ui.js` / `bridge.cpp` / `prepare_source.py` — full C++ WebAssembly simulator, browser UI, build glue
 - `docs/levelset-fluid.css` — responsive CFD UI, profile and black-hole controls
+- `docs/profile-journey.css`, `docs/profile-journey.js` — academic introduction, research journey, original-video layout and fullscreen control
 - `docs/bh-relativistic.js` — qualitative GPU accretion illustration
 - `docs/mcrt-single.js` — browser Monte Carlo scattering demonstration
 - `docs/cosmos.js`, `docs/script.js` — research filters, navigation and travel-map interactions
 - `docs/lazy-research.js` — on-viewport research modules
-- `docs/media/` — local video poster and AGN clip
+- `docs/media/` — self-hosted original Pop III.1 comparison MP4, AGN cycle and poster
 - `docs/world-countries.svg` — self-hosted Natural Earth world map
 
 Obsolete research-interaction scripts, illustrated cosmology code, front-tracking and simplified JavaScript fluid solver have been removed.
@@ -86,7 +91,7 @@ cd docs
 python3 -m http.server 8000
 ```
 
-Visit http://localhost:8000. The cosmological video and university portrait sources require an Internet connection, and some hosts may block hotlinking. Browsers that disable animation automatically are respected where possible. Manual QA should check source video playback (HD/4K and failure handling), mobile controls, the front-tracking animation and the WebGL renderer before relying on the public page as the primary research portfolio.
+Visit http://localhost:8000. The cosmological video and university portrait sources require an Internet connection, and some hosts may block hotlinking. Browsers that disable animation automatically are respected where possible. Manual QA should check Pop III.1 MP4 playback and fullscreen at the native aspect ratio, source TNG movie handling, mobile timeline layout, native fluid solver controls and the WebGL renderer before relying on the public page as the primary research portfolio.
 
 ## Page ordering and selected cases
 

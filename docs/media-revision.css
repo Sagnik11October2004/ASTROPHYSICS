@@ -40,11 +40,10 @@ body:not(.cosmo-model-active) #story-name{font-size:12px}
 .media-source-line a{text-decoration:underline;text-underline-offset:3px}
 .media-source-line a:hover{color:var(--accent)}
 
-/* The original supplied MP4, displayed intact through Drive's embedded player.
-   The source stays on the owner's Drive, so it needs link-reader access.
-   We never substitute a new AI recreation for the exact MP4. */
+/* The original supplied 15-second 1920x1032 MP4 is now self-hosted.
+   Preserve the exact video frame, without cropping or a recreated animation. */
 .pop-original-media{display:block;width:100%;background:#020817}
-#popiii-original-iframe{
+#popiii-original-video{
  border:0;display:block;width:100%;
  aspect-ratio:1920/1032;height:auto;min-height:320px;
  background:linear-gradient(155deg,#0c2238,#070c19);
@@ -74,12 +73,12 @@ body:not(.cosmo-model-active) #story-name{font-size:12px}
 @media(max-width:900px){
  .cosmo-film-actions{gap:10px}
  .cosmos-film.youtube-film{z-index:2}
- #popiii-original-iframe{min-height:265px}
+ #popiii-original-video{min-height:265px}
 }
 @media(max-width:560px){
  .cosmo-film-actions button{width:100%;text-align:center}
  .cosmo-film-actions a{font-size:9px}
- #popiii-original-iframe{min-height:190px}
+ #popiii-original-video{min-height:190px}
  .pop-exact-file-links{flex-direction:column;align-items:flex-start;padding:12px}
  .pop-exact-file-links span{text-align:left}
 }
