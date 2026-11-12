@@ -1,0 +1,56 @@
+/* Research interaction layer — no libraries, responsive and keyboard-accessible. */
+.profile-identity{display:flex;align-items:center;gap:18px;margin:0 0 27px;padding:16px 17px;border:1px solid var(--line-strong);border-radius:9px;background:var(--surface-alt);}
+.profile-avatar{position:relative;display:grid;place-items:center;width:94px;height:94px;flex:0 0 94px;overflow:hidden;border-radius:8px;background:linear-gradient(135deg,#17465d,#0a172c);color:#e9f6f9;font:700 28px var(--display);border:1px solid rgba(145,218,225,.34)}
+.profile-avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.profile-avatar img[hidden]{display:none}
+.profile-identity-kicker{display:block;color:var(--muted);font:700 10px/1.6 var(--display);letter-spacing:.14em}
+.profile-identity-name{display:block;color:var(--text);font:700 clamp(19px,2.2vw,27px)/1.26 var(--display);margin:5px 0 7px}
+.profile-identity a{font-size:12px;text-decoration:underline;text-underline-offset:4px}
+.cosmology-epoch-bar button.epoch{color:inherit;font:inherit;text-align:left;appearance:none;border:1px solid transparent;background:transparent;cursor:pointer;border-radius:6px;transition:background .18s,border-color .18s,transform .18s}
+.cosmology-epoch-bar button.epoch:hover,.cosmology-epoch-bar button.epoch[aria-pressed=true]{background:rgba(111,199,224,.13);border-color:rgba(137,211,231,.34)}
+.cosmology-epoch-bar button.epoch:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.cosmo-chapter-explanation{max-width:1200px;margin:7px auto 16px;font-size:12px;color:var(--muted);line-height:1.6;padding:9px 15px;border-left:2px solid rgba(129,216,229,.43)}
+.density-lab{padding-top:clamp(45px,6vw,90px);padding-bottom:clamp(45px,6vw,90px);background:linear-gradient(155deg,rgba(22,74,97,.10),transparent 53%)}
+.density-lab-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(290px,1fr);gap:clamp(22px,3.6vw,48px);align-items:start}
+.dm-plot-panel,.dm-controls-panel{border:1px solid var(--line-strong);border-radius:8px;background:var(--surface-alt);min-width:0;padding:clamp(16px,2vw,27px)}
+.dm-plot-panel{position:relative}
+.dm-plot-heading{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:0 0 8px}
+.dm-plot-heading span{font:700 11px var(--display);color:var(--muted);letter-spacing:.08em}
+.dm-plot-heading strong{font:700 11px var(--display);color:#86dce5}
+.dm-chart{display:block;width:100%;height:auto;overflow:visible;touch-action:pan-y}
+.dm-gridline{stroke:rgba(138,170,190,.18);stroke-width:1}
+.dm-axis{stroke:rgba(190,213,230,.58);stroke-width:1.4}
+.dm-axis-label{fill:var(--muted);font:12px sans-serif}
+.dm-axis-title{fill:var(--text);font:13px sans-serif}
+.dm-reference-curve{fill:none;stroke:#d9986f;stroke-width:3;stroke-dasharray:9 6}
+.dm-model-curve{fill:none;stroke:#83ddea;stroke-width:3.3;stroke-linejoin:round;stroke-linecap:round}
+.dm-probe-line{stroke:#c8cfdc;stroke-width:1.8;stroke-dasharray:5 5}
+.dm-probe-dot{fill:#f2f7f9;stroke:#17788c;stroke-width:3}
+.dm-plot-hit{cursor:crosshair}
+.dm-legend{display:flex;flex-wrap:wrap;gap:14px 22px;font-size:11px;color:var(--muted);padding:0 2px 12px}
+.dm-legend b{display:inline-block;width:19px;height:0;vertical-align:middle;margin-right:7px;border-top:3px solid #83ddea}
+.dm-legend .dm-legend-reference b{border-top:3px dashed #d9986f}
+.dm-controls-panel h3{font-size:clamp(20px,2vw,28px);line-height:1.22;margin:0 0 15px}
+.dm-control{display:block;margin:19px 0}
+.dm-control label{display:flex;justify-content:space-between;gap:14px;align-items:center;font:600 12px var(--display);color:var(--text)}
+.dm-control output{color:#84dbe6;font:700 14px var(--display);font-variant-numeric:tabular-nums}
+.dm-control input[type=range]{display:block;width:100%;margin:11px 0 0;accent-color:#80d3e1;cursor:pointer}
+.dm-control small{display:block;font-size:11px;margin-top:5px;color:var(--muted)}
+.dm-value-line{display:grid;grid-template-columns:1fr auto;gap:10px;margin:13px 0;color:var(--text);font-size:12px;align-items:center}
+.dm-value-line strong{font:700 17px var(--display);color:#84dbe6;font-variant-numeric:tabular-nums}
+.dm-actions{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0 10px}
+.dm-actions button{border:1px solid var(--line-strong);background:transparent;color:var(--text);border-radius:4px;cursor:pointer;padding:9px 12px;font:700 11px var(--display)}
+.dm-actions button:hover{background:rgba(121,204,226,.14)}
+.dm-actions button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.dm-note,.dm-annotation{font-size:12px;line-height:1.7;color:var(--muted)}
+.dm-annotation{color:var(--text);margin:13px 0}
+#dm-copy-status{display:block;min-height:14px;font-size:11px;color:var(--muted)}
+@media(max-width:840px){.density-lab-layout{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:520px){.profile-identity{gap:13px;padding:12px}.profile-avatar{width:70px;height:70px;flex-basis:70px}.dm-plot-panel,.dm-controls-panel{padding:12px}.dm-axis-label{font-size:13px}.cosmo-chapter-explanation{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.cosmology-epoch-bar button.epoch{transition:none}}
+
+.bh-beaming-button{display:inline-flex;align-items:center;justify-content:center;margin-top:10px;padding:9px 11px;font:700 10px var(--display);letter-spacing:.04em;color:var(--text);background:var(--surface-alt);border:1px solid var(--line-strong);border-radius:4px;cursor:pointer}
+.bh-beaming-button:hover:not(:disabled){border-color:var(--accent)}
+.bh-beaming-button[aria-pressed=false]{opacity:.75}
+.bh-beaming-button:disabled{opacity:.45;cursor:default}
+.bh-beaming-button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}

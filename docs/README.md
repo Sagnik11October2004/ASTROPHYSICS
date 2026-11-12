@@ -104,3 +104,25 @@ The new Compton transport page shows one photon at a time following event-sample
 ## November 12, 2026 — self-hosted AGN density cycle
 
 The locally produced 32-second AGN density cycle and its poster are stored in `docs/media/`. The website no longer embeds the NASA wind movie for the AGN section; instead, it plays the original generated looping H.264 file with a download link. The AGN playback controller still loads and pauses it according to viewport visibility. No other research sections or pages were changed.
+
+
+## November 12, 2026 — HD cosmological footage and research visualizations (review branch)
+
+The homepage's previous, older NASA/MPE MP4 has been replaced with a **credited 1920×1080 IllustrisTNG TNG300 gas-density supercluster evolution video** by D. Nelson, publicly listed at [IllustrisTNG media](https://www.tng-project.org/media/) and [Dylan Nelson's gallery](https://nelson.tng-project.org/). An **opt-in 4K version** uses the official TNG server only if visitors request it; the default remains 1080p to reduce bandwidth. The original Illustris YouTube fallback and the explicitly labeled educational CMB-to-today model remain available. The stage preserves the cinematic video's aspect ratio rather than overscaling/cropping it to fill a tall background.
+
+**Scientific chronology:** TNG300 supercluster footage begins about 500 million years after the Big Bang and does not show the CMB, z=499, or first-Pop-III.1 star formation. Those epochs are described only in the separate *illustrated* timeline. Source credits update when a fallback or illustration is shown.
+
+The independent WebGL accretion disk now renders at higher effective pixel density (with a mobile cap), with antialiasing and a differentially rotating, Keplerian-inspired emissivity pattern instead of rigidly rotating spirals. **The shader remains a qualitative model and is not a general-relativistic ray-traced Kerr disk.** The separate original 960×540 AGN cycle MP4 has *not* been re-rendered in this revision; the source motion/data are needed for a genuinely higher-resolution export.
+
+Pop III.1 player labels explicitly distinguish the standard, no-DM-annihilation case (left) from the hypothetical annihilation-heated case (right). The uploaded 15-second MP4 is unchanged. The right-hand scenario's supermassive outcome is conditional on sustained annihilation heating and adequate gas accretion. Google Drive file access must still be made public by the owner or the MP4 moved to self-hosted media for reliable public playback.
+
+**Browser verification still needed:** exercise 1080p and 4K network playback, fallback on a slow/blocked connection, mobile/responsive sizing, model toggle, and browser WebGL shader compilation. JavaScript syntax and source references were checked against the branch, but there is no live-browser deployment test here.
+
+## November 12, 2026 — interactive research and portrait updates
+
+- Added a **self-contained, interactive dark-matter cusp laboratory** (accessible on the page under `#density-lab`). Sliders control inner slope α, 1 pc density, and probe radius; a responsive SVG updates the log-log density profile and a matched-at-1-pc r^-1 reference. A derived indicator shows the **relative annihilation power at fixed particle physics**, following ρ² scaling. The example values are deliberately *illustrative*, not an independently validated star-growth calculation or an imported simulation output.
+- The existing six cosmological epochs are now keyboard-accessible buttons. Selecting an epoch launches the separate **educational** timeline and scrubs to that stage. The live TNG300 movie is not mislabeled as footage from z=499, the CMB, or primordial first stars.
+- The WebGL black-hole illustration adds a **Doppler beaming on/off** comparison alongside inclination control. Its orbital texture and lensing remain *qualitative*, not a Kerr GR ray trace. If WebGL cannot initialize, the new toggle stays disabled.
+- The About section displays a small profile card with a link to the author's exact LinkedIn profile. **The displayed avatar is presently the author's verified GitHub account avatar** (with an initials fallback). LinkedIn blocked extraction of the user's exact headshot; do not claim it has been imported. Replace the avatar image with an actual LinkedIn portrait only after its photo bytes are supplied or an unambiguous licensed direct image URL is available.
+- New files: `research-interactions.js` and `research-interactions.css`. Versioned lazy script-loading prevents stale cached disk code.
+- Checks: JavaScript syntax passed for the new module and updated black-hole renderer; HTML element IDs were checked for duplicates and the six epoch buttons were confirmed. Full visual/browser testing remains necessary.

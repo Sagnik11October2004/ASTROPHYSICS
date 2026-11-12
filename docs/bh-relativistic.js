@@ -7,13 +7,15 @@
   const existing=document.getElementById('blackhole-canvas');
   const slider=document.getElementById('bh-inclination');
   const readout=document.getElementById('bh-angle');
+  const beamingButton=document.getElementById('bh-beaming');
+  let beaming=true;
   if(!existing||!existing.parentNode)return;
   const canvas=document.createElement('canvas');
   canvas.id='bh-webgl';
   canvas.setAttribute('role','img');
   canvas.setAttribute('aria-label','Animated GPU-shaded black-hole accretion disk with inclination control, approximate Doppler boosting and photon-ring-inspired light bending');
   existing.parentNode.insertBefore(canvas,existing.nextSibling);
-  const gl=canvas.getContext('webgl',{alpha:true,antialias:false,preserveDrawingBuffer:false,powerPreference:'low-power'});
+  const gl=canvas.getContext('webgl',{alpha:true,antialias:true,preserveDrawingBuffer:false,powerPreference:'low-power'});
   if(!gl){canvas.remove();return;}
   const vertex=`
     attribute vec2 aPos;
@@ -24,6 +26,7 @@
     uniform vec2 uResolution;
     uniform float uTime;
     uniform float uInc;
+    uniform float uBeaming;
     float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
     float noise(vec2 p){
       vec2 i=floor(p),f=fract(p);
@@ -58,13 +61,17 @@
       float annulus=smoothstep(rin,rin+.045,rr)*(1.-smoothstep(rout-.12,rout,rr));
       float t=pow(max(rr,.34)/rin,-.75)*pow(max(.002,1.-sqrt(rin/max(rr,rin+.005))),.25);
       t=clamp(t*1.8,0.,1.);
-      float spiral=sin(phi*11.5-1.8*uTime+10.5*log(max(rr,.1)));
-      float filaments=fbm(vec2(phi*10.+.12*uTime,rr*56.-1.9*uTime));
-      float turbulence=.58+.25*spiral+.5*filaments;
+      // Radially sheared orbital texture: angular speed falls approximately as r^(-3/2).
+      // This is a qualitative Keplerian pattern, not evolved GRMHD turbulence.
+      float omega=pow(rin/max(rr,rin),1.5);
+      float orbitPhi=phi-.88*uTime*omega;
+      float spiral=sin(13.5*orbitPhi+8.5*log(max(rr,.1)));
+      float filaments=fbm(vec2(orbitPhi*9.5,rr*57.-.22*uTime*omega));
+      float turbulence=.53+.22*spiral+.47*filaments;
       float approach=-uv.x/max(rr,.2); // left side is beamed toward the viewer
       float beta=clamp(.60*sqrt(rin/max(rr,rin)),.2,.71);
       float doppler=sqrt(1.-beta*beta)/(1.-beta*sin(incl)*approach);
-      float boost=pow(doppler,3.1);
+      float boost=mix(1.,pow(doppler,3.1),uBeaming);
       float gravShift=sqrt(max(.3,1.-.16/max(rr,.17)));
       float bright=annulus*(.12+1.5*t)*max(.12,turbulence)*boost*gravShift;
       vec3 hot=vec3(1.25,1.37,1.45);
@@ -126,13 +133,15 @@
   gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
   const pos=gl.getAttribLocation(prog,'aPos');
   gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
-  const uResolution=gl.getUniformLocation(prog,'uResolution'),uTime=gl.getUniformLocation(prog,'uTime'),uInc=gl.getUniformLocation(prog,'uInc');
+  const uResolution=gl.getUniformLocation(prog,'uResolution'),uTime=gl.getUniformLocation(prog,'uTime'),uInc=gl.getUniformLocation(prog,'uInc'),uBeaming=gl.getUniformLocation(prog,'uBeaming');
+  if(beamingButton)beamingButton.disabled=false;
   existing.classList.add('bh-fallback-hidden');
   let visible=true,handle=0,lastTime=0;
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
   function resize(){
     const box=existing.getBoundingClientRect();
-    const scale=Math.min(devicePixelRatio||1,1.5);
+    // Render at full Retina resolution on desktop; retain a mobile GPU budget.
+    const scale=Math.min(devicePixelRatio||1,window.innerWidth<700?1.5:2);
     canvas.width=Math.max(64,Math.round(box.width*scale));
     canvas.height=Math.max(64,Math.round(box.height*scale));
     gl.viewport(0,0,canvas.width,canvas.height);
@@ -143,6 +152,7 @@
     gl.uniform2f(uResolution,canvas.width,canvas.height);
     gl.uniform1f(uTime,time);
     gl.uniform1f(uInc,Number(slider?slider.value:65));
+    gl.uniform1f(uBeaming,beaming?1:0);
     gl.drawArrays(gl.TRIANGLES,0,6);
   }
   function tick(now){
@@ -156,6 +166,12 @@
     if(!document.hidden&&visible&&!reduced.matches)handle=requestAnimationFrame(tick);
     else render(0);
   }
+  if(beamingButton)beamingButton.addEventListener('click',function(){
+    beaming=!beaming;
+    beamingButton.setAttribute('aria-pressed',String(beaming));
+    beamingButton.textContent=beaming?'Doppler beaming: ON':'Doppler beaming: OFF';
+    render(performance.now()*.001);
+  });
   if(slider)slider.addEventListener('input',function(){
     if(readout)readout.textContent=slider.value+'°';
     render(performance.now()*.001);
