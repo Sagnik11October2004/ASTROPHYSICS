@@ -49,3 +49,11 @@
 @media(max-width:940px){.levelset-layout{grid-template-columns:1fr}}
 @media(max-width:540px){.levelset-visual,.levelset-control-panel{padding:12px}.levelset-cases{grid-template-columns:repeat(2,minmax(0,1fr))}.levelset-readouts output{font-size:13px}.profile-identity{gap:12px;padding:11px}.profile-avatar{width:70px;height:70px;flex-basis:70px}}
 @media(prefers-reduced-motion:reduce){.levelset-case,.levelset-buttons button{transition:none}}
+
+.levelset-recording{margin-top:17px;border-top:1px solid var(--line-strong);padding-top:12px;color:var(--text)}
+.levelset-recording summary{cursor:pointer;font:700 11px/1.6 var(--display);color:#9ce8ed;letter-spacing:.04em}
+.levelset-recording summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.levelset-recording-body{padding:13px 0 0}
+.levelset-recording video{width:100%;max-width:660px;height:auto;border-radius:4px;background:#020916}
+.levelset-recording p{color:var(--muted);font:400 11px/1.7 var(--body);margin-top:10px}
+.levelset-recording a{color:#91e0e8;text-decoration:underline;text-underline-offset:3px}
