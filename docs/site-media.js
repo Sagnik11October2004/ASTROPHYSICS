@@ -18,6 +18,7 @@
   const stageName=document.getElementById('story-name');
   const stageSub=document.getElementById('story-subtitle');
   const stageNo=document.getElementById('story-number');
+  const stageCredit=document.getElementById('cosmo-stage-credit');
   let heroIllustration=false,heroBackup=false,heroReady=false,heroQuality='HD';
   function playMedia(video){
     if(!video||document.hidden||reduced.matches)return;
@@ -57,12 +58,15 @@
     if(stageName)stageName.textContent=heroBackup?'ILLUSTRIS · A VIRTUAL UNIVERSE':'TNG300 · SUPERCLUSTER FORMATION';
     if(stageSub)stageSub.textContent=heroBackup?'Illustris Collaboration · hydrodynamics, z = 127 → 0':'IllustrisTNG / D. Nelson · gas density · 500 Myr → present';
     if(stageNo)stageNo.textContent=heroBackup?'ILLUSTRIS':'TNG300 · '+(heroQuality==='4K'?'4K':'1080P');
+    if(stageCredit)stageCredit.textContent=heroBackup?'ILLUSTRIS COLLABORATION':'ILLUSTRISTNG · D. NELSON';
     const metadata=document.getElementById('cosmo-epoch-readout');
     if(metadata)metadata.textContent=heroBackup?'Illustris · z 127 → 0':'TNG300 · gas density · '+(heroQuality==='4K'?'4K':'HD');
   }
   function enableHeroIllustration(enabled){
     heroIllustration=!!enabled;
     root.classList.toggle('cosmo-model-active',heroIllustration);
+    if(qualitySwitch)qualitySwitch.disabled=heroIllustration||heroBackup;
+    if(stageCredit&&heroIllustration)stageCredit.textContent='EDUCATIONAL MODEL';
     heroControls.forEach(el=>{el.hidden=!heroIllustration;});
     if(heroSwitch){
       heroSwitch.setAttribute('aria-pressed',String(heroIllustration));
