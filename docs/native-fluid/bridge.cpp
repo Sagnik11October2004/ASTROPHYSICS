@@ -6,6 +6,9 @@
 #include <vector>
 #include "liquid2D.h"
 #include "levelset2D.h"
+extern "C" float fluid_native_u(int i, int j);
+extern "C" float fluid_native_v(int i, int j);
+extern "C" float fluid_pressure_residual();
 
 namespace {
  int side = 64;
@@ -15,10 +18,20 @@ namespace {
  bool useAreaCorrection = true;
  int steps = 0;
  std::vector<float> image;
+ std::vector<float> velocityX;
+ std::vector<float> velocityY;
  void update_image() {
-   if ((int)image.size() != side*side) image.resize(side*side);
-   for(int j=0;j<side;j++)for(int i=0;i<side;i++)
-     image[j*side+i]=levelset2D::getLevelSet(i,j);
+   if ((int)image.size() != side*side) {
+     image.resize(side*side);
+     velocityX.resize(side*side);
+     velocityY.resize(side*side);
+   }
+   for(int j=0;j<side;j++)for(int i=0;i<side;i++) {
+     const int k=j*side+i;
+     image[k]=levelset2D::getLevelSet(i,j);
+     velocityX[k]=fluid_native_u(i,j);
+     velocityY[k]=fluid_native_v(i,j);
+   }
  }
 }
 extern "C" {
@@ -36,6 +49,8 @@ float fluid_dt(){return 0.01f;}
 float fluid_time(){return steps*0.01f;}
 int fluid_case_current(){return activeCase;}
 int fluid_phi_ptr(){return (int)(long)image.data();}
+int fluid_u_ptr(){return (int)(long)velocityX.data();}
+int fluid_v_ptr(){return (int)(long)velocityY.data();}
 float fluid_volume(){return levelset2D::getVolume();}
 int fluid_run_steps(int n) {
   if(n<0)n=0;
