@@ -109,3 +109,14 @@
  .motion-lab-pop .pop-video-actions span{margin-left:0}
  .motion-lab-pop .popiii-panes span{font-size:8px;letter-spacing:0;padding:7px 5px;min-height:48px}
 }
+/* The added Journey link must not crowd the header at laptop widths. */
+@media(min-width:1151px){
+ .site-header .main-nav{gap:clamp(10px,1.05vw,18px)}
+ .site-header .main-nav a{font-size:11px}
+}
+@media(min-width:851px) and (max-width:1150px){
+ .site-header .menu-button{display:block}
+ .site-header .main-nav{position:absolute;z-index:20;display:none;flex-direction:column;align-items:stretch;gap:0;top:71px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 24px 22px;box-shadow:var(--shadow)}
+ .site-header .main-nav.open{display:flex}
+ .site-header .main-nav a{font-size:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+}
