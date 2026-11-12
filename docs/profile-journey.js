@@ -1,6 +1,6 @@
 'use strict';
 /* Accessible fullscreen control for the owner's exact 1920 x 1032
- * Pop III.1 comparison video embedded from Google Drive.
+ * Pop III.1 comparison video hosted on this same GitHub Pages site.
  * No frame cropping or video reconstruction.
  */
 (() => {
@@ -17,7 +17,7 @@
       return;
     }
     if(typeof wrapper.requestFullscreen!=='function'){
-      button.textContent='Fullscreen unavailable · use Open in Drive';
+      button.textContent='Fullscreen unavailable · open MP4 directly';
       return;
     }
     try{
