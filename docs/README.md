@@ -6,15 +6,15 @@ Public academic research website for Sagnik Bhowmick, built with static HTML/CSS
 
 ## Opening profile and chronological research journey
 
-The first screen now identifies the author as **Sagnik Bhowmick**, a fourth-year integrated BS–MS Physics student at IISER Kolkata and a **DST INSPIRE Scholar**, with research experience at CASSUM/Chalmers and Nordita. These academic qualifications appear before the cosmological-film controls, while the detailed About panel remains immediately below the hero.
+The first screen identifies the author as **Sagnik Bhowmick**, a fourth-year Integrated BS–MS Physics student at IISER Kolkata and a **DST INSPIRE Scholar**. A small portrait is displayed next to the programme, while the research summary names **black-hole accretion, feedback and seeding; large-scale structure formation; relativistic astrophysics; and radiative transport** rather than listing host institutions. The About section below contains only research narrative, academic facts, contact links and the interactive black-hole visual; duplicate portrait, LinkedIn and academic-graphic cards have been removed.
 
 The **#experience** section uses an alternating, responsive zigzag timeline, following the author's requested progression: **Soumitro Banerjee → Sandeep Kumar Kataria → Indranil Chattopadhyay → Tomoaki Ishiyama → Nordita (Alexandra Veledina) and Chalmers CASSUM (Jonathan C. Tan, Naoki Yoshida, Shingo Hirano) as a shared final stage**. The final stage contains two companion research cards; on smaller screens the entire timeline becomes an accessible vertical sequence.
 
 ## Uploaded portrait and academic contact details
 
-The hero and About section now display the author's uploaded portrait taken outside the Nobel Prize Museum rather than a generic GitHub avatar. The generated academic profile artwork is self-hosted as a small supporting graphic with adjacent HTML-based qualifications so all text remains readable and accessible. Media assets: `docs/media/sagnik-portrait.webp` and `docs/media/sagnik-academic-profile.webp`. These assets were optimized from preview derivatives of the user's uploaded/generated images; original image files remain in the conversation, not in the GitHub repository.
+The hero displays a **small user-supplied portrait** taken outside the Nobel Prize Museum (`docs/media/sagnik-portrait.webp`), while programme, scholarship and research fields remain as accessible HTML text. The two large About profile cards (duplicate portrait with LinkedIn text, and academic-graphic card) have been removed. The original uploaded photograph remains in the conversation, not in this repository.
 
-Both verified public contact addresses are linked in the top introduction, About panel, and contact section: institutional `sb23ms007@iiserkol.ac.in` and personal `sagnikbh7@gmail.com`. No phone number or personal location is published. The department is **Department of Physical Sciences**, IISER Kolkata; programme is **Integrated BS–MS Physics**; status is **DST INSPIRE Scholar**.
+Both public contact addresses are linked in the top introduction, About panel, and contact section: institutional `sb23ms007@iiserkol.ac.in` and personal `sagnikbh7@gmail.com`. No phone number or personal location is published. The department is **Department of Physical Sciences**, IISER Kolkata; programme is **Integrated BS–MS Physics**; status is **DST INSPIRE Scholar**.
 
 The existing 1920×1032 Pop III.1 comparison video is displayed with `object-fit: contain` at the full native aspect ratio, including browser fullscreen; the original MP4 is unmodified.
 
@@ -30,6 +30,8 @@ The homepage embeds the **IllustrisTNG TNG300 gas-density supercluster-formation
 - The video is an actual cosmological hydrodynamics visualization. Its 16:9 image is displayed without exaggerated cropping.
 - The old NASA/MPE movie, unrelated YouTube fallback, invented CMB-to-today storyboard, epoch buttons, local `cosmic-story.js`, and dark-matter power-law chart have all been **removed from the current page**.
 - If the official video host blocks access, the page provides a link to the original official TNG media library instead of displaying a different animation as if it were identical footage.
+
+- Visitors can choose **1×, 1.5×, 2× or 3×** speed; the default is **2×** for faster viewing. Playback speed is applied directly with the HTML5 video `playbackRate` API and re-applied after loading or switching between HD/4K. The original media files are not re-encoded.
 
 ### Original C++ REAL_FLUID numerical solver in the browser (WebAssembly)
 
@@ -72,9 +74,7 @@ The HTML5 player uses the true `1920/1032` aspect ratio, native playback control
 
 ## Author portrait
 
-The About card links to the correct author's [LinkedIn profile](https://www.linkedin.com/in/sagnik-bhowmick-161668292/).
-
-**Important:** LinkedIn does not expose a retrievable direct headshot to these integration tools. The displayed avatar is currently the owner's GitHub profile image with an initials fallback. To use the **exact LinkedIn headshot**, the author must supply the original JPEG/PNG or a verifiable direct image URL; do not silently substitute photographs of similarly named people. The site can then store a small optimized portrait under `docs/media/`.
+The site's small hero portrait comes from the author's uploaded photograph; it is not a generic GitHub/LinkedIn avatar. LinkedIn remains available as a standard link among the other social/contact links, but the separate LinkedIn profile card has been removed.
 
 ## Files
 
