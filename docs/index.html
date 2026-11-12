@@ -235,6 +235,9 @@
           <label><input id="levelset-volume-correct" type="checkbox" checked> Original volume controller</label>
           <label><input id="levelset-redistance" type="checkbox" checked> Geometric redistancing</label>
         </div>
+        <label class="levelset-select-label" for="levelset-resolution">Native grid resolution
+          <select id="levelset-resolution"><option value="64" selected>64 × 64 · fast</option><option value="128">128 × 128 · original default</option></select>
+        </label>
         <label class="levelset-select-label" for="levelset-pressure-solver">Native pressure solver
           <select id="levelset-pressure-solver"><option value="0">Conjugate gradient</option><option value="1">ICCG</option><option value="2" selected>MICCG (original default)</option></select>
         </label>
