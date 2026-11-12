@@ -1,6 +1,6 @@
 // Browser adapter for REAL_FLUID. Its original numerical kernels are compiled
 // unmodified apart from the documented non-physics parameter hooks, headless
-// graphics suppression and optional experimental fourth initial condition.
+// graphics suppression and web-only selection of two original test cases.
 // License: GPL-3.0, following REAL_FLUID.
 #include <cmath>
 #include <vector>
@@ -66,13 +66,13 @@ void fluid_reset() {
   liquid2D::init(side);
   steps=0;update_image();
 }
-// The C++ "r" key cycles its original three cases plus the experimental
-// fourth signed-distance cavity added only by the web build patch.
+// The web build exposes the two requested original scenarios only:
+// dam break (0) and droplet impact (1).
 void fluid_choose_case(int target) {
-  if(target<0 || target>3) return;
+  if(target<0 || target>1) return;
   while(activeCase!=target) {
     liquid2D::keyDown('r');
-    activeCase=(activeCase+1)%4;
+    activeCase=(activeCase+1)%2;
   }
   liquid2D::init(side);
   steps=0;update_image();
