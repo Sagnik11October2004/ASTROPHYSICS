@@ -20,6 +20,10 @@ async function main(){
    // Network-independent layout test: the remote movie cannot affect geometry.
    await page.route(/https?:\/\/(?!127\.0\.0\.1:8765)/,route=>route.abort());
    await page.goto('http://127.0.0.1:8765/',{waitUntil:'domcontentloaded'});
+   await page.waitForFunction(()=>{
+     const photo=document.querySelector('.hero-photo-link .hero-portrait');
+     return !!photo && photo.complete && photo.naturalWidth>0;
+   },{timeout:15000});
    const data=await page.evaluate(()=>{
     const box=(sel)=>{const el=document.querySelector(sel);if(!el)throw Error('Missing '+sel);
       const r=el.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
@@ -29,7 +33,11 @@ async function main(){
       const r=e.getBoundingClientRect();return {x:r.x,right:r.right,y:r.y,bottom:r.bottom};
     });
     const controls=box('.cosmos-media-column .cosmo-simulator-controls');
-    return {intro,film,cards,controls,stagePosition:getComputedStyle(document.querySelector('.cosmos-stage')).position,
+    const photoElement=document.querySelector('.hero-photo-link .hero-portrait');
+    const photo=box('.hero-photo-link .hero-portrait');
+    const photoNatural={width:photoElement.naturalWidth,height:photoElement.naturalHeight};
+    const photoObjectFit=getComputedStyle(photoElement).objectFit;
+    return {intro,film,cards,controls,photo,photoNatural,photoObjectFit,stagePosition:getComputedStyle(document.querySelector('.cosmos-stage')).position,
       filmObjectFit:getComputedStyle(document.querySelector('.cosmos-film')).objectFit,
       viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
       overflows:[...document.querySelectorAll('body *')].filter(e=>{
@@ -46,6 +54,10 @@ async function main(){
    assert(data.film.height>=120,'Movie collapsed at '+width+'px');
    assert(data.stagePosition==='relative','Movie should be in normal flow');
    assert(data.filmObjectFit==='contain','Cosmic video should preserve full frame');
+   assert(data.photoNatural.width===1536&&data.photoNatural.height===1152,'Expected the original-resolution museum image at '+width+'px');
+   assert(data.photoObjectFit==='contain','The portrait must not crop the museum');
+   assert(Math.abs(data.photo.width/data.photo.height-(4/3))<0.03,'Museum photo aspect ratio is distorted at '+width+'px');
+   assert(data.photo.width>=150,'Photo is too small to view at '+width+'px');
    if(data.scrollWidth>width+3)console.warn('OVERFLOW DIAGNOSTICS',width,JSON.stringify(data.overflows));
    assert(data.scrollWidth<=width+3,'Unexpected horizontal scroll at '+width+'px');
    if(width>=1151){
