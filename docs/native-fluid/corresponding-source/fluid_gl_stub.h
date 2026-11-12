@@ -1,0 +1,39 @@
+#pragma once
+// The original renderer is replaced by an HTML Canvas view.
+#define GLUT_WINDOW_WIDTH 720
+#define GLUT_WINDOW_HEIGHT 720
+#define GLUT_BITMAP_HELVETICA_12 ((void*)0)
+inline int glutGet(int) { return 720; }
+#define GL_BLEND 0
+#define GL_LINES 0
+#define GL_LINE_LOOP 0
+#define GL_ONE_MINUS_SRC_ALPHA 0
+#define GL_POINTS 0
+#define GL_QUADS 0
+#define GL_RGBA 0
+#define GL_SRC_ALPHA 0
+#define GL_TRIANGLE_FAN 0
+#define GL_UNPACK_ALIGNMENT 0
+#define GL_UNSIGNED_BYTE 0
+#define glBegin(...) ((void)0)
+#define glBlendFunc(...) ((void)0)
+#define glColor4d(...) ((void)0)
+#define glColor4f(...) ((void)0)
+#define glEnable(...) ((void)0)
+#define glEnd(...) ((void)0)
+#define glFlush(...) ((void)0)
+#define glLoadIdentity(...) ((void)0)
+#define glOrtho(...) ((void)0)
+#define glPixelStorei(...) ((void)0)
+#define glPointSize(...) ((void)0)
+#define glPopMatrix(...) ((void)0)
+#define glPushMatrix(...) ((void)0)
+#define glRasterPos2d(...) ((void)0)
+#define glReadPixels(...) ((void)0)
+#define glScaled(...) ((void)0)
+#define glTranslated(...) ((void)0)
+#define glVertex2d(...) ((void)0)
+#define glVertex2f(...) ((void)0)
+#define glVertex2fv(...) ((void)0)
+#define glViewport(...) ((void)0)
+#define glutBitmapCharacter(...) ((void)0)
