@@ -1,0 +1,45 @@
+name: Reassemble original Pop III.1 video
+
+on:
+  push:
+    branches:
+      - main
+      - profile-journey-popiii-20261112
+    paths:
+      - ".github/workflows/publish-popiii-video.yml"
+      - "docs/media/popiii_exact_mp4/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  video:
+    name: Publish exact 15-second MP4 for public playback
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Reassemble original movie without transcoding
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat docs/media/popiii_exact_mp4/segment-*.bin > docs/media/popiii_dm_heating_comparison_exact.mp4
+          test "$(stat -c %s docs/media/popiii_dm_heating_comparison_exact.mp4)" = "3360554"
+          file docs/media/popiii_dm_heating_comparison_exact.mp4
+          ffprobe -v error -select_streams v:0 -show_entries stream=width,height,codec_name -of default=noprint_wrappers=1 docs/media/popiii_dm_heating_comparison_exact.mp4
+      - name: Commit original complete MP4
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "github-actions[bot]"
+          git add docs/media/popiii_dm_heating_comparison_exact.mp4
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish exact Pop III.1 comparison video as self-hosted MP4"
+            git fetch --unshallow origin || true
+            git fetch origin "$GITHUB_REF_NAME"
+            git rebase "origin/$GITHUB_REF_NAME"
+            git push origin HEAD:"$GITHUB_REF_NAME"
+          fi
