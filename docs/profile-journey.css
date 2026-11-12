@@ -361,20 +361,14 @@
  .motion-lab-pop .popiii-canvas-wrap{width:100%!important}
 }
 
-/* User-supplied academic portrait, both contact addresses and profile art. */
+/* Small hero portrait and academic contact addresses; About cards removed. */
 .cosmos-hero .hero-portrait-heading{display:flex;align-items:center;gap:15px;margin:15px 0 0;min-width:0}
-.cosmos-hero .hero-portrait{display:block;width:108px;height:108px;flex:0 0 108px;object-fit:cover;object-position:center 40%;border-radius:50%;border:3px solid rgba(148,232,230,.77);box-shadow:0 8px 33px rgba(0,0,0,.28);background:#193548}
+.cosmos-hero .hero-portrait{display:block;width:76px;height:76px;flex:0 0 76px;object-fit:cover;object-position:center 40%;border-radius:50%;border:3px solid rgba(148,232,230,.77);box-shadow:0 8px 33px rgba(0,0,0,.28);background:#193548}
 .cosmos-hero .hero-portrait-heading .hero-identity-subtitle{margin:0;max-width:450px;line-height:1.65}
 .cosmos-hero .hero-contact-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:14px 0 0}
 .cosmos-hero .hero-contact-details a{display:flex;flex-direction:column;gap:4px;min-width:0;border:1px solid rgba(158,220,229,.31);border-radius:6px;padding:9px 11px;background:rgba(4,24,40,.75);color:#d7f4fa;font:500 11px/1.5 var(--body);overflow-wrap:anywhere;text-decoration:none}
 .cosmos-hero .hero-contact-details a span{font:700 9px/1.3 var(--display);letter-spacing:.12em;color:#8de9e1}
 .cosmos-hero .hero-contact-details a:hover{border-color:rgba(139,238,222,.92);background:rgba(23,76,94,.35)}
-.profile-section .profile-academic-art{display:flex;align-items:center;gap:18px;margin:0 0 24px;padding:13px;border:1px solid var(--line-strong);background:var(--surface-alt);border-radius:9px}
-.profile-section .profile-academic-art>img{display:block;width:200px;max-width:43%;height:auto;aspect-ratio:4/3;object-fit:contain;border-radius:6px;flex:0 0 auto;background:#e5e8f0}
-.profile-section .profile-academic-art-copy{display:flex;flex-direction:column;gap:6px;min-width:0}
-.profile-section .profile-academic-art-copy span{color:var(--accent);font:700 10px/1.45 var(--display);letter-spacing:.12em}
-.profile-section .profile-academic-art-copy strong{font:700 clamp(15px,1.6vw,22px)/1.3 var(--display);color:var(--text)}
-.profile-section .profile-academic-art-copy small{font:500 11px/1.55 var(--body);color:var(--muted)}
 .profile-section .profile-contact-links{display:flex;gap:10px;flex-wrap:wrap;margin:24px 0 16px}
 .profile-section .profile-contact-links a{min-width:0;flex:1 1 205px;display:flex;flex-direction:column;gap:5px;padding:12px 14px;border:1px solid var(--line-strong);border-radius:7px;text-decoration:none;color:var(--text);overflow-wrap:anywhere}
 .profile-section .profile-contact-links a strong{font:700 11px/1.4 var(--display);color:var(--accent)}
@@ -382,12 +376,18 @@
 .profile-section .profile-contact-links a:hover{background:var(--surface-alt);border-color:var(--accent)}
 @media(max-width:560px){
  .cosmos-hero .hero-portrait-heading{gap:11px}
- .cosmos-hero .hero-portrait{width:80px;height:80px;flex-basis:80px}
+ .cosmos-hero .hero-portrait{width:60px;height:60px;flex-basis:60px}
  .cosmos-hero .hero-portrait-heading .hero-identity-subtitle{font-size:12px}
  .cosmos-hero .hero-contact-details{grid-template-columns:1fr;gap:6px}
  .cosmos-hero .hero-contact-details a{padding:8px 10px}
- .profile-section .profile-academic-art{gap:10px;padding:10px}
- .profile-section .profile-academic-art>img{width:132px;max-width:39%}
- .profile-section .profile-academic-art-copy strong{font-size:14px}
- .profile-section .profile-academic-art-copy small{font-size:10px}
+
 }
+
+/* Research summary uses subject areas only, not host institute names. */
+.cosmos-hero .hero-research-areas strong{font-size:clamp(12px,1.1vw,15px);line-height:1.5;letter-spacing:0}
+.cosmos-hero .hero-research-areas small{font-size:11px;line-height:1.7;max-width:100%}
+/* Explicit speed control for the original IllustrisTNG video. */
+.cosmo-film-actions .cosmo-speed-control{display:inline-flex;align-items:center;gap:8px;flex-wrap:nowrap;color:#d4e8ef;font:600 11px/1.45 var(--display)}
+.cosmo-film-actions #cosmo-speed{min-width:69px;padding:8px 10px;border:1px solid rgba(145,236,224,.55);border-radius:4px;background:#102438;color:#e7fafc;font:700 12px/1.4 var(--display);cursor:pointer}
+.cosmo-film-actions #cosmo-speed:focus-visible{outline:2px solid #91ece0;outline-offset:3px}
+@media(max-width:560px){.cosmo-film-actions .cosmo-speed-control{width:100%;justify-content:space-between}.cosmo-film-actions #cosmo-speed{flex:none}}
