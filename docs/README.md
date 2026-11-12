@@ -12,7 +12,7 @@ The **#experience** section uses an alternating, responsive zigzag timeline, fol
 
 ## Uploaded portrait and academic contact details
 
-The hero displays a **small user-supplied portrait** taken outside the Nobel Prize Museum (`docs/media/sagnik-portrait.webp`), while programme, scholarship and research fields remain as accessible HTML text. The two large About profile cards (duplicate portrait with LinkedIn text, and academic-graphic card) have been removed. The original uploaded photograph remains in the conversation, not in this repository.
+The hero displays an **enlarged original user-supplied portrait** taken outside the Nobel Prize Museum (`docs/media/sagnik-portrait.webp`) beside the degree and department, while keeping the full IllustrisTNG scene in a wider adjacent column. Portrait dimensions are 168 × 188 CSS pixels on desktop, scaled responsively on tablets and phones. Programme, scholarship and research fields remain accessible HTML text. The two large About profile cards (duplicate portrait with LinkedIn text, and academic-graphic card) have been removed. The original uploaded photograph remains in the conversation, not in this repository.
 
 Both public contact addresses are linked in the top introduction, About panel, and contact section: institutional `sb23ms007@iiserkol.ac.in` and personal `sagnikbh7@gmail.com`. No phone number or personal location is published. The department is **Department of Physical Sciences**, IISER Kolkata; programme is **Integrated BS–MS Physics**; status is **DST INSPIRE Scholar**.
 
@@ -26,12 +26,14 @@ The page presents work in primordial minihalo collapse, dark-matter halo statist
 
 The homepage embeds the **IllustrisTNG TNG300 gas-density supercluster-formation movie** by D. Nelson via the [official TNG media pages](https://www.tng-project.org/media/). It starts roughly 500 Myr after the Big Bang and does **not** depict the CMB, z=499, or first Population III stars.
 
-- Default: 1080p H.264; visitors can explicitly choose the larger 4K file.
-- The video is an actual cosmological hydrodynamics visualization. Its 16:9 image is displayed without exaggerated cropping.
+- **Default:** self-hosted, fast-start **720p H.264** re-encoding of D. Nelson's actual **71-second TNG300 supercluster** movie (5,022,473 bytes), with a tiny **33,077-byte poster** and MP4 metadata placed at the start. The original 1080p download is **116,810,584 bytes**, around 23× larger.
+- The original **1080p and 4K versions** remain available on demand via the video-quality dropdown. The default preview runs at 2× playback speed (user-selectable 1×–3×), with all original frames and physical sequence retained.
+- GitHub Actions workflow `.github/workflows/build-tng-preview.yml` downloads the author-published original, transcodes it via ffmpeg and commits the video and source attribution in `docs/media/TNG300-PREVIEW-SOURCE.txt`.
+- This remains actual cosmological hydrodynamics footage, with no simulated/reconstructed replacement. The full 16:9 image is shown with `object-fit: contain`.
 - The old NASA/MPE movie, unrelated YouTube fallback, invented CMB-to-today storyboard, epoch buttons, local `cosmic-story.js`, and dark-matter power-law chart have all been **removed from the current page**.
-- If the official video host blocks access, the page provides a link to the original official TNG media library instead of displaying a different animation as if it were identical footage.
+- The local preview greatly reduces start-up bandwidth; the interface has a visible loading indicator and, if the local preview fails, attempts the original 1080p source. If neither source plays, the official TNG media library link remains available.
 
-- Visitors can choose **1×, 1.5×, 2× or 3×** speed; the default is **2×** for faster viewing. Playback speed is applied directly with the HTML5 video `playbackRate` API and re-applied after loading or switching between HD/4K. The original media files are not re-encoded.
+- Visitors can choose **1×, 1.5×, 2× or 3×** speed; the default is **2×**. The HTML5 `playbackRate` control is reapplied after resolution switching; the original full-resolution source files themselves remain unmodified.
 
 ### Original C++ REAL_FLUID numerical solver in the browser (WebAssembly)
 
