@@ -149,11 +149,28 @@
         cx.beginPath();cx.moveTo(ox,oy+s);cx.lineTo(ox+side,oy+s);cx.stroke();
       }
     }
-    // The original native engine has an in-solver velocity display toggle,
-    // but no exported velocity arrays yet; avoid fake vectors.
+    // Read the actual staggered native MAC field averaged to cell centers.
     if(vectors&&vectors.checked){
-      cx.fillStyle='#d1eef3';cx.font=Math.max(10,Math.round(W/65))+'px sans-serif';
-      cx.fillText('Velocity vectors: enable via native V-key in desktop solver',ox+6,oy+side-8);
+      const ui=model._fluid_u_ptr()>>>2,vi=model._fluid_v_ptr()>>>2;
+      if(ui+n*n<=heap.length&&vi+n*n<=heap.length){
+        const u=heap.subarray(ui,ui+n*n),v=heap.subarray(vi,vi+n*n);
+        cx.strokeStyle='rgba(225,246,249,.62)';cx.fillStyle='rgba(225,246,249,.68)';
+        cx.lineWidth=1.2;
+        for(let j=3;j<n-3;j+=6)for(let i=3;i<n-3;i+=6){
+          const k=i+n*j;if(phi[k]>=0)continue;
+          const ux=u[k],vy=v[k],mag=Math.hypot(ux,vy);
+          if(!Number.isFinite(mag)||mag<.02)continue;
+          const size=Math.min(4.3,mag*2.5)*px;
+          const x=ox+(i+.5)*px,y=oy+side-(j+.5)*px;
+          const xx=x+ux/mag*size,yy=y-vy/mag*size;
+          cx.beginPath();cx.moveTo(x,y);cx.lineTo(xx,yy);cx.stroke();
+          const angle=Math.atan2(yy-y,xx-x);
+          cx.beginPath();cx.moveTo(xx,yy);
+          cx.lineTo(xx-4*Math.cos(angle-.5),yy-4*Math.sin(angle-.5));
+          cx.lineTo(xx-4*Math.cos(angle+.5),yy-4*Math.sin(angle+.5));
+          cx.closePath();cx.fill();
+        }
+      }
     }
     cx.strokeStyle='rgba(165,210,229,.57)';cx.lineWidth=1.2;
     cx.strokeRect(ox,oy,side,side);
