@@ -1,128 +1,78 @@
-# Sagnik Bhowmick — Theory & Simulations Portfolio
+# Theoretical & Computational Astrophysics — Research Portfolio
 
-Official academic research website, hosted on free GitHub Pages from the `main` branch and `/docs` folder:
+Public academic research website for Sagnik Bhowmick, built with static HTML/CSS/JavaScript and GitHub Pages. The publishing root is **main /docs**.
 
-https://sagnik11october2004.github.io/ASTROPHYSICS/
+**Website:** https://sagnik11october2004.github.io/ASTROPHYSICS/
 
-The design is based on the earlier dark astronomy-themed personal webpage, preserving the Profile, Research, Experience, Mentors, Travel, Toolkit, CV and Contact sections. The site deliberately stresses **original theory, numerical implementation, simulations and verification**, not simulations alone.
+## Research and interactive demonstrations
 
-## Research
+The page presents work in primordial minihalo collapse, dark-matter halo statistics, accretion and black-hole feedback, Monte Carlo Comptonization, and numerical fluid dynamics. All educational browser demonstrations are separately identified from production research simulation outputs.
 
-Eight individual CV-grounded projects cover primordial minihalo collapse; GADGET-4 primordial chemistry and adaptive particle splitting; Comptonization and polarization; halo merger statistics from Shin-Uchuu/Phi-4096; analytical transonic accretion; AGN accretion and feedback; nonlinear fluid dynamics; and an independent CFD solver. Project cards describe the author's contributions in first person.
+### IllustrisTNG cosmological-evolution film
 
-## Visualizations and video provenance
+The homepage embeds the **IllustrisTNG TNG300 gas-density supercluster-formation movie** by D. Nelson via the [official TNG media pages](https://www.tng-project.org/media/). It starts roughly 500 Myr after the Big Bang and does **not** depict the CMB, z=499, or first Population III stars.
 
-### Cosmological evolution: real simulation footage
+- Default: 1080p H.264; visitors can explicitly choose the larger 4K file.
+- The video is an actual cosmological hydrodynamics visualization. Its 16:9 image is displayed without exaggerated cropping.
+- The old NASA/MPE movie, unrelated YouTube fallback, invented CMB-to-today storyboard, epoch buttons, local `cosmic-story.js`, and dark-matter power-law chart have all been **removed from the current page**.
+- If the official video host blocks access, the page provides a link to the original official TNG media library instead of displaying a different animation as if it were identical footage.
 
-**Default:** NASA's *Imagine the Universe!* hosts an MPE/V. Springel simulation movie about structure formation, gravitational clustering, and galaxies. The primary source is `https://imagine.gsfc.nasa.gov/Videos/news/darkenergy_anim2_QT.mp4`, with information and credits on the [NASA description page](https://imagine.gsfc.nasa.gov/descriptions/darkenergy_anim2_QT.html). NASA credits **MPE / V. Springel**. Its exact initial redshift is not verified as z=499; the website does not claim that.
+### 2D front-tracking fluid interface (new)
 
-**Backup when the primary movie fails:** the official Illustris Collaboration movie, *A Virtual Universe*, embedded from YouTube, with [Illustris Media](https://www.illustris-project.org/media/) and appropriate credit. Illustris begins at **z=127**, rather than z=499.
+The interactive interface-advection exhibit under **#fluid-lab** adapts a benchmark in the author's public [Fluids/Front_Tracking.py](https://github.com/Sagnik11October2004/Fluids/blob/main/Front_Tracking.py).
 
-**User-selectable visualization:** the existing locally rendered six-stage 2D educational animation remains available for a *CMB prologue (z~1100)*, *z=499 initial conditions*, minihalo assembly, first stars, galaxies, and z=0. Its matter displacement is a stylized first-order Fourier/Zel'dovich calculation; the other effects are illustrations, not actual z=499 full-physics simulation data. **Never present the CMB stage as a frame from a film starting at z=499.**
+- An initially circular interface with center (0.5, 0.75) and radius 0.15 moves in the divergence-free prescribed flow with streamfunction
+  `ψ = cos(π t / 8) sin²(πx) sin²(πy)`.
+- The flow amplitude changes sign at t = 4 and returns its integrated displacement to approximately zero at t = 8.
+- The browser demonstration precomputes 400 steps at Δt = 0.02, with 180 tracked markers and the three-stage explicit integration coefficients taken from the prototype, evaluating the prescribed velocity at intermediate stages.
+- Controls: play/pause, single-step, timeline scrubbing, reset, speed, velocity vectors, and marker visibility. The display includes interface area relative to its initial area and marker RMS displacement from initial positions.
+- **Limitations:** this is a JavaScript adaptation, not a direct execution of Python/SciPy. Marker identities are preserved, but the source's SciPy spline redistribution is omitted. It is a kinematic interface-advection benchmark, **not** the full two-phase Navier–Stokes/free-surface solver with capillary, viscosity and pressure dynamics. The author's public `Fluids` repository presently includes this front tracker, a 2D wave demonstration, lid-driven cavity, Kelvin–Helmholtz and Rayleigh–Bénard examples; it does not publicly include a compiled C++ two-phase free-surface implementation.
 
-### Black-hole feedback: self-hosted periodic density simulation video
+### Black-hole accretion disk
 
-The site embeds the author's own original generated `AGN_Density_Accretion_Feedback_Looping.mp4` as a self-hosted video, committed to:
+`bh-relativistic.js` renders a high-DPI WebGL accretion-disk illustration with an inclination slider, differentially rotating texture and Doppler-beaming on/off comparison. It is **qualitative shading**, not Kerr ray-tracing or validated GRMHD data. The lazy loader activates it near the About section.
 
-- `docs/media/agn-cycle.mp4` — **32 seconds, 960×540, H.264/MP4**, 24 fps, two repeated 16-second periods
-- `docs/media/agn-cycle-poster.jpg` — static poster frame extracted from the same original video
+### AGN gas-density and feedback-cycle animation
 
-The video shows a time-varying projected gas-density field, a thin accretion disk whose outer radius tracks the relative disk mass, luminosity and jet/wind feedback that respond with finite delays, and later replenishment by gas fallback. The video was transferred byte-for-byte from the original generated MP4 to GitHub, verified against the Git blob SHA `8ac13ee6895bfde01779e8cf12991940b713d8bf`.
+The original self-hosted `docs/media/agn-cycle.mp4` is a 32-second 960×540 H.264 looping animation, with `docs/media/agn-cycle-poster.jpg` as its preview. Its inflow, delayed feedback, jets/winds and gas fallback are normalized and schematic, not a numerical galaxy-formation or GRMHD calculation. It has **not** been upscaled or re-rendered in this revision.
 
-The old NASA AGN animation is no longer embedded in this section. Playback uses the compact 560px-wide, uncropped 16:9 player, native controls, autoplay muted and continuous loop. The video loads from the repository when the player approaches the viewport; no external video host or public Drive permissions are involved.
+### Population III.1 stellar comparison
 
-**Scientific caution:** the reservoir, disk mass, feedback, gas density and fallback evolution are normalized and schematic. This is a physically motivated, periodic visualization — not a self-consistent GRMHD or galaxy-formation simulation.
+The Pop III.1 comparison embeds the original author-provided 15-second MP4 from Google Drive. The left-hand track illustrates normal metal-free stellar evolution, and the right-hand track illustrates a hypothetical sustained dark-matter-annihilation-heated pathway. A supermassive star is **conditional on adequate gas accretion and continued DM heating**.
 
-### Original Pop III.1 comparison video — unchanged
+Google Drive preview: https://drive.google.com/file/d/10GCHZUes3954PJawJc-R598l89ScF_7U/preview
 
-**This section now embeds the exact 15-second original MP4 that the user uploaded**, rather than an animation recreated from the storyboard. The uploaded file `popiii_dm_heating_comparison (1).mp4` was transferred *unchanged* into the author's connected Google Drive account with name `popiii_dm_heating_comparison_exact.mp4`.
+The author must select **Share → General access → Anyone with the link → Viewer** for the video to play publicly. The repository does not contain the MP4.
 
-Google Drive file: https://drive.google.com/file/d/10GCHZUes3954PJawJc-R598l89ScF_7U/view
+### Monte Carlo Comptonization demo
 
-Embedded player: https://drive.google.com/file/d/10GCHZUes3954PJawJc-R598l89ScF_7U/preview
+`mcrt-single.js` shows one photon at a time in simplified homogeneous H or structured S0 plasma, with event sampling, rest-frame Klein–Nishina scattering, and incremental escape histogram. It is an educational browser adaptation and does not publish or execute the private production research framework.
 
-**Public playback limitation:** Google Drive reported `shared=false` immediately after upload. Only the file's owner can grant public link access using their Google Drive UI. For visitors to see the exact original video on the public site: open the file → **Share → General access → Anyone with the link → Viewer → Done**. The present connector does not allow changing a Drive file's permission to public/anyone, so no public playback claim is made until this is done.
+## Author portrait
 
-The Pop III.1 dark-matter annihilation heating scenario remains scientifically conditional, not a guaranteed outcome.
+The About card links to the correct author's [LinkedIn profile](https://www.linkedin.com/in/sagnik-bhowmick-161668292/).
 
-### Monte Carlo radiative transfer — source-based educational browser port
+**Important:** LinkedIn does not expose a retrievable direct headshot to these integration tools. The displayed avatar is currently the owner's GitHub profile image with an initials fallback. To use the **exact LinkedIn headshot**, the author must supply the original JPEG/PNG or a verifiable direct image URL; do not silently substitute photographs of similarly named people. The site can then store a small optimized portrait under `docs/media/`.
 
-A new standalone module `docs/mcrt-single.js` implements a **fresh, self-contained JavaScript port of the physics algorithms** inspected in the author's private GitHub repository `Sagnik11October2004/nordita-mcrt`, including:
+## Files
 
-- `src/transport.c`: exponential free-path / optical-depth sampling `tau=-ln(U)`, flight and boundary-escape logic.
-- `src/physics.c`: relativistic photon Lorentz boosts between the lab and electron rest frame; exact electron-rest-frame Klein–Nishina recoil and angular rejection sampling.
-- Maxwell–Jüttner thermal electron proposals, energy-dependent KN interaction weighting, and an educational nonthermal electron component.
-- **Two selectable geometries only:** H homogeneous Maxwell–Jüttner plasma and S0 with static thermal plasmoids plus nonthermal interblob electrons.
-- **One photon visible at any time:** show all flight segments and collisions, photon energy changes, packet escape, then start the next photon. Each escaping packet contributes exactly one count to the cumulative log-energy histogram and smoothed visual guide. Play/pause, speed 1×/2×/4×, next photon and reset are available.
+- `docs/index.html` — page markup, sections and source attribution
+- `docs/site-media.js` — real TNG film controls and lazy AGN video
+- `docs/fluid-front-demo.js`, `docs/fluid-front-demo.css` — interactive front-tracking exhibit and portrait/black-hole controls
+- `docs/bh-relativistic.js` — qualitative GPU accretion illustration
+- `docs/mcrt-single.js` — browser Monte Carlo scattering demonstration
+- `docs/cosmos.js`, `docs/script.js` — research filters, navigation and travel-map interactions
+- `docs/lazy-research.js` — on-viewport research modules
+- `docs/media/` — local video poster and AGN clip
+- `docs/world-countries.svg` — self-hosted Natural Earth world map
 
-The **original research code is not republished**. The visualization is not a compiled run of the complete production C/MPI engine, does not include polarized Stokes transport or full orbital/gravitational plasma dynamics, and must **not** be presented as a quantitatively validated spectrum or scientific result.
+The obsolete `docs/research-interactions.js`, `docs/research-interactions.css`, and `docs/cosmic-story.js` were deleted.
 
-### Mentor portraits
-
-The Research Mentors section includes institutional links and images where available. The Naoki Yoshida portrait now uses a source from Research Organization of Information and Systems as the primary image, with university and other public academic fallbacks; if all sources block hotlinking, accessible initials remain visible.
-
-### World map
-
-Bundled [Natural Earth 1:110m country map](https://github.com/nvkelso/natural-earth-vector) at `docs/world-countries.svg`, with country boundaries/names only. No external tile service, API key or map-library dependency.
-
-## Main website files
-
-| File | Role |
-|---|---|
-| `index.html` | Page content, research cards and media source links |
-| `styles.css`, `revamp.css`, `upgrade.css`, `fix.css`, `astrolab.css`, `media-revision.css` | Responsive design |
-| `script.js` | Base interactions and black-hole artwork fallback |
-| `bh-relativistic.js` | Qualitative GPU accretion-disk shading |
-| `cosmos.js` | Research filters and map controls |
-| `cosmic-story.js` | Optional illustrated CMB-to-today timeline, loaded only on demand |
-| `site-media.js` | On-viewport NASA video loading, source fallback and model toggles |
-| `mcrt-single.js` | One-photon-at-a-time source-informed KN scattering experiment |
-| `enhancements.js` | Mentor photo fallback chain and project accessibility |
-| `lazy-research.js` | Defers WebGL and Compton Monte Carlo engine until sections approach viewport |
-| `performance.css` | Responsive single-photon toolbar and media layout fixes |
-| `world-countries.svg` | Country-labelled, self-hosted world map |
-
-## Local preview
+## Running locally
 
 ```bash
 cd docs
 python3 -m http.server 8000
 ```
 
-Open `http://localhost:8000`. External videos and institutional photos require Internet connectivity and may be blocked by source-site policies; an error message links to NASA if the AGN film cannot play. Respect reduced-motion preferences and use the playback controls as needed.
-
-## Deployment
-
-GitHub Pages is already configured to deploy from `main /docs`. Merge the feature pull request to publish. Refresh with Ctrl+Shift+R if cached website CSS or JavaScript prevents the update from appearing.
-
-## November 11, 2026 — performance and one-photon revision
-
-Performance was improved by removing the 15 MB 4K, 4000×4000 NASA jet animation from the page's initial media load and replacing it with NASA's 3.3 MB WebM quasar-wind feedback animation. The AGN video now has `preload=none`, `data-src` media sources, a static poster, and viewport-triggered source activation with offscreen pausing. The removed AGN Canvas model no longer loads; the optional cosmology Canvas model initializes only on demand, and the WebGL disk and MCRT module are deferred until their sections approach the viewport. The original Pop III.1 Google Drive player remains embedded and lazily loaded. These changes reduce work and requests at initial paint; they do not eliminate delays caused by external video hosts or the private Google Drive permissions.
-
-The new Compton transport page shows one photon at a time following event-sampled optical depth with energy-dependent Klein–Nishina scattering and electron-frame Compton recoil, in either H or S0. The cumulative plot builds **one escaped-photon contribution at a time**. The remaining public site does not load the retired old multi-packet demo. The spectra are educational finite-sample histograms, not fitted scientific results.
-
-## November 12, 2026 — self-hosted AGN density cycle
-
-The locally produced 32-second AGN density cycle and its poster are stored in `docs/media/`. The website no longer embeds the NASA wind movie for the AGN section; instead, it plays the original generated looping H.264 file with a download link. The AGN playback controller still loads and pauses it according to viewport visibility. No other research sections or pages were changed.
-
-
-## November 12, 2026 — HD cosmological footage and research visualizations (review branch)
-
-The homepage's previous, older NASA/MPE MP4 has been replaced with a **credited 1920×1080 IllustrisTNG TNG300 gas-density supercluster evolution video** by D. Nelson, publicly listed at [IllustrisTNG media](https://www.tng-project.org/media/) and [Dylan Nelson's gallery](https://nelson.tng-project.org/). An **opt-in 4K version** uses the official TNG server only if visitors request it; the default remains 1080p to reduce bandwidth. The original Illustris YouTube fallback and the explicitly labeled educational CMB-to-today model remain available. The stage preserves the cinematic video's aspect ratio rather than overscaling/cropping it to fill a tall background.
-
-**Scientific chronology:** TNG300 supercluster footage begins about 500 million years after the Big Bang and does not show the CMB, z=499, or first-Pop-III.1 star formation. Those epochs are described only in the separate *illustrated* timeline. Source credits update when a fallback or illustration is shown.
-
-The independent WebGL accretion disk now renders at higher effective pixel density (with a mobile cap), with antialiasing and a differentially rotating, Keplerian-inspired emissivity pattern instead of rigidly rotating spirals. **The shader remains a qualitative model and is not a general-relativistic ray-traced Kerr disk.** The separate original 960×540 AGN cycle MP4 has *not* been re-rendered in this revision; the source motion/data are needed for a genuinely higher-resolution export.
-
-Pop III.1 player labels explicitly distinguish the standard, no-DM-annihilation case (left) from the hypothetical annihilation-heated case (right). The uploaded 15-second MP4 is unchanged. The right-hand scenario's supermassive outcome is conditional on sustained annihilation heating and adequate gas accretion. Google Drive file access must still be made public by the owner or the MP4 moved to self-hosted media for reliable public playback.
-
-**Browser verification still needed:** exercise 1080p and 4K network playback, fallback on a slow/blocked connection, mobile/responsive sizing, model toggle, and browser WebGL shader compilation. JavaScript syntax and source references were checked against the branch, but there is no live-browser deployment test here.
-
-## November 12, 2026 — interactive research and portrait updates
-
-- Added a **self-contained, interactive dark-matter cusp laboratory** (accessible on the page under `#density-lab`). Sliders control inner slope α, 1 pc density, and probe radius; a responsive SVG updates the log-log density profile and a matched-at-1-pc r^-1 reference. A derived indicator shows the **relative annihilation power at fixed particle physics**, following ρ² scaling. The example values are deliberately *illustrative*, not an independently validated star-growth calculation or an imported simulation output.
-- The existing six cosmological epochs are now keyboard-accessible buttons. Selecting an epoch launches the separate **educational** timeline and scrubs to that stage. The live TNG300 movie is not mislabeled as footage from z=499, the CMB, or primordial first stars.
-- The WebGL black-hole illustration adds a **Doppler beaming on/off** comparison alongside inclination control. Its orbital texture and lensing remain *qualitative*, not a Kerr GR ray trace. If WebGL cannot initialize, the new toggle stays disabled.
-- The About section displays a small profile card with a link to the author's exact LinkedIn profile. **The displayed avatar is presently the author's verified GitHub account avatar** (with an initials fallback). LinkedIn blocked extraction of the user's exact headshot; do not claim it has been imported. Replace the avatar image with an actual LinkedIn portrait only after its photo bytes are supplied or an unambiguous licensed direct image URL is available.
-- New files: `research-interactions.js` and `research-interactions.css`. Versioned lazy script-loading prevents stale cached disk code.
-- Checks: JavaScript syntax passed for the new module and updated black-hole renderer; HTML element IDs were checked for duplicates and the six epoch buttons were confirmed. Full visual/browser testing remains necessary.
+Visit http://localhost:8000. The cosmological video and university portrait sources require an Internet connection, and some hosts may block hotlinking. Browsers that disable animation automatically are respected where possible. Manual QA should check source video playback (HD/4K and failure handling), mobile controls, the front-tracking animation and the WebGL renderer before relying on the public page as the primary research portfolio.
