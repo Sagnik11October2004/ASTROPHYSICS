@@ -130,8 +130,6 @@ needle = "return res;"
 assert needle in s
 s = s.replace(needle, "web_pressure_residual=res;\n\treturn res;", 1)
 s += '\nextern "C" float fluid_pressure_residual(){return web_pressure_residual;}\n'
-s = re.sub(r'^[ \t]*printf\([ \t]*"Residual = %e\\n"[ \t]*,[^\n]*\);[ \t]*
-print("Prepared REAL_FLUID numerical sources with headless rendering and API hooks")
-, '', s, flags=re.M)
+s = re.sub(r'^[ \t]*printf\([ \t]*"Residual = %e\\n"[ \t]*,[^\n]*\);[ \t]*$', '', s, flags=re.M)
 p.write_text(s)
 print("Prepared REAL_FLUID numerical sources with headless rendering and API hooks")
