@@ -31,7 +31,12 @@ async function main(){
     const controls=box('.cosmos-media-column .cosmo-simulator-controls');
     return {intro,film,cards,controls,stagePosition:getComputedStyle(document.querySelector('.cosmos-stage')).position,
       filmObjectFit:getComputedStyle(document.querySelector('.cosmos-film')).objectFit,
-      viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth};
+      viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
+      overflows:[...document.querySelectorAll('body *')].filter(e=>{
+        const r=e.getBoundingClientRect(),cs=getComputedStyle(e);
+        return r.width>0&&r.right>innerWidth+3&&cs.position!=='fixed';
+      }).slice(0,12).map(e=>({tag:e.tagName.toLowerCase(),cls:String(e.className).slice(0,100),
+        right:Math.round(e.getBoundingClientRect().right),width:Math.round(e.getBoundingClientRect().width)}))};
    });
    const intersects=(a,b)=>a.x<b.right-1 && a.right>b.x+1 && a.y<b.bottom-1 && a.bottom>b.y+1;
    assert(!intersects(data.intro,data.film),'Intro overlaps cosmic movie at '+width+'px');
@@ -41,6 +46,7 @@ async function main(){
    assert(data.film.height>=120,'Movie collapsed at '+width+'px');
    assert(data.stagePosition==='relative','Movie should be in normal flow');
    assert(data.filmObjectFit==='contain','Cosmic video should preserve full frame');
+   if(data.scrollWidth>width+3)console.warn('OVERFLOW DIAGNOSTICS',width,JSON.stringify(data.overflows));
    assert(data.scrollWidth<=width+3,'Unexpected horizontal scroll at '+width+'px');
    if(width>=1151){
     assert(data.film.x>=data.intro.right+8,'Expected two nonintersecting columns at '+width+'px');
