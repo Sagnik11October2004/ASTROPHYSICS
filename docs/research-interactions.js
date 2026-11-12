@@ -3,6 +3,8 @@
    chapter buttons for the existing educational cosmic timeline.
    No production simulation data are loaded here. */
 (() => {
+  const portrait=document.getElementById('owner-portrait');
+  if(portrait)portrait.addEventListener('error',()=>{portrait.hidden=true;});
   const svg=document.getElementById('dm-profile-plot');
   const slope=document.getElementById('dm-slope');
   const density=document.getElementById('dm-rho');
@@ -43,7 +45,6 @@
       const y=yMap(Math.pow(10,pow));
       svgEl('line',{x1:L,y1:y,x2:R,y2:y,'class':'dm-gridline'},ticks);
       const text=svgEl('text',{x:L-13,y:y+4,'text-anchor':'end','class':'dm-axis-label'},ticks);
-      text.textContent='10'+String.fromCharCode(0x2070+0); // replaced below by plain exponents
       text.textContent='1e'+pow;
     }
     svgEl('line',{x1:L,y1:B,x2:R,y2:B,'class':'dm-axis'},ticks);
